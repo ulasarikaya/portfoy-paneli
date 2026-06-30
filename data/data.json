@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-30T15:57:57.908352+00:00",
+  "generatedAt": "2026-06-30T16:03:55.669198+00:00",
   "netWorth": {
-    "total": 83429.39257342968,
+    "total": 83435.35873164448,
     "categories": [
       {
         "id": "us-stocks",
         "name": "ABD Hisse Portföyü",
         "subtitle": "ABD Hisse",
-        "value": 45355.90016312457,
+        "value": 45363.510643441085,
         "weightPct": 54.4
       },
       {
@@ -21,14 +21,14 @@
         "id": "bist",
         "name": "Borsa İstanbul",
         "subtitle": "Bist Hisse",
-        "value": 12665.54710492991,
+        "value": 12666.362314940689,
         "weightPct": 15.2
       },
       {
         "id": "gold",
         "name": "Altın",
         "subtitle": "Değer saklama / hedge",
-        "value": 19907.945305375193,
+        "value": 19905.485773262695,
         "weightPct": 23.9
       },
       {
@@ -41,7 +41,7 @@
     ]
   },
   "stockPortfolio": {
-    "total": 58021.44726805448,
+    "total": 58029.87295838177,
     "positionCount": 17,
     "holdings": [
       {
@@ -51,7 +51,7 @@
         "assetClass": "Nakit",
         "shares": null,
         "price": null,
-        "value": 20018.681034945235,
+        "value": 20019.266086574906,
         "weightPct": 34.5
       },
       {
@@ -59,9 +59,9 @@
         "name": "S&P 500 Endeks fonu",
         "assetClass": "ETF",
         "shares": 11.4,
-        "price": 685.6798,
+        "price": 685.7699,
         "currency": "USD",
-        "value": 7816.74972,
+        "value": 7817.77686,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/VOO.png",
         "weightPct": 13.5
       },
@@ -72,7 +72,7 @@
         "shares": 2216,
         "price": 138.0,
         "currency": "TRY",
-        "value": 6555.889570600311,
+        "value": 6556.311536328537,
         "logoUrl": null,
         "weightPct": 11.3
       },
@@ -81,9 +81,9 @@
         "name": "Bitcoin",
         "assetClass": "Kripto",
         "shares": 0.06276876,
-        "price": 58361.8086,
+        "price": 58357.1797,
         "currency": "USD",
-        "value": 3663.298357179336,
+        "value": 3663.0078068661724,
         "logoUrl": null,
         "weightPct": 6.3
       },
@@ -92,9 +92,9 @@
         "name": "Microsoft",
         "assetClass": "ABD Hisse",
         "shares": 8.7,
-        "price": 370.3171,
+        "price": 371.37,
         "currency": "USD",
-        "value": 3221.7587699999995,
+        "value": 3230.919,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/MSFT.png",
         "weightPct": 5.6
       },
@@ -103,9 +103,9 @@
         "name": "US Dividend Equity ETF",
         "assetClass": "ETF",
         "shares": 101,
-        "price": 31.77,
+        "price": 31.7901,
         "currency": "USD",
-        "value": 3208.77,
+        "value": 3210.8001,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/SCHD.png",
         "weightPct": 5.5
       },
@@ -114,9 +114,9 @@
         "name": "JPMorgan Nasdaq Equity Premium Income ETF",
         "assetClass": "ETF",
         "shares": 36.54,
-        "price": 61.3499,
+        "price": 61.35,
         "currency": "USD",
-        "value": 2241.7253459999997,
+        "value": 2241.729,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/JEPQ.png",
         "weightPct": 3.9
       },
@@ -125,9 +125,9 @@
         "name": "Ethereum",
         "assetClass": "Kripto",
         "shares": 1.4555,
-        "price": 1565.49,
+        "price": 1564.9,
         "currency": "USD",
-        "value": 2278.570695,
+        "value": 2277.7119500000003,
         "logoUrl": null,
         "weightPct": 3.9
       },
@@ -138,7 +138,7 @@
         "shares": 1192,
         "price": 84.55,
         "currency": "TRY",
-        "value": 2160.591456494119,
+        "value": 2160.730521610686,
         "logoUrl": null,
         "weightPct": 3.7
       },
@@ -149,7 +149,7 @@
         "shares": 310,
         "price": 326.0,
         "currency": "TRY",
-        "value": 2166.5168995084086,
+        "value": 2166.656346012406,
         "logoUrl": null,
         "weightPct": 3.7
       },
@@ -160,7 +160,7 @@
         "shares": 4339,
         "price": 19.11,
         "currency": "TRY",
-        "value": 1777.5962454318137,
+        "value": 1777.7106593013757,
         "logoUrl": null,
         "weightPct": 3.1
       },
@@ -169,9 +169,9 @@
         "name": "S&P Global",
         "assetClass": "ABD Hisse",
         "shares": 2.9,
-        "price": 406.29,
+        "price": 405.33,
         "currency": "USD",
-        "value": 1178.241,
+        "value": 1175.4569999999999,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/SPGI.png",
         "weightPct": 2.0
       },
@@ -180,9 +180,9 @@
         "name": "Solana",
         "assetClass": "Kripto",
         "shares": 9.656,
-        "price": 73.29,
+        "price": 73.14,
         "currency": "USD",
-        "value": 707.6882400000001,
+        "value": 706.2398400000001,
         "logoUrl": null,
         "weightPct": 1.2
       },
@@ -202,9 +202,9 @@
         "name": "Netflix",
         "assetClass": "ABD Hisse",
         "shares": 6.2,
-        "price": 72.73,
+        "price": 72.76,
         "currency": "USD",
-        "value": 450.92600000000004,
+        "value": 451.112,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/NFLX.png",
         "weightPct": 0.8
       },
@@ -226,7 +226,7 @@
         "shares": 15.6,
         "price": 14.81,
         "currency": "TRY",
-        "value": 4.952932895258507,
+        "value": 4.953251687683775,
         "logoUrl": null,
         "weightPct": 0.0
       }
@@ -235,27 +235,27 @@
   "assetClasses": [
     {
       "name": "Nakit",
-      "value": 20018.681034945235,
+      "value": 20019.266086574906,
       "weightPct": 34.5
     },
     {
       "name": "ETF",
-      "value": 13267.245066,
+      "value": 13270.30596,
       "weightPct": 22.9
     },
     {
       "name": "BIST",
-      "value": 12665.54710492991,
+      "value": 12666.362314940689,
       "weightPct": 21.8
     },
     {
       "name": "Kripto",
-      "value": 7219.048292179336,
+      "value": 7216.450596866172,
       "weightPct": 12.4
     },
     {
       "name": "ABD Hisse",
-      "value": 4850.92577,
+      "value": 4857.488,
       "weightPct": 8.4
     }
   ],
@@ -265,22 +265,22 @@
         "ticker": "GSPC",
         "name": "S&P 500",
         "group": "index",
-        "d50": 1.4701426301940934,
-        "d200": 7.976573507344664,
-        "w50": 9.118981516159753,
-        "w100": 18.000360311401753,
-        "w200": 38.134943199767,
+        "d50": 1.4920492876474345,
+        "d200": 8.000239352841021,
+        "w50": 9.142518708807689,
+        "w100": 18.026065994856832,
+        "w200": 38.165179527041126,
         "status": "Güçlü"
       },
       {
         "ticker": "NDX",
         "name": "Nasdaq 100",
         "group": "index",
-        "d50": 4.061110811281221,
-        "d200": 15.978492687136647,
-        "w50": 17.53785456197385,
-        "w100": 30.39791433058754,
-        "w200": 58.17122104020156,
+        "d50": 4.086713286976851,
+        "d200": 16.007464845340014,
+        "w50": 17.566693141608635,
+        "w100": 30.430251250998385,
+        "w200": 58.21064934438165,
         "status": "Güçlü"
       }
     ],
@@ -289,99 +289,99 @@
         "ticker": "VOO",
         "name": "S&P 500 Endeks fonu",
         "group": "portfolio",
-        "d50": 1.3353569438724788,
-        "d200": 7.833383349223277,
-        "w50": 8.986390704536774,
-        "w100": 17.859316399959614,
-        "w200": 37.968449848019944,
+        "d50": 1.3484009984333634,
+        "d200": 7.847474617177008,
+        "w50": 9.000397698781338,
+        "w100": 17.874618792355413,
+        "w200": 37.986451738682916,
         "status": "Güçlü"
       },
       {
         "ticker": "SCHD",
         "name": "US Dividend Equity ETF",
         "group": "portfolio",
-        "d50": -0.6187459077038437,
-        "d200": 7.467413759663155,
-        "w50": 8.415235344295002,
-        "w100": 11.906653612539774,
-        "w200": 19.23982470049228,
+        "d50": -0.557121752339429,
+        "d200": 7.535038632147462,
+        "w50": 8.482337271596263,
+        "w100": 11.97665980336453,
+        "w200": 19.31481304000733,
         "status": "—"
       },
       {
         "ticker": "JEPQ",
         "name": "JPMorgan Nasdaq Equity Premium Income ETF",
         "group": "portfolio",
-        "d50": 2.531454938887201,
-        "d200": 5.164195826096374,
-        "w50": 6.010743478362057,
-        "w100": 9.381410490504582,
-        "w200": 17.965093619142202,
+        "d50": 2.531617298620259,
+        "d200": 5.164364947212796,
+        "w50": 6.011046793755215,
+        "w100": 9.381657550756595,
+        "w200": 17.965325169952038,
         "status": "Güçlü"
       },
       {
         "ticker": "MSFT",
         "name": "Microsoft",
         "group": "portfolio",
-        "d50": -9.433681822134632,
-        "d200": -17.094737938876403,
-        "w50": -18.446822776169437,
-        "w100": -15.963928693818142,
-        "w200": -4.484624519952673,
+        "d50": -9.18086049167629,
+        "d200": -16.860001266757397,
+        "w50": -18.218779098565175,
+        "w100": -15.727029717900454,
+        "w200": -4.214367841950706,
         "status": "—"
       },
       {
         "ticker": "SPGI",
         "name": "S&P Global",
         "group": "portfolio",
-        "d50": -3.3520496782990628,
-        "d200": -12.436950642874988,
-        "w50": -14.563934942217438,
-        "w100": -17.254953752752712,
-        "w200": -7.635341949167717,
+        "d50": -3.5760149011538345,
+        "d200": -12.642949503848422,
+        "w50": -14.762370176701822,
+        "w100": -17.44885785781296,
+        "w200": -7.852584692337549,
         "status": "—"
       },
       {
         "ticker": "NFLX",
         "name": "Netflix",
         "group": "portfolio",
-        "d50": -14.291298947413411,
-        "d200": -24.667663606415136,
-        "w50": -26.89432084078216,
-        "w100": -24.85115053293514,
-        "w200": 3.537932545412481,
+        "d50": -14.256553115878956,
+        "d200": -24.636708533725017,
+        "w50": -26.86460816836247,
+        "w100": -24.82038708797817,
+        "w200": 3.5804174257346055,
         "status": "—"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
         "group": "portfolio",
-        "d50": -14.795521948412437,
-        "d200": -22.549443095630927,
-        "w50": -34.05671879493427,
-        "w100": -33.93675038093858,
-        "w200": -6.818369737477226,
+        "d50": -14.802164701348609,
+        "d200": -22.555562219420324,
+        "w50": -34.06188004359968,
+        "w100": -33.941955506301966,
+        "w200": -6.825725911019232,
         "status": "—"
       },
       {
         "ticker": "ETH-USD",
         "name": "Ethereum",
         "group": "portfolio",
-        "d50": -15.837665699992998,
-        "d200": -31.76821707242602,
-        "w50": -46.71084301688222,
-        "w100": -44.03855906844149,
-        "w200": -36.65789113104112,
+        "d50": -15.868849182331147,
+        "d200": -31.793843004289347,
+        "w50": -46.730711452391695,
+        "w100": -44.059530552297986,
+        "w200": -36.68168647320127,
         "status": "—"
       },
       {
         "ticker": "SOL-USD",
         "name": "Solana",
         "group": "portfolio",
-        "d50": -3.952982398270488,
-        "d200": -22.474502270066232,
-        "w50": -43.965054681411765,
-        "w100": -51.19227440804303,
-        "w200": -31.560178448146704,
+        "d50": -4.145791797718957,
+        "d200": -22.63255872703518,
+        "w50": -44.07845786634219,
+        "w100": -51.29168186781009,
+        "w200": -31.699774829168014,
         "status": "—"
       },
       {
@@ -467,8 +467,8 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "currentPrice": 370.3171,
-      "marketCap": 2750784771150,
+      "currentPrice": 371.37,
+      "marketCap": 2758473196200,
       "oneLiner": "Microsoft Corporation is a prominent global technology firm that invents, markets, and provides ongoing assistance for a diverse range of so…",
       "logoUrl": "https://images.financialmodelingprep.com/symbol/MSFT.png",
       "revenueGrowthYoY": 0.1493215623240672,
@@ -486,8 +486,8 @@
     {
       "ticker": "NFLX",
       "name": "Netflix",
-      "currentPrice": 72.73,
-      "marketCap": 306230430000,
+      "currentPrice": 72.76,
+      "marketCap": 306419916000,
       "oneLiner": "Netflix, Inc. serves as a worldwide entertainment provider. Its comprehensive library features television series, motion pictures, documenta…",
       "logoUrl": "https://images.financialmodelingprep.com/symbol/NFLX.png",
       "revenueGrowthYoY": 0.15851068919677527,
@@ -505,7 +505,7 @@
     {
       "ticker": "SPGI",
       "name": "S&P Global",
-      "currentPrice": 406.29,
+      "currentPrice": 405.33,
       "marketCap": null,
       "oneLiner": "S&P Global Inc., together with its subsidiaries, provides benchmarks, data, analytics, and workflow solutions in the global capital, energy …",
       "logoUrl": "https://images.financialmodelingprep.com/symbol/SPGI.png",
