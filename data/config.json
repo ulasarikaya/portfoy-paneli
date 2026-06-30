@@ -27,11 +27,11 @@
     "realEstateSubtitle": "Uzun vadeli çekirdek",
 
     "bistHoldings": [
-      { "ticker": "GARAN", "name": "Garanti BBVA", "shares": 2216 },
-      { "ticker": "FROTO", "name": "Ford Otosan",  "shares": 1192 },
-      { "ticker": "THYAO", "name": "THY",          "shares": 310 },
-      { "ticker": "PETKM", "name": "Petkim Petrokimya Holding", "shares": 4339 },
-      { "ticker": "ISCTR", "name": "İş Bankası",  "shares": 15.6 }
+      { "ticker": "GARAN.IS", "name": "Garanti BBVA", "shares": 2216 },
+      { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 1192 },
+      { "ticker": "THYAO.IS", "name": "THY",          "shares": 310 },
+      { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339 },
+      { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15.6 }
     ],
     "bistSubtitle": "Swing trade",
 
