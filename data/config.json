@@ -6,7 +6,7 @@
       { "ticker": "VOO",  "name": "S&P 500 Endeks fonu",                      "shares": 11.4, "assetClass": "ETF" },
       { "ticker": "SCHD", "name": "US Dividend Equity ETF",                "shares": 101, "assetClass": "ETF" },
       { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF",           "shares": 36.54, "assetClass": "ETF" },
-      { "ticker": "MSTF", "name": "Microsoft",                 "shares": 8.7, "assetClass": "ABD Hisse" },
+      { "ticker": "MSFT", "name": "Microsoft",                 "shares": 8.7, "assetClass": "ABD Hisse" },
       { "ticker": "SPGI", "name": "S&P Global",                "shares": 2.9, "assetClass": "ABD Hisse" },
       { "ticker": "NFLX",  "name": "Netflix",             "shares": 6.2, "assetClass": "ABD Hisse" },
       { "ticker": "BTC-USD", "name": "Bitcoin", "shares": 0.06276876, "assetClass": "Kripto" },
