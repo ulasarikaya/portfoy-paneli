@@ -293,7 +293,8 @@ function iconHtml(ticker, label, assetClass, color, sizeClass, logoUrl){
   if (ticker === 'CASH') {
     return `<div class="icon" style="background:${color}">${initials(label)}</div>`;
   }
-  const url = logoUrl || (assetClass === 'Kripto' ? cryptoLogoUrl(ticker) : null);
+  const isCrypto = (assetClass||'').toLowerCase().includes('kripto') || (assetClass||'').toLowerCase().includes('crypto');
+  const url = logoUrl || (isCrypto ? cryptoLogoUrl(ticker) : null);
   if (!url) {
     return `<div class="${cls}"><span class="icon-fallback-text" style="display:flex;background:${color}">${initials(ticker)}</span></div>`;
   }
