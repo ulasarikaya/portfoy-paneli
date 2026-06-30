@@ -25,6 +25,7 @@ import yfinance as yf
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "data" / "config.json"
 OUTPUT_PATH = ROOT / "data" / "data.json"
+AI_CACHE_PATH = ROOT / "data" / "ai_cache.json"
 
 FMP_API_KEY = os.environ.get("FMP_API_KEY", "")
 FMP_BASE = "https://financialmodelingprep.com/api/v3"
@@ -38,6 +39,17 @@ def log(msg):
 def load_config():
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_ai_cache():
+    if not AI_CACHE_PATH.exists():
+        return {}
+    try:
+        with open(AI_CACHE_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        log(f"ai_cache.json okunamadı, boş kabul ediliyor: {e}")
+        return {}
 
 
 # ---------------------------------------------------------------------------
@@ -182,10 +194,34 @@ def fetch_spot_price(ticker):
         return None
 
 
+# USDT/USDC gibi dolar stablecoinleri 1:1 kabul edilir (küçük depeg farkları ihmal
+# edilir, kişisel portföy takibi için yeterli hassasiyet).
+STABLECOIN_1_TO_1 = {"USDT", "USDC", "DAI", "BUSD"}
+
+
+def convert_to_usd(amount, currency):
+    """amount: o para biriminden tutar, currency: 'USD', 'TRY', 'USDT' gibi 3 harfli kod."""
+    if not amount:
+        return 0.0
+    currency = (currency or "USD").upper()
+    if currency == "USD" or currency in STABLECOIN_1_TO_1:
+        return amount
+    if currency == "TRY":
+        usdtry = fetch_spot_price("USDTRY=X")  # 1 USD = X TRY
+        return (amount / usdtry) if usdtry else 0.0
+    # Diğer döviz cinsleri için genel deneme (çoğu "USDXXX=X" formatında, 1 USD = X yabancı para)
+    rate = fetch_spot_price(f"USD{currency}=X")
+    if rate:
+        return amount / rate
+    log(f"{currency} için kur bulunamadı, bu tutar 0 olarak sayıldı")
+    return 0.0
+
+
 def build_dataset(config):
     holdings_out = []
     momentum_rows = []
     company_cards = []
+    ai_cache = load_ai_cache()
 
     stock_total = 0.0
 
@@ -213,21 +249,44 @@ def build_dataset(config):
             "group": "portfolio", **pm["ma"], "status": pm["status"],
         })
 
+        # Kripto pozisyonların (BTC-USD, ETH-USD gibi) şirket finansalları olmaz —
+        # FMP'ye boşuna istek atıp günlük kotayı tüketmemek için baştan atla.
+        if h.get("assetClass") == "Kripto":
+            time.sleep(0.1)
+            continue
+
         fin = fetch_company_financials(ticker)
         if fin:
             override = config.get("targetPriceOverrides", {}).get(ticker)
-            guidance = config.get("guidanceNotes", {}).get(ticker)
+            ai_entry = ai_cache.get(ticker)
+
+            target_price = None
+            target_source = None
+            if override:
+                target_price = _build_target_price(override, pm["price"])
+                target_source = "manuel"
+            elif ai_entry and all(ai_entry.get(k) is not None for k in ("bear", "base", "bull")):
+                target_price = _build_target_price(ai_entry, pm["price"])
+                target_source = "ai"
+
+            manual_guidance = config.get("guidanceNotes", {}).get(ticker)
+            guidance = manual_guidance if isinstance(manual_guidance, list) else (
+                ai_entry.get("guidance") if ai_entry and isinstance(ai_entry.get("guidance"), list) else None
+            )
+
             company_cards.append({
                 "ticker": ticker, "name": h.get("name", ticker),
                 "currentPrice": pm["price"],
                 **fin,
-                "targetPrice": _build_target_price(override, pm["price"]) if override else None,
-                "guidance": guidance if isinstance(guidance, list) else None,
+                "targetPrice": target_price,
+                "targetPriceSource": target_source,
+                "guidance": guidance,
             })
         time.sleep(0.3)  # FMP rate limitine takılmamak için kısa bekleme
 
     cash = config["stockPortfolio"]["cash"]
-    cash_value = cash.get("amountUSD", 0)
+    cash_amounts = cash.get("amounts", {})
+    cash_value = sum(convert_to_usd(amt, cur) for cur, amt in cash_amounts.items())
     stock_total_with_cash = stock_total + cash_value
     if cash_value:
         holdings_out.append({

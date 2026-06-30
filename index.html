@@ -38,6 +38,18 @@
   h1{font-size:21px; font-weight:800; margin:0; letter-spacing:.2px;}
   .sub{color:var(--text-dim); font-size:13px; margin-top:2px;}
   .updated{margin-left:auto; font-size:12px; color:var(--text-dim); text-align:right;}
+  .privacy-btn{
+    margin-left:14px; background:var(--surface); border:1px solid var(--border); color:var(--text-dim);
+    border-radius:8px; padding:7px 10px; font-size:13px; cursor:pointer; font-family:inherit; flex-shrink:0;
+  }
+  .privacy-btn:hover{color:var(--text); border-color:var(--gold-soft);}
+
+  .total-line{
+    display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; margin-bottom:18px;
+    border-bottom:1px solid var(--border);
+  }
+  .total-line .total-label{font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px;}
+  .total-line .total-value{font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace;}
 
   .tabs{display:flex; gap:8px; margin:28px 0 26px;}
   .tab{
@@ -133,7 +145,8 @@
   .metric .l{font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.3px; display:block; margin-bottom:2px;}
   .metric .v{font-weight:700;}
   .target-box{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:11px 13px; margin-top:10px;}
-  .target-box .tt{font-size:9.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); font-weight:700;}
+  .target-box .tt{font-size:9.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); font-weight:700; display:flex; align-items:center; gap:7px; flex-wrap:wrap;}
+  .ai-tag{background:rgba(124,147,201,.18); color:#9fb3e0; border-radius:5px; padding:2px 6px; font-size:9px; letter-spacing:.2px; text-transform:none; font-weight:700;}
   .target-box .tp{font-size:18px; font-weight:800; margin-top:3px;}
   .target-box .scenario{font-size:11px; color:var(--text-dim); margin-top:4px;}
   .guidance{margin-top:10px; padding-top:10px; border-top:1px solid var(--border);}
@@ -160,6 +173,7 @@
       <div class="sub">Net Varlık &amp; Hisse Portföyü</div>
     </div>
     <div class="updated" id="updated">yükleniyor…</div>
+    <button class="privacy-btn" id="privacy-toggle" title="Tutarları gizle/göster">👁 Tutarlar</button>
   </header>
 
   <div class="tabs">
@@ -171,6 +185,10 @@
   <section class="view" id="view-networth">
     <p class="intro">Tüm mal varlığının dağılımı. Veriler GitHub Actions tarafından otomatik güncellenir.</p>
     <div class="panel">
+      <div class="total-line">
+        <span class="total-label">Toplam Net Varlık</span>
+        <span class="total-value" id="nw-total-amount">—</span>
+      </div>
       <div class="donut-row">
         <div class="donut" id="nw-donut"><div class="donut-hole"><b id="nw-total">%100</b><span>Net Varlık</span></div></div>
         <div class="list" id="nw-list"></div>
@@ -181,6 +199,10 @@
   <!-- HİSSE PORTFÖYÜ -->
   <section class="view active" id="view-stock">
     <div class="panel">
+      <div class="total-line">
+        <span class="total-label">Toplam Portföy Değeri</span>
+        <span class="total-value" id="sp-total-amount">—</span>
+      </div>
       <div class="donut-row">
         <div class="donut" id="sp-donut"><div class="donut-hole"><b id="sp-count">0</b><span>Pozisyon</span></div></div>
         <div class="list" id="sp-list"></div>
@@ -215,7 +237,7 @@
       </div>
       <div class="formula-box">
         <b>Hedef fiyat:</b> Ayı = Baz × 0.75 · Boğa = Baz × 1.30 · olasılık %25 / %50 / %25 → Beklenen Fiyat = Ayı×0.25 + Baz×0.50 + Boğa×0.25.
-        Bu modelin "Baz" girdisi (ileri çarpan/DCF) piyasa verisinden tek başına üretilemediği için <code>config.json</code> içinde elle girilen senaryolar varsa gösterilir; girilmemişse o kart için hedef fiyat bloğu atlanır.
+        Bear/Baz/Boğa değerleri ya <code>config.json</code>'da elle girilir ya da haftalık çalışan AI scripti tarafından gerçek analist konsensüs hedeflerinden otomatik türetilir (kartlarda "AI · analist konsensüsü" etiketiyle işaretlenir). İkisi de yoksa o kart için hedef fiyat bloğu atlanır.
       </div>
     </div>
 
@@ -289,8 +311,33 @@ function buildDonut(el, segments){
 }
 
 let tickerColorMap = {};
+let lastData = null;
+let privacyHidden = localStorage.getItem('pf_privacy_hidden') === '1';
+
+function maskedMoney(v){
+  if(privacyHidden) return '••••••';
+  return fmtMoney(v);
+}
+function updatePrivacyButton(){
+  const btn = document.getElementById('privacy-toggle');
+  btn.textContent = privacyHidden ? '🙈 Tutarlar' : '👁 Tutarlar';
+  btn.title = privacyHidden ? 'Tutarları göster' : 'Tutarları gizle';
+}
+function refreshTotals(){
+  if(!lastData) return;
+  document.getElementById('nw-total-amount').textContent = maskedMoney(lastData.netWorth.total);
+  document.getElementById('sp-total-amount').textContent = maskedMoney(lastData.stockPortfolio.total);
+}
+document.getElementById('privacy-toggle').addEventListener('click', ()=>{
+  privacyHidden = !privacyHidden;
+  localStorage.setItem('pf_privacy_hidden', privacyHidden ? '1' : '0');
+  updatePrivacyButton();
+  refreshTotals();
+});
+updatePrivacyButton();
 
 function renderNetWorth(d){
+  document.getElementById('nw-total-amount').textContent = maskedMoney(d.netWorth.total);
   const cats = d.netWorth.categories.filter(c=>c.value>0);
   document.getElementById('nw-total').textContent = '%100';
   buildDonut(document.getElementById('nw-donut'), cats.map(c=>({value:c.value, color:NETWORTH_COLORS[c.id]||colorFor(c.id)})));
@@ -308,6 +355,7 @@ function renderNetWorth(d){
 }
 
 function renderStockPortfolio(d){
+  document.getElementById('sp-total-amount').textContent = maskedMoney(d.stockPortfolio.total);
   const holdings = d.stockPortfolio.holdings;
   tickerColorMap = {};
   holdings.forEach((h,i)=>{ tickerColorMap[h.ticker] = indexColor(i); });
@@ -371,9 +419,12 @@ function renderCards(d){
     let targetHtml = '';
     if(c.targetPrice){
       const tp = c.targetPrice;
+      const sourceTag = c.targetPriceSource==='ai'
+        ? '<span class="ai-tag">AI · analist konsensüsü</span>'
+        : '';
       targetHtml = `
         <div class="target-box">
-          <div class="tt">Hedef Fiyat · ${tp.confidence} güven</div>
+          <div class="tt">Hedef Fiyat · ${tp.confidence} güven ${sourceTag}</div>
           <div class="tp">${fmtMoney(tp.expected)} <span class="${pctClass(tp.upsidePct)}" style="font-size:13px">${fmtPct(tp.upsidePct)}</span></div>
           <div class="scenario">Ayı ${fmtMoney(tp.bear)} · Baz ${fmtMoney(tp.base)} · Boğa ${fmtMoney(tp.bull)} (güncel ${fmtMoney(c.currentPrice)})</div>
         </div>`;
@@ -423,6 +474,7 @@ async function init(){
     ? 'güncellendi: ' + new Date(d.generatedAt).toLocaleString('tr-TR')
     : 'henüz otomatik güncelleme çalışmadı';
 
+  lastData = d;
   renderNetWorth(d);
   renderStockPortfolio(d);
   renderMomentum(d);

@@ -3,19 +3,23 @@
 
   "stockPortfolio": {
     "holdings": [
-      { "ticker": "AMD",  "name": "AMD",                      "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "MSFT", "name": "Microsoft",                "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "META", "name": "Meta Platforms",           "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "GOOG", "name": "Alphabet",                 "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "AMZN", "name": "Amazon",                   "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "MA",   "name": "Mastercard",                "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "VTI",  "name": "Vanguard Total Market ETF","shares": 0, "assetClass": "Endeks ETF" },
-      { "ticker": "SPGI", "name": "S&P Global",                "shares": 0, "assetClass": "Tek Hisse" },
-      { "ticker": "IBIT", "name": "iShares Bitcoin ETF",       "shares": 0, "assetClass": "Kripto" },
-      { "ticker": "ELF",  "name": "e.l.f. Beauty",             "shares": 0, "assetClass": "Tek Hisse" }
+      { "ticker": "VOO",  "name": "S&P 500 Endeks fonu",                      "shares": 11.4, "assetClass": "Tek Hisse" },
+      { "ticker": "SCHD", "name": "US Dividend Equity ETF",                "shares": 101, "assetClass": "Tek Hisse" },
+      { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF",           "shares": 36.54, "assetClass": "Tek Hisse" },
+      { "ticker": "MSTF", "name": "Microsoft",                 "shares": 8.7, "assetClass": "Tek Hisse" },
+      { "ticker": "SPGI", "name": "S&P Global",                "shares": 2.9, "assetClass": "Tek Hisse" },
+      { "ticker": "NFLX",  "name": "Netflix",             "shares": 6.2, "assetClass": "Tek Hisse" },
+      { "ticker": "BTC-USD", "name": "Bitcoin", "shares": 0.06276876, "assetClass": "Kripto" },
+      { "ticker": "ETH-USD", "name": "Ethereum", "shares": 1.4555,  "assetClass": "Kripto" },
+      { "ticker": "SOL-USD", "name": "Solana",  "shares": 9.656,   "assetClass": "Kripto" },
+      { "ticker": "AVAX-USD", "name": "Avax",  "shares": 87.614,   "assetClass": "Kripto" },
+      { "ticker": "HYPE-USD", "name": "Hyperliquid",  "shares": 3.22,   "assetClass": "Kripto" }
     ],
-    "cash": { "amountUSD": 0, "label": "Nakit", "subtitle": "USD / USDT / TRY" }
-  },
+    "cash": {
+      "label": "Nakit",
+      "subtitle": "USD / USDT / TRY",
+      "amounts": { "USD": 7331, "USDT": 3598, "TRY": 424000 }
+    }  },
 
   "netWorth": {
     "realEstateUSD": 0,
@@ -23,27 +27,21 @@
     "realEstateSubtitle": "Uzun vadeli çekirdek",
 
     "bistHoldings": [
-      { "ticker": "GARAN.IS", "name": "Garanti BBVA", "shares": 0 },
-      { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 0 },
-      { "ticker": "THYAO.IS", "name": "THY",          "shares": 0 },
-      { "ticker": "KCHOL.IS", "name": "Koç Holding",  "shares": 0 }
+      { "ticker": "GARAN", "name": "Garanti BBVA", "shares": 2216 },
+      { "ticker": "FROTO", "name": "Ford Otosan",  "shares": 1192 },
+      { "ticker": "THYAO", "name": "THY",          "shares": 310 },
+      { "ticker": "PETKM", "name": "Petkim Petrokimya Holding", "shares": 4339 },
+      { "ticker": "ISCTR", "name": "İş Bankası",  "shares": 15.6 }
     ],
     "bistSubtitle": "Swing trade",
 
-    "goldGrams": 0,
+    "goldGrams": 153,
     "goldSubtitle": "Değer saklama / hedge",
 
-    "bitcoinFuturesUSD": 0,
+    "bitcoinFuturesUSD": 5500,
     "bitcoinFuturesSubtitle": "Kaldıraçlı, taktiksel trade"
   },
 
-  "targetPriceOverrides": {
-    "_comment": "Opsiyonel. Bir ticker için bear/base/bull fiyat girersen, kart üzerinde Hedef Fiyat bloğu otomatik görünür. Girmezsen o kart için hedef fiyat bölümü gösterilmez (bu kısım piyasa verisinden mekanik üretilemiyor, bkz README).",
-    "_example": { "AMD": { "bear": 494, "base": 658, "bull": 856, "confidence": "düşük" } }
-  },
-
-  "guidanceNotes": {
-    "_comment": "Opsiyonel. Şirket bazlı 'Beklenti & Öne Çıkanlar' maddeleri — bunlar haber/kazanç çağrısı özeti olduğu için piyasa verisinden otomatik üretilmiyor, istersen elle eklersin.",
-    "_example": { "AMD": ["Q2 ~11,2 milyar$ gelir (+%46 YoY)", "MI450/Helios sevkiyatı 2. yarı"] }
-  }
+  "targetPriceOverrides": {},
+  "guidanceNotes": {}
 }
