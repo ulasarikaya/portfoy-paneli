@@ -125,7 +125,7 @@ def fmp_get(path, ticker, **params):
         data = r.json()
         return data if data else None
     except Exception as e:
-        log(f"FMP {path}/{ticker} hata: {e}")
+        log(f"FMP {path}?symbol={ticker} hata: {e}")
         return None
 
 
@@ -237,22 +237,24 @@ def build_dataset(config):
             log(f"{ticker} fiyat hatası, atlanıyor: {e}")
             continue
 
-        value = pm["price"] * shares
+        currency = h.get("currency", "USD")
+        native_value = pm["price"] * shares
+        value = convert_to_usd(native_value, currency) if currency != "USD" else native_value
         stock_total += value
 
         holdings_out.append({
             "ticker": ticker, "name": h.get("name", ticker),
             "assetClass": h.get("assetClass", "Tek Hisse"),
-            "shares": shares, "price": pm["price"], "value": value,
+            "shares": shares, "price": pm["price"], "currency": currency, "value": value,
         })
         momentum_rows.append({
             "ticker": ticker, "name": h.get("name", ticker),
             "group": "portfolio", **pm["ma"], "status": pm["status"],
         })
 
-        # Kripto pozisyonların (BTC-USD, ETH-USD gibi) şirket finansalları olmaz —
-        # FMP'ye boşuna istek atıp günlük kotayı tüketmemek için baştan atla.
-        if h.get("assetClass") == "Kripto":
+        # Kripto ve BIST pozisyonların FMP'de (ücretsiz katmanda) şirket finansalı
+        # olmadığı için boşuna istek atıp günlük kotayı tüketmemek için atla.
+        if h.get("assetClass") in ("Kripto", "BIST"):
             time.sleep(0.1)
             continue
 
@@ -312,13 +314,10 @@ def build_dataset(config):
     # --- Net varlık ---
     nw = config["netWorth"]
 
-    bist_total = 0.0
-    for b in nw.get("bistHoldings", []):
-        if not b.get("shares"):
-            continue
-        price = fetch_spot_price(b["ticker"])
-        if price:
-            bist_total += price * b["shares"]
+    # BIST hisseleri artık stockPortfolio.holdings içinde (assetClass: "BIST"),
+    # Hisse Portföyü sekmesinde kendi satırlarıyla görünüyorlar. Net Varlık'taki
+    # "Borsa İstanbul" toplamı da aynı listeden (zaten USD'ye çevrilmiş) hesaplanır.
+    bist_total = sum(row["value"] for row in holdings_out if row["assetClass"] == "BIST")
 
     gold_grams = nw.get("goldGrams", 0)
     gold_value = 0.0
@@ -329,9 +328,10 @@ def build_dataset(config):
 
     real_estate = nw.get("realEstateUSD", 0)
     btc_futures = nw.get("bitcoinFuturesUSD", 0)
+    us_stock_total = stock_total_with_cash - bist_total  # BIST ayrı kategoride sayıldığı için burada düşülür
 
     net_worth_categories = [
-        {"id": "us-stocks", "name": "ABD Hisse Portföyü", "subtitle": "Bu sunumdaki hisse portföyü", "value": stock_total_with_cash},
+        {"id": "us-stocks", "name": "ABD Hisse Portföyü", "subtitle": "Bu sunumdaki hisse portföyü", "value": us_stock_total},
         {"id": "real-estate", "name": nw.get("realEstateLabel", "Gayrimenkul"), "subtitle": nw.get("realEstateSubtitle", ""), "value": real_estate},
         {"id": "bist", "name": "Borsa İstanbul", "subtitle": nw.get("bistSubtitle", ""), "value": bist_total},
         {"id": "gold", "name": "Altın", "subtitle": nw.get("goldSubtitle", ""), "value": gold_value},
