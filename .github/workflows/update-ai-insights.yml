@@ -4,7 +4,7 @@ on:
   schedule:
     # Haftada bir, Pazartesi 06:00 UTC. Maliyeti azaltmak istersen örn. ayda
     # bire düşür: '0 6 1 * *'
-    - cron: '0 6 * * 1'
+    - cron: '0 6 1,15 * *'
   workflow_dispatch: {}
 
 permissions:
