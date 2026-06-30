@@ -247,8 +247,16 @@ def build_dataset(config):
         # FMP yalnızca ABD/global borsalarda listeli şirketleri tanıyor — BIST ve
         # kripto için boşuna istek atıp günlük kotayı tüketmemek üzere atlanır.
         # ETF'ler için de çağrılır (logo + açıklama için), ama kart oluşturulmaz.
+        # Not: assetClass tam string eşleşmesi yerine anahtar kelimeyle kontrol
+        # edilir, böylece "Tek Hisse", "ABD Hisse" gibi serbest etiketler de çalışır.
+        ac_norm = asset_class.strip().lower()
+        is_crypto = "kripto" in ac_norm or "crypto" in ac_norm
+        is_bist = "bist" in ac_norm
+        is_etf = "etf" in ac_norm
+        is_cash_like = "nakit" in ac_norm or "cash" in ac_norm
+
         fin = None
-        if asset_class not in ("Kripto", "BIST"):
+        if not (is_crypto or is_bist):
             fin = fetch_company_financials(ticker)
             time.sleep(0.3)
         else:
@@ -265,9 +273,10 @@ def build_dataset(config):
             "group": "portfolio", **pm["ma"], "status": pm["status"],
         })
 
-        # Şirket Finansalları kartları sadece tekil hisseler için gösterilir
-        # (ABD hisseleri + BIST). ETF ve kripto için kart oluşturulmaz.
-        if asset_class not in ("Tek Hisse", "BIST"):
+        # Şirket Finansalları kartları tekil hisseler için gösterilir (ABD hisseleri,
+        # BIST, ya da başka herhangi bir tekil hisse etiketi). ETF/Kripto/Nakit hariç
+        # tutulur — etiket tam olarak ne yazarsan yaz ("Tek Hisse", "ABD Hisse" vb.).
+        if is_etf or is_crypto or is_cash_like:
             continue
 
         override = config.get("targetPriceOverrides", {}).get(ticker)
