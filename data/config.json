@@ -13,7 +13,12 @@
       { "ticker": "ETH-USD", "name": "Ethereum", "shares": 1.4555,  "assetClass": "Kripto" },
       { "ticker": "SOL-USD", "name": "Solana",  "shares": 9.656,   "assetClass": "Kripto" },
       { "ticker": "AVAX-USD", "name": "Avax",  "shares": 87.614,   "assetClass": "Kripto" },
-      { "ticker": "HYPE-USD", "name": "Hyperliquid",  "shares": 3.22,   "assetClass": "Kripto" }
+      { "ticker": "HYPE-USD", "name": "Hyperliquid",  "shares": 3.22,   "assetClass": "Kripto" },
+      { "ticker": "GARAN.IS", "name": "Garanti BBVA", "shares": 2216,"assetClass": "BIST", "currency": "TRY" },
+      { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 1192, "assetClass": "BIST", "currency": "TRY" },
+      { "ticker": "THYAO.IS", "name": "THY",          "shares": 310, "assetClass": "BIST", "currency": "TRY" },
+      { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339, "assetClass": "BIST", "currency": "TRY" },
+      { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15.6, "assetClass": "BIST", "currency": "TRY" }
     ],
     "cash": {
       "label": "Nakit (USD / USDT / TRY)",
@@ -26,13 +31,6 @@
     "realEstateLabel": "Gayrimenkul",
     "realEstateSubtitle": "Uzun vadeli çekirdek",
 
-    "bistHoldings": [
-      { "ticker": "GARAN.IS", "name": "Garanti BBVA", "shares": 2216 },
-      { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 1192 },
-      { "ticker": "THYAO.IS", "name": "THY",          "shares": 310 },
-      { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339 },
-      { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15.6 }
-    ],
     "bistSubtitle": "Bist Hisse",
 
     "goldGrams": 153,
