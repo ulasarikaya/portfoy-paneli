@@ -143,42 +143,75 @@ def pick(d, *keys):
     return None
 
 
-def fetch_company_financials(ticker):
-    """FMP'den piyasa değeri, büyüme ve bilanço rasyolarını çeker.
-    API key yoksa ya da FMP yanıt vermezse None döner; arayüz o kartı atlar."""
-    if not FMP_API_KEY:
-        return None
+def fetch_yfinance_fundamentals(ticker):
+    """FMP'nin ücretsiz katmanda artık vermediği rasyoları (F/K, net marj, büyüme,
+    borç/özkaynak, cari oran, piyasa değeri) yfinance'in .info verisinden tamamlar.
+    yfinance alan bulamazsa ilgili anahtarlar None kalır, kart yine de oluşur."""
+    try:
+        info = yf.Ticker(ticker).info or {}
+    except Exception as e:
+        log(f"yfinance fundamentals {ticker} hata: {e}")
+        return {}
 
-    quote = first(fmp_get("quote", ticker))
-    profile = first(fmp_get("profile", ticker))
-    ratios = first(fmp_get("ratios-ttm", ticker))
-    growth = first(fmp_get("income-statement-growth", ticker, limit=1))
-    cf_growth = first(fmp_get("cash-flow-statement-growth", ticker, limit=1))
-    key_metrics = first(fmp_get("key-metrics-ttm", ticker))
+    debt_to_equity = info.get("debtToEquity")
+    if debt_to_equity is not None:
+        debt_to_equity = debt_to_equity / 100  # yfinance bunu yüzde olarak döner (örn. 45.2 -> 0.452)
 
-    if not any([quote, profile, ratios]):
-        return None
-
-    market_cap = pick(quote, "marketCap") or pick(profile, "mktCap")
-    description = pick(profile, "description")
-    one_liner = (description[:140] + "…") if description and len(description) > 140 else description
-
-    net_debt = pick(key_metrics, "netDebtTTM", "netDebt")
-    cash = pick(quote, "totalCash")  # bazı planlarda yok, yoksa None kalır
+    net_debt = None
+    total_debt, total_cash = info.get("totalDebt"), info.get("totalCash")
+    if total_debt is not None and total_cash is not None:
+        net_debt = total_debt - total_cash
 
     return {
-        "marketCap": market_cap,
-        "oneLiner": one_liner,
-        "logoUrl": pick(profile, "image", "logo", "companyLogo"),
-        "revenueGrowthYoY": pick(growth, "growthRevenue"),
-        "netMargin": pick(ratios, "netProfitMarginTTM"),
-        "fcfGrowthYoY": pick(cf_growth, "growthFreeCashFlow"),
-        "peTTM": pick(ratios, "peRatioTTM") or pick(quote, "pe"),
-        "debtToEquity": pick(ratios, "debtEquityRatioTTM"),
-        "currentRatio": pick(ratios, "currentRatioTTM"),
-        "interestCoverage": pick(ratios, "interestCoverageTTM") or pick(key_metrics, "interestCoverageTTM"),
+        "marketCap": info.get("marketCap"),
+        "oneLiner": info.get("longBusinessSummary"),
+        "peTTM": info.get("trailingPE"),
+        "netMargin": info.get("profitMargins"),
+        "revenueGrowthYoY": info.get("revenueGrowth"),
+        "debtToEquity": debt_to_equity,
+        "currentRatio": info.get("currentRatio"),
         "netDebt": net_debt,
     }
+
+
+def fetch_company_financials(ticker, try_fmp=True):
+    """Önce FMP'yi (varsa key ve erişimi), sonra eksik kalan alanları yfinance ile
+    tamamlayarak şirket finansallarını üretir. Hiçbir kaynaktan veri gelmezse None
+    döner ve o kart hiç oluşturulmaz."""
+    fin = {}
+    if try_fmp and FMP_API_KEY:
+        quote = first(fmp_get("quote", ticker))
+        profile = first(fmp_get("profile", ticker))
+        ratios = first(fmp_get("ratios-ttm", ticker))
+        growth = first(fmp_get("income-statement-growth", ticker, limit=1))
+        cf_growth = first(fmp_get("cash-flow-statement-growth", ticker, limit=1))
+        key_metrics = first(fmp_get("key-metrics-ttm", ticker))
+
+        description = pick(profile, "description")
+        one_liner = (description[:140] + "…") if description and len(description) > 140 else description
+
+        fin = {
+            "marketCap": pick(quote, "marketCap") or pick(profile, "mktCap"),
+            "oneLiner": one_liner,
+            "logoUrl": pick(profile, "image", "logo", "companyLogo"),
+            "revenueGrowthYoY": pick(growth, "growthRevenue"),
+            "netMargin": pick(ratios, "netProfitMarginTTM"),
+            "fcfGrowthYoY": pick(cf_growth, "growthFreeCashFlow"),
+            "peTTM": pick(ratios, "peRatioTTM") or pick(quote, "pe"),
+            "debtToEquity": pick(ratios, "debtEquityRatioTTM"),
+            "currentRatio": pick(ratios, "currentRatioTTM"),
+            "interestCoverage": pick(ratios, "interestCoverageTTM") or pick(key_metrics, "interestCoverageTTM"),
+            "netDebt": pick(key_metrics, "netDebtTTM", "netDebt"),
+        }
+
+    yf_fin = fetch_yfinance_fundamentals(ticker)
+    for key in ("marketCap", "oneLiner", "peTTM", "netMargin", "revenueGrowthYoY", "debtToEquity", "currentRatio", "netDebt"):
+        if fin.get(key) is None and yf_fin.get(key) is not None:
+            fin[key] = yf_fin[key]
+
+    has_any = any(v is not None for k, v in fin.items() if k != "logoUrl")
+    return fin if has_any else None
+
 
 
 # ---------------------------------------------------------------------------
@@ -256,9 +289,9 @@ def build_dataset(config):
         is_cash_like = "nakit" in ac_norm or "cash" in ac_norm
 
         fin = None
-        if not (is_crypto or is_bist):
-            fin = fetch_company_financials(ticker)
-            time.sleep(0.3)
+        if not is_crypto:
+            fin = fetch_company_financials(ticker, try_fmp=not is_bist)
+            time.sleep(0.1 if is_bist else 0.3)
         else:
             time.sleep(0.1)
 
