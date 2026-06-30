@@ -162,9 +162,12 @@ def fetch_yfinance_fundamentals(ticker):
     if total_debt is not None and total_cash is not None:
         net_debt = total_debt - total_cash
 
+    summary = info.get("longBusinessSummary")
+    one_liner = (summary[:140].rsplit(" ", 1)[0] + "…") if summary and len(summary) > 140 else summary
+
     return {
         "marketCap": info.get("marketCap"),
-        "oneLiner": info.get("longBusinessSummary"),
+        "oneLiner": one_liner,
         "peTTM": info.get("trailingPE"),
         "netMargin": info.get("profitMargins"),
         "revenueGrowthYoY": info.get("revenueGrowth"),
@@ -188,7 +191,7 @@ def fetch_company_financials(ticker, try_fmp=True):
         key_metrics = first(fmp_get("key-metrics-ttm", ticker))
 
         description = pick(profile, "description")
-        one_liner = (description[:140] + "…") if description and len(description) > 140 else description
+        one_liner = (description[:140].rsplit(" ", 1)[0] + "…") if description and len(description) > 140 else description
 
         fin = {
             "marketCap": pick(quote, "marketCap") or pick(profile, "mktCap"),
@@ -262,11 +265,12 @@ def build_dataset(config):
 
     for h in config["stockPortfolio"]["holdings"]:
         ticker = h["ticker"]
+        fetch_ticker = h.get("fetchTicker", ticker)  # yfinance/FMP'nin gerçekte tanıdığı sembol farklıysa
         shares = h.get("shares", 0)
         if not shares:
             continue
         try:
-            pm = fetch_price_and_moving_averages(ticker)
+            pm = fetch_price_and_moving_averages(fetch_ticker)
         except Exception as e:
             log(f"{ticker} fiyat hatası, atlanıyor: {e}")
             continue
@@ -290,7 +294,7 @@ def build_dataset(config):
 
         fin = None
         if not is_crypto:
-            fin = fetch_company_financials(ticker, try_fmp=not is_bist)
+            fin = fetch_company_financials(fetch_ticker, try_fmp=not is_bist)
             time.sleep(0.1 if is_bist else 0.3)
         else:
             time.sleep(0.1)
