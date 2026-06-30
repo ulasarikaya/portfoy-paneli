@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portföy Paneli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0b0a;
+    --surface:#17150f;
+    --surface-2:#1f1c14;
+    --border:#2c2818;
+    --gold:#d8ab5c;
+    --gold-soft:#a98a52;
+    --text:#f3efe4;
+    --text-dim:#9c9587;
+    --green:#6fcf97;
+    --red:#eb6f6f;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .num{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums;}
+  .wrap{max-width:1080px; margin:0 auto; padding:36px 24px 80px;}
+
+  header{display:flex; align-items:center; gap:14px; margin-bottom:6px;}
+  .badge{
+    width:42px; height:42px; border-radius:11px; background:linear-gradient(135deg,var(--gold),#8a6a36);
+    display:flex; align-items:center; justify-content:center; font-weight:800; color:#1a1408; font-size:15px;
+    flex-shrink:0;
+  }
+  h1{font-size:21px; font-weight:800; margin:0; letter-spacing:.2px;}
+  .sub{color:var(--text-dim); font-size:13px; margin-top:2px;}
+  .updated{margin-left:auto; font-size:12px; color:var(--text-dim); text-align:right;}
+
+  .tabs{display:flex; gap:8px; margin:28px 0 26px;}
+  .tab{
+    padding:9px 18px; border-radius:999px; border:1px solid var(--border); background:transparent;
+    color:var(--text-dim); font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit;
+  }
+  .tab.active{background:var(--gold); border-color:var(--gold); color:#1a1408;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .intro{color:var(--text-dim); font-size:13.5px; line-height:1.6; margin-bottom:26px; max-width:680px;}
+
+  .panel{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; margin-bottom:22px;
+  }
+  .panel-title{
+    font-size:11.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold);
+    margin:0 0 16px; padding-left:10px; border-left:3px solid var(--gold);
+  }
+
+  .donut-row{display:flex; gap:36px; align-items:center; flex-wrap:wrap;}
+  .donut{
+    width:200px; height:200px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .donut-hole{
+    width:64%; height:64%; border-radius:50%; background:var(--surface);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .donut-hole b{font-size:26px;}
+  .donut-hole span{font-size:10px; color:var(--text-dim); letter-spacing:.6px; text-transform:uppercase; margin-top:2px;}
+
+  .list{flex:1; min-width:280px; display:flex; flex-direction:column;}
+  .row{
+    display:flex; align-items:center; gap:12px; padding:11px 8px; border-radius:8px;
+  }
+  .row:hover{background:var(--surface-2);}
+  .icon{
+    width:30px; height:30px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; color:#fff;
+  }
+  .row-text{flex:1; min-width:0;}
+  .row-name{font-size:13.5px; font-weight:600;}
+  .row-sub{font-size:11.5px; color:var(--text-dim); margin-top:1px;}
+  .row-pct{font-size:14.5px; font-weight:700;}
+
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{
+    text-align:right; color:var(--text-dim); font-weight:600; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.4px; padding:6px 8px; border-bottom:1px solid var(--border);
+  }
+  th:first-child, td:first-child{text-align:left;}
+  td{padding:9px 8px; text-align:right; border-bottom:1px solid var(--border);}
+  tr.section-head td{
+    padding-top:16px; font-size:10.5px; font-weight:700; letter-spacing:1px; color:var(--gold);
+    border-bottom:none;
+  }
+  .asset-name{font-weight:600;}
+  .asset-sub{color:var(--text-dim); font-size:11px;}
+  .pos{color:var(--green);} .neg{color:var(--red);} .flat{color:var(--text-dim);}
+  .status-strong{
+    background:rgba(111,207,151,.15); color:var(--green); border-radius:6px; padding:3px 8px;
+    font-size:11px; font-weight:700; white-space:nowrap;
+  }
+
+  .stack{height:14px; border-radius:7px; overflow:hidden; display:flex; margin:14px 0 16px;}
+  .stack-seg{height:100%;}
+  .legend{display:flex; flex-wrap:wrap; gap:18px; font-size:12.5px;}
+  .legend-item{display:flex; align-items:center; gap:7px;}
+  .dot{width:9px; height:9px; border-radius:3px;}
+
+  .method-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-bottom:16px;}
+  .method-col b{font-size:12.5px; display:block; margin-bottom:5px;}
+  .method-col p{font-size:11.5px; color:var(--text-dim); margin:0; line-height:1.5;}
+  .formula-box{
+    background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px;
+    font-size:12px; line-height:1.7; color:var(--text-dim); margin-bottom:10px;
+  }
+  .formula-box b{color:var(--text);}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;}
+  .card{background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:16px;}
+  .card-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card-head .icon{width:34px; height:34px; font-size:13px;}
+  .card-title{font-size:14px; font-weight:700;}
+  .card-title small{display:block; font-size:11px; font-weight:500; color:var(--text-dim); margin-top:1px;}
+  .weight-pill{background:var(--surface); border:1px solid var(--border); border-radius:999px; padding:3px 9px; font-size:11px; font-weight:700; color:var(--gold); white-space:nowrap;}
+  .card-desc{font-size:11.5px; color:var(--text-dim); margin:8px 0 12px; line-height:1.5;}
+  .metric-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px 6px; margin-bottom:10px;}
+  .metric{font-size:12px;}
+  .metric .l{font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.3px; display:block; margin-bottom:2px;}
+  .metric .v{font-weight:700;}
+  .target-box{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:11px 13px; margin-top:10px;}
+  .target-box .tt{font-size:9.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); font-weight:700;}
+  .target-box .tp{font-size:18px; font-weight:800; margin-top:3px;}
+  .target-box .scenario{font-size:11px; color:var(--text-dim); margin-top:4px;}
+  .guidance{margin-top:10px; padding-top:10px; border-top:1px solid var(--border);}
+  .guidance li{font-size:11.5px; color:var(--text-dim); margin-bottom:4px; line-height:1.45;}
+
+  .empty{color:var(--text-dim); font-size:13.5px; text-align:center; padding:50px 20px;}
+  footer{margin-top:30px; color:var(--text-dim); font-size:11px; line-height:1.6; border-top:1px solid var(--border); padding-top:18px;}
+
+  @media(max-width:560px){
+    .donut-row{flex-direction:column; align-items:flex-start;}
+    .metric-grid{grid-template-columns:repeat(2,1fr);}
+    .updated{margin-left:0;}
+    header{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">PF</div>
+    <div>
+      <h1>Portföy Paneli</h1>
+      <div class="sub">Net Varlık &amp; Hisse Portföyü</div>
+    </div>
+    <div class="updated" id="updated">yükleniyor…</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-view="stock">Hisse Portföyü</button>
+    <button class="tab" data-view="networth">Net Varlık</button>
+  </div>
+
+  <!-- NET VARLIK -->
+  <section class="view" id="view-networth">
+    <p class="intro">Tüm mal varlığının dağılımı. Veriler GitHub Actions tarafından otomatik güncellenir.</p>
+    <div class="panel">
+      <div class="donut-row">
+        <div class="donut" id="nw-donut"><div class="donut-hole"><b id="nw-total">%100</b><span>Net Varlık</span></div></div>
+        <div class="list" id="nw-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HİSSE PORTFÖYÜ -->
+  <section class="view active" id="view-stock">
+    <div class="panel">
+      <div class="donut-row">
+        <div class="donut" id="sp-donut"><div class="donut-hole"><b id="sp-count">0</b><span>Pozisyon</span></div></div>
+        <div class="list" id="sp-list"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Hareketli Ortalamalar &amp; Momentum</p>
+      <div class="formula-box">
+        Değerler fiyatın o ortalamaya uzaklığı: <span class="pos">+ üzerinde</span> · <span class="neg">− altında</span>.
+        50G/200G günlük, 50H/100H/200H haftalık ortalama. <b>Güçlü</b> = fiyat 50G, 200G ve 50H üzerinde (trend yukarı).
+      </div>
+      <table>
+        <thead><tr><th>Varlık</th><th>50G</th><th>200G</th><th>50H</th><th>100H</th><th>200H</th><th>Durum</th></tr></thead>
+        <tbody id="momentum-body"></tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Varlık Sınıfı</p>
+      <div class="stack" id="ac-stack"></div>
+      <div class="legend" id="ac-legend"></div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Nasıl Değerlendiriyoruz — Metrikler &amp; Hedef Fiyat</p>
+      <div class="method-grid">
+        <div class="method-col"><b>Büyüme</b><p>Gelir / EPS / FCF büyümesi + ivme</p></div>
+        <div class="method-col"><b>Kalite</b><p>ROIC, marj trendi, FCF marji</p></div>
+        <div class="method-col"><b>Bilanço</b><p>Net borç/EBITDA, faiz karşılama, cari oran</p></div>
+        <div class="method-col"><b>Değer</b><p>İleri F/K, FCF getirisi (yield), PEG</p></div>
+      </div>
+      <div class="formula-box">
+        <b>Hedef fiyat:</b> Ayı = Baz × 0.75 · Boğa = Baz × 1.30 · olasılık %25 / %50 / %25 → Beklenen Fiyat = Ayı×0.25 + Baz×0.50 + Boğa×0.25.
+        Bu modelin "Baz" girdisi (ileri çarpan/DCF) piyasa verisinden tek başına üretilemediği için <code>config.json</code> içinde elle girilen senaryolar varsa gösterilir; girilmemişse o kart için hedef fiyat bloğu atlanır.
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">Şirket Finansalları &amp; Bilanço Notları</p>
+      <div class="formula-box">
+        <b>Faiz Karşılama</b> = faaliyet kârı ÷ yıllık faiz gideri. 8x üzeri çok rahat · 3–8x sağlıklı · 1.5–3x dikkat · 1x altı tehlikeli. Tek başına değil; net borç + cari oranla birlikte okunur.
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <footer>
+    Portföy Paneli · Fiyat ve hareketli ortalamalar yfinance, şirket finansalları Financial Modeling Prep (TTM) üzerinden otomatik çekilir. Hedef fiyat ve "öne çıkanlar" maddeleri elle girilenlerle sınırlıdır.
+  </footer>
+</div>
+
+<script>
+const PALETTE = ['#d8ab5c','#7c93c9','#6fcf97','#c97c7c','#9a7cc9','#5bb8b0','#c9955b','#8a93a3','#e0c068','#85a8d6','#7fcf9f','#d68a8a'];
+const NETWORTH_COLORS = { 'us-stocks':'#7c93c9', 'real-estate':'#c97c7c', 'bist':'#e0c068', 'gold':'#d8ab5c', 'btc-futures':'#9a7cc9' };
+
+function colorFor(seed){
+  let h=0; for(const c of seed) h=(h*31+c.charCodeAt(0))>>>0;
+  return PALETTE[h % PALETTE.length];
+}
+function indexColor(i){ return PALETTE[i % PALETTE.length]; }
+function initials(s){ return (s||'?').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase() || '?'; }
+
+function fmtMoney(v){
+  if(v==null) return '—';
+  return (v<0?'-':'') + '$' + Math.round(Math.abs(v)).toLocaleString('en-US');
+}
+// Büyük tutarlar için kısaltılmış format: $850B, $2.77T gibi (piyasa değeri, net borç kartlarında)
+function fmtMoneyAbbrev(v){
+  if(v==null) return '—';
+  const abs = Math.abs(v), sign = v<0?'-':'';
+  const strip = n => n.replace(/\.0$/, '');
+  if(abs>=1e12) return sign+'$'+strip((abs/1e12).toFixed(2))+'T';
+  if(abs>=1e9)  return sign+'$'+strip((abs/1e9).toFixed(1))+'B';
+  if(abs>=1e6)  return sign+'$'+strip((abs/1e6).toFixed(1))+'M';
+  return fmtMoney(v);
+}
+function fmtNetDebt(v){
+  if(v==null) return '—';
+  return v < 0 ? 'Net nakit ' + fmtMoneyAbbrev(Math.abs(v)) : fmtMoneyAbbrev(v) + ' borç';
+}
+// Hareketli ortalama tablosu: mutlak değer <10 ise 1 ondalık, değilse tam sayı (referans tablo formatı)
+function fmtPct(v, withSign=true){
+  if(v==null) return '—';
+  const dec = Math.abs(v) < 10 ? 1 : 0;
+  const s = v.toFixed(dec);
+  return (withSign && v>0 ? '+' : '') + s + '%';
+}
+// Şirket kartlarındaki büyüme/oran yüzdeleri: her zaman tam sayı
+function fmtPctWhole(v, withSign=true){
+  if(v==null) return '—';
+  const s = Math.round(v);
+  return (withSign && s>0 ? '+' : '') + s + '%';
+}
+function pctClass(v){ if(v==null) return 'flat'; return v>0 ? 'pos' : (v<0 ? 'neg' : 'flat'); }
+
+function buildDonut(el, segments){
+  const total = segments.reduce((a,s)=>a+s.value,0) || 1;
+  let acc = 0; const stops = [];
+  for(const s of segments){
+    const start = acc/total*360; acc += s.value;
+    const end = acc/total*360;
+    stops.push(`${s.color} ${start}deg ${end}deg`);
+  }
+  el.style.background = `conic-gradient(${stops.join(',')})`;
+}
+
+let tickerColorMap = {};
+
+function renderNetWorth(d){
+  const cats = d.netWorth.categories.filter(c=>c.value>0);
+  document.getElementById('nw-total').textContent = '%100';
+  buildDonut(document.getElementById('nw-donut'), cats.map(c=>({value:c.value, color:NETWORTH_COLORS[c.id]||colorFor(c.id)})));
+  const list = document.getElementById('nw-list');
+  list.innerHTML = cats.length ? '' : '<div class="empty">Henüz veri yok</div>';
+  cats.sort((a,b)=>b.weightPct-a.weightPct).forEach(c=>{
+    const col = NETWORTH_COLORS[c.id] || colorFor(c.id);
+    list.insertAdjacentHTML('beforeend', `
+      <div class="row">
+        <div class="icon" style="background:${col}">${initials(c.name)}</div>
+        <div class="row-text"><div class="row-name">${c.name}</div><div class="row-sub">${c.subtitle||''}</div></div>
+        <div class="row-pct">%${c.weightPct}</div>
+      </div>`);
+  });
+}
+
+function renderStockPortfolio(d){
+  const holdings = d.stockPortfolio.holdings;
+  tickerColorMap = {};
+  holdings.forEach((h,i)=>{ tickerColorMap[h.ticker] = indexColor(i); });
+  document.getElementById('sp-count').textContent = d.stockPortfolio.positionCount;
+  buildDonut(document.getElementById('sp-donut'), holdings.map(h=>({value:h.value, color:tickerColorMap[h.ticker]})));
+  const list = document.getElementById('sp-list');
+  list.innerHTML = holdings.length ? '' : '<div class="empty">Henüz veri yok — Actions ilk kez çalıştığında burada görünecek</div>';
+  holdings.forEach(h=>{
+    list.insertAdjacentHTML('beforeend', `
+      <div class="row">
+        <div class="icon" style="background:${tickerColorMap[h.ticker]}">${initials(h.ticker)}</div>
+        <div class="row-text"><div class="row-name">${h.ticker}</div><div class="row-sub">${h.name||h.subtitle||''}</div></div>
+        <div class="row-pct">%${h.weightPct}</div>
+      </div>`);
+  });
+}
+
+function momentumRow(row){
+  const cells = ['d50','d200','w50','w100','w200'].map(k=>{
+    const v = row[k];
+    return `<td class="${pctClass(v)}">${fmtPct(v)}</td>`;
+  }).join('');
+  const status = row.status==='Güçlü' ? '<span class="status-strong">⚡ Güçlü</span>' : '<span class="flat">—</span>';
+  return `<tr>
+    <td><div class="asset-name">${row.ticker}</div><div class="asset-sub">${row.name}</div></td>
+    ${cells}
+    <td>${status}</td>
+  </tr>`;
+}
+
+function renderMomentum(d){
+  const body = document.getElementById('momentum-body');
+  const idx = d.momentum.index, pf = d.momentum.portfolio;
+  if(!idx.length && !pf.length){ body.innerHTML = '<tr><td colspan="7" class="empty">Henüz veri yok</td></tr>'; return; }
+  let html = '';
+  if(idx.length){ html += `<tr class="section-head"><td colspan="7">ENDEKS</td></tr>` + idx.map(momentumRow).join(''); }
+  if(pf.length){ html += `<tr class="section-head"><td colspan="7">PORTFÖY</td></tr>` + pf.map(momentumRow).join(''); }
+  body.innerHTML = html;
+}
+
+function renderAssetClasses(d){
+  const ac = d.assetClasses;
+  const stack = document.getElementById('ac-stack');
+  const legend = document.getElementById('ac-legend');
+  stack.innerHTML = ''; legend.innerHTML = '';
+  if(!ac.length){ legend.innerHTML = '<div class="empty">Henüz veri yok</div>'; return; }
+  ac.forEach((a,i)=>{
+    const c = indexColor(i);
+    stack.insertAdjacentHTML('beforeend', `<div class="stack-seg" style="width:${a.weightPct}%;background:${c}"></div>`);
+    legend.insertAdjacentHTML('beforeend', `<div class="legend-item"><span class="dot" style="background:${c}"></span>${a.name} · %${a.weightPct}</div>`);
+  });
+}
+
+function renderCards(d){
+  const wrap = document.getElementById('cards');
+  const cards = d.companyCards;
+  wrap.innerHTML = cards.length ? '' : '<div class="empty">Şirket kartları için FMP_API_KEY secret\'ı tanımlı olmalı</div>';
+  cards.forEach(c=>{
+    const holding = d.stockPortfolio.holdings.find(h=>h.ticker===c.ticker);
+    const weight = holding ? holding.weightPct : null;
+    let targetHtml = '';
+    if(c.targetPrice){
+      const tp = c.targetPrice;
+      targetHtml = `
+        <div class="target-box">
+          <div class="tt">Hedef Fiyat · ${tp.confidence} güven</div>
+          <div class="tp">${fmtMoney(tp.expected)} <span class="${pctClass(tp.upsidePct)}" style="font-size:13px">${fmtPct(tp.upsidePct)}</span></div>
+          <div class="scenario">Ayı ${fmtMoney(tp.bear)} · Baz ${fmtMoney(tp.base)} · Boğa ${fmtMoney(tp.bull)} (güncel ${fmtMoney(c.currentPrice)})</div>
+        </div>`;
+    }
+    let guidanceHtml = '';
+    if(c.guidance && c.guidance.length){
+      guidanceHtml = `<div class="guidance"><ul>${c.guidance.map(g=>`<li>${g}</li>`).join('')}</ul></div>`;
+    }
+    wrap.insertAdjacentHTML('beforeend', `
+      <div class="card">
+        <div class="card-head">
+          <div style="display:flex;gap:10px;align-items:center;">
+            <div class="icon" style="background:${tickerColorMap[c.ticker]||colorFor(c.ticker)}">${initials(c.ticker)}</div>
+            <div class="card-title">${c.ticker}<small>${c.name}${c.marketCap?` · Piyasa Değ. ${fmtMoneyAbbrev(c.marketCap)}`:''}</small></div>
+          </div>
+          ${weight!=null?`<span class="weight-pill">%${weight}</span>`:''}
+        </div>
+        ${c.oneLiner?`<p class="card-desc">${c.oneLiner}</p>`:''}
+        <div class="metric-grid">
+          <div class="metric"><span class="l">Gelir Büy.</span><span class="v ${pctClass(c.revenueGrowthYoY!=null?c.revenueGrowthYoY*100:null)}">${c.revenueGrowthYoY!=null?fmtPctWhole(c.revenueGrowthYoY*100):'—'}</span></div>
+          <div class="metric"><span class="l">Net Marj</span><span class="v">${c.netMargin!=null?(c.netMargin*100).toFixed(1)+'%':'—'}</span></div>
+          <div class="metric"><span class="l">FCF Büy.</span><span class="v ${pctClass(c.fcfGrowthYoY!=null?c.fcfGrowthYoY*100:null)}">${c.fcfGrowthYoY!=null?fmtPctWhole(c.fcfGrowthYoY*100):'—'}</span></div>
+          <div class="metric"><span class="l">F/K TTM</span><span class="v">${c.peTTM!=null?c.peTTM.toFixed(1):'—'}</span></div>
+          <div class="metric"><span class="l">Borç/Özk.</span><span class="v">${c.debtToEquity!=null?c.debtToEquity.toFixed(2):'—'}</span></div>
+          <div class="metric"><span class="l">Cari Oran</span><span class="v">${c.currentRatio!=null?c.currentRatio.toFixed(2):'—'}</span></div>
+          <div class="metric"><span class="l">Faiz Karş.</span><span class="v">${c.interestCoverage!=null?Math.round(c.interestCoverage)+'x':'—'}</span></div>
+          <div class="metric"><span class="l">Net Borç</span><span class="v">${fmtNetDebt(c.netDebt)}</span></div>
+        </div>
+        ${targetHtml}
+        ${guidanceHtml}
+      </div>`);
+  });
+}
+
+async function init(){
+  let d;
+  try{
+    const res = await fetch('data/data.json', {cache:'no-store'});
+    d = await res.json();
+  }catch(e){
+    document.getElementById('updated').textContent = 'veri okunamadı';
+    console.error(e);
+    return;
+  }
+
+  document.getElementById('updated').textContent = d.generatedAt
+    ? 'güncellendi: ' + new Date(d.generatedAt).toLocaleString('tr-TR')
+    : 'henüz otomatik güncelleme çalışmadı';
+
+  renderNetWorth(d);
+  renderStockPortfolio(d);
+  renderMomentum(d);
+  renderAssetClasses(d);
+  renderCards(d);
+}
+
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('view-' + btn.dataset.view).classList.add('active');
+  });
+});
+
+init();
+</script>
+</body>
+</html>

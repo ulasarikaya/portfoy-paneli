@@ -1,0 +1,8 @@
+{
+  "generatedAt": null,
+  "netWorth": { "total": 0, "categories": [] },
+  "stockPortfolio": { "total": 0, "positionCount": 0, "holdings": [] },
+  "assetClasses": [],
+  "momentum": { "index": [], "portfolio": [] },
+  "companyCards": []
+}
