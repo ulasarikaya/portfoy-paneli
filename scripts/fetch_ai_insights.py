@@ -77,7 +77,9 @@ def call_claude(ticker, name, price):
     }
     try:
         r = requests.post(API_URL, headers=headers, json=body, timeout=90)
-        r.raise_for_status()
+        if not r.ok:
+            log(f"{ticker}: API hata {r.status_code}: {r.text[:600]}")
+            return None
         data = r.json()
     except Exception as e:
         log(f"{ticker}: API çağrısı hatası: {e}")
