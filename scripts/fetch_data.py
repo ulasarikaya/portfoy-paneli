@@ -169,7 +169,7 @@ def fetch_company_financials(ticker):
     return {
         "marketCap": market_cap,
         "oneLiner": one_liner,
-        "logoUrl": pick(profile, "image"),
+        "logoUrl": pick(profile, "image", "logo", "companyLogo"),
         "revenueGrowthYoY": pick(growth, "growthRevenue"),
         "netMargin": pick(ratios, "netProfitMarginTTM"),
         "fcfGrowthYoY": pick(cf_growth, "growthFreeCashFlow"),
@@ -414,8 +414,10 @@ def main():
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(dataset, f, ensure_ascii=False, indent=2)
+    holdings = dataset["stockPortfolio"]["holdings"]
+    with_logo = sum(1 for h in holdings if h.get("logoUrl"))
     log(f"Yazıldı: {OUTPUT_PATH} ({dataset['stockPortfolio']['positionCount']} pozisyon, "
-        f"{len(dataset['companyCards'])} şirket kartı)")
+        f"{len(dataset['companyCards'])} şirket kartı, {with_logo}/{len(holdings)} pozisyonda FMP logosu bulundu)")
 
 
 if __name__ == "__main__":
