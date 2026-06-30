@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-06-30T17:27:08.835626+00:00",
+  "generatedAt": "2026-06-30T18:38:33.037519+00:00",
   "netWorth": {
-    "total": 83414.41859103249,
+    "total": 83639.91339923363,
     "categories": [
       {
         "id": "us-stocks",
         "name": "ABD Hisse Portföyü",
         "subtitle": "ABD Hisse",
-        "value": 45371.91347883291,
-        "weightPct": 54.4
+        "value": 45571.944684697904,
+        "weightPct": 54.5
       },
       {
         "id": "real-estate",
@@ -21,14 +21,14 @@
         "id": "bist",
         "name": "Borsa İstanbul",
         "subtitle": "Bist Hisse",
-        "value": 12667.51849788662,
-        "weightPct": 15.2
+        "value": 12665.927246985264,
+        "weightPct": 15.1
       },
       {
         "id": "gold",
         "name": "Altın",
         "subtitle": "Değer saklama / hedge",
-        "value": 19874.986614312962,
+        "value": 19902.041467550465,
         "weightPct": 23.8
       },
       {
@@ -41,7 +41,7 @@
     ]
   },
   "stockPortfolio": {
-    "total": 58039.43197671953,
+    "total": 58237.87193168317,
     "positionCount": 17,
     "holdings": [
       {
@@ -51,19 +51,19 @@
         "assetClass": "Nakit",
         "shares": null,
         "price": null,
-        "value": 20020.095844192918,
-        "weightPct": 34.5
+        "value": 20018.953851429393,
+        "weightPct": 34.4
       },
       {
         "ticker": "VOO",
         "name": "S&P 500 Endeks fonu",
         "assetClass": "ETF",
         "shares": 11.4,
-        "price": 686.19,
+        "price": 686.38,
         "currency": "USD",
-        "value": 7822.566000000001,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/VOO.png",
-        "weightPct": 13.5
+        "value": 7824.732,
+        "logoUrl": null,
+        "weightPct": 13.4
       },
       {
         "ticker": "GARAN.IS",
@@ -72,7 +72,7 @@
         "shares": 2216,
         "price": 138.0,
         "currency": "TRY",
-        "value": 6556.909995096574,
+        "value": 6556.08633820264,
         "logoUrl": null,
         "weightPct": 11.3
       },
@@ -81,32 +81,32 @@
         "name": "Bitcoin",
         "assetClass": "Kripto",
         "shares": 0.06276876,
-        "price": 58289.0,
+        "price": 58319.7891,
         "currency": "USD",
-        "value": 3658.7282516400005,
+        "value": 3660.6608452685164,
         "logoUrl": null,
         "weightPct": 6.3
-      },
-      {
-        "ticker": "MSFT",
-        "name": "Microsoft",
-        "assetClass": "ABD Hisse",
-        "shares": 8.7,
-        "price": 371.455,
-        "currency": "USD",
-        "value": 3231.6584999999995,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/MSFT.png",
-        "weightPct": 5.6
       },
       {
         "ticker": "SCHD",
         "name": "US Dividend Equity ETF",
         "assetClass": "ETF",
         "shares": 101,
-        "price": 31.755,
+        "price": 31.785,
         "currency": "USD",
-        "value": 3207.255,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/SCHD.png",
+        "value": 3210.285,
+        "logoUrl": null,
+        "weightPct": 5.5
+      },
+      {
+        "ticker": "MSFT",
+        "name": "Microsoft",
+        "assetClass": "ABD Hisse",
+        "shares": 8.7,
+        "price": 370.515,
+        "currency": "USD",
+        "value": 3223.4804999999997,
+        "logoUrl": null,
         "weightPct": 5.5
       },
       {
@@ -114,10 +114,10 @@
         "name": "JPMorgan Nasdaq Equity Premium Income ETF",
         "assetClass": "ETF",
         "shares": 36.54,
-        "price": 61.4197,
+        "price": 61.4162,
         "currency": "USD",
-        "value": 2244.275838,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/JEPQ.png",
+        "value": 2244.1479480000003,
+        "logoUrl": null,
         "weightPct": 3.9
       },
       {
@@ -125,9 +125,9 @@
         "name": "Ethereum",
         "assetClass": "Kripto",
         "shares": 1.4555,
-        "price": 1568.59,
+        "price": 1570.88,
         "currency": "USD",
-        "value": 2283.0827449999997,
+        "value": 2286.41584,
         "logoUrl": null,
         "weightPct": 3.9
       },
@@ -138,7 +138,7 @@
         "shares": 1192,
         "price": 84.55,
         "currency": "TRY",
-        "value": 2160.927752648116,
+        "value": 2160.6563042002813,
         "logoUrl": null,
         "weightPct": 3.7
       },
@@ -149,7 +149,7 @@
         "shares": 310,
         "price": 326.0,
         "currency": "TRY",
-        "value": 2166.8541179578683,
+        "value": 2166.581925060034,
         "logoUrl": null,
         "weightPct": 3.7
       },
@@ -160,7 +160,7 @@
         "shares": 4339,
         "price": 19.11,
         "currency": "TRY",
-        "value": 1777.8729283645825,
+        "value": 1777.6495979703755,
         "logoUrl": null,
         "weightPct": 3.1
       },
@@ -169,9 +169,9 @@
         "name": "S&P Global",
         "assetClass": "ABD Hisse",
         "shares": 2.9,
-        "price": 404.21,
+        "price": 404.97,
         "currency": "USD",
-        "value": 1172.2089999999998,
+        "value": 1174.413,
         "logoUrl": null,
         "weightPct": 2.0
       },
@@ -180,9 +180,9 @@
         "name": "Solana",
         "assetClass": "Kripto",
         "shares": 9.656,
-        "price": 73.35,
+        "price": 72.89,
         "currency": "USD",
-        "value": 708.2676,
+        "value": 703.8258400000001,
         "logoUrl": null,
         "weightPct": 1.2
       },
@@ -191,9 +191,9 @@
         "name": "Avax",
         "assetClass": "Kripto",
         "shares": 87.614,
-        "price": 6.55,
+        "price": 6.49,
         "currency": "USD",
-        "value": 573.8717,
+        "value": 568.61486,
         "logoUrl": null,
         "weightPct": 1.0
       },
@@ -202,9 +202,9 @@
         "name": "Netflix",
         "assetClass": "ABD Hisse",
         "shares": 6.2,
-        "price": 72.565,
+        "price": 72.375,
         "currency": "USD",
-        "value": 449.903,
+        "value": 448.725,
         "logoUrl": null,
         "weightPct": 0.8
       },
@@ -213,11 +213,11 @@
         "name": "Hyperliquid",
         "assetClass": "Kripto",
         "shares": 3.22,
-        "price": 0.0,
+        "price": 64.5,
         "currency": "USD",
-        "value": 0.0,
+        "value": 207.69000000000003,
         "logoUrl": null,
-        "weightPct": 0.0
+        "weightPct": 0.4
       },
       {
         "ticker": "ISCTR.IS",
@@ -226,7 +226,7 @@
         "shares": 15.6,
         "price": 14.81,
         "currency": "TRY",
-        "value": 4.953703819478666,
+        "value": 4.953081551931229,
         "logoUrl": null,
         "weightPct": 0.0
       }
@@ -235,28 +235,28 @@
   "assetClasses": [
     {
       "name": "Nakit",
-      "value": 20020.095844192918,
-      "weightPct": 34.5
+      "value": 20018.953851429393,
+      "weightPct": 34.4
     },
     {
       "name": "ETF",
-      "value": 13274.096838,
-      "weightPct": 22.9
+      "value": 13279.164948,
+      "weightPct": 22.8
     },
     {
       "name": "BIST",
-      "value": 12667.51849788662,
-      "weightPct": 21.8
+      "value": 12665.927246985264,
+      "weightPct": 21.7
     },
     {
       "name": "Kripto",
-      "value": 7223.9502966400005,
-      "weightPct": 12.4
+      "value": 7427.207385268516,
+      "weightPct": 12.8
     },
     {
       "name": "ABD Hisse",
-      "value": 4853.7705,
-      "weightPct": 8.4
+      "value": 4846.6185000000005,
+      "weightPct": 8.3
     }
   ],
   "momentum": {
@@ -265,22 +265,22 @@
         "ticker": "GSPC",
         "name": "S&P 500",
         "group": "index",
-        "d50": 1.5644131245079684,
-        "d200": 8.078415385694115,
-        "w50": 9.220244309592163,
-        "w100": 18.110965592243854,
-        "w200": 38.265050157968815,
+        "d50": 1.579284983088769,
+        "d200": 8.09448194811333,
+        "w50": 9.236183589711434,
+        "w100": 18.128393707345758,
+        "w200": 38.28556150387743,
         "status": "Güçlü"
       },
       {
         "ticker": "NDX",
         "name": "Nasdaq 100",
         "group": "index",
-        "d50": 4.277290096204478,
-        "d200": 16.22313138501381,
-        "w50": 17.781357267330122,
-        "w100": 30.670961126422004,
-        "w200": 58.50414932487744,
+        "d50": 4.262522900728283,
+        "d200": 16.20641963260958,
+        "w50": 17.76480820435975,
+        "w100": 30.65236103421696,
+        "w200": 58.48144469177603,
         "status": "Güçlü"
       }
     ],
@@ -289,122 +289,122 @@
         "ticker": "VOO",
         "name": "S&P 500 Endeks fonu",
         "group": "portfolio",
-        "d50": 1.4092281485949876,
-        "d200": 7.913185869361494,
-        "w50": 9.065715163392607,
-        "w100": 17.945977493713407,
-        "w200": 38.070399148868695,
+        "d50": 1.4367381738491058,
+        "d200": 7.942905199115802,
+        "w50": 9.09525596301448,
+        "w100": 17.978250820429942,
+        "w200": 38.108366123132484,
         "status": "Güçlü"
       },
       {
         "ticker": "SCHD",
         "name": "US Dividend Equity ETF",
         "group": "portfolio",
-        "d50": -0.6647398938084415,
-        "d200": 7.416941869392635,
-        "w50": 8.365152852217728,
-        "w100": 11.85440408716023,
-        "w200": 19.183857042943853,
+        "d50": -0.572758632689141,
+        "d200": 7.5178789765885545,
+        "w50": 8.465310443282071,
+        "w100": 11.958895942552328,
+        "w200": 19.295784926945615,
         "status": "—"
       },
       {
         "ticker": "JEPQ",
         "name": "JPMorgan Nasdaq Equity Premium Income ETF",
         "group": "portfolio",
-        "d50": 2.645716061266956,
-        "d200": 5.283217353065739,
-        "w50": 6.128797900156613,
-        "w100": 9.504497272153056,
-        "w200": 18.098516798619137,
+        "d50": 2.639983774354482,
+        "d200": 5.277246146327874,
+        "w50": 6.122875314293319,
+        "w100": 9.498322153018934,
+        "w200": 18.0918230781006,
         "status": "Güçlü"
       },
       {
         "ticker": "MSFT",
         "name": "Microsoft",
         "group": "portfolio",
-        "d50": -9.160453308722404,
-        "d200": -16.841053024529185,
-        "w50": -18.200332847114765,
-        "w100": -15.707886494517675,
-        "w200": -4.19253905908521,
+        "d50": -9.386158130287658,
+        "d200": -17.050615105117515,
+        "w50": -18.403950025847948,
+        "w100": -15.919395381565316,
+        "w200": -4.433822686144218,
         "status": "—"
       },
       {
         "ticker": "SPGI",
         "name": "S&P Global",
         "group": "portfolio",
-        "d50": -3.837326400663288,
-        "d200": -12.88328034674362,
-        "w50": -14.993891895528865,
-        "w100": -17.67508273306887,
-        "w200": -8.10603364591518,
+        "d50": -3.660001794515333,
+        "d200": -12.72019526419762,
+        "w50": -14.83678278970364,
+        "w100": -17.521569229002154,
+        "w200": -7.934046763956337,
         "status": "—"
       },
       {
         "ticker": "NFLX",
         "name": "Netflix",
         "group": "portfolio",
-        "d50": -14.482418641236627,
-        "d200": -24.837926098265317,
-        "w50": -27.057754502508967,
-        "w100": -25.02036071338575,
-        "w200": 3.3042516552508783,
+        "d50": -14.702515886876,
+        "d200": -25.03399097347022,
+        "w50": -27.24596564638445,
+        "w100": -25.21521737005252,
+        "w200": 3.0351558052674754,
         "status": "—"
       },
       {
         "ticker": "BTC-USD",
         "name": "Bitcoin",
         "group": "portfolio",
-        "d50": -14.900008646195761,
-        "d200": -22.64569192625775,
-        "w50": -34.1379019139977,
-        "w100": -34.0186230226348,
-        "w200": -6.9340764589393755,
+        "d50": -14.85582310746012,
+        "d200": -22.604990418763027,
+        "w50": -34.103571133343195,
+        "w100": -33.98400082019403,
+        "w200": -6.885146610887183,
         "status": "—"
       },
       {
         "ticker": "ETH-USD",
         "name": "Ethereum",
         "group": "portfolio",
-        "d50": -15.673818583044607,
-        "d200": -31.63356668826136,
-        "w50": -46.60644693888223,
-        "w100": -43.92836585350462,
-        "w200": -36.53285943164206,
+        "d50": -15.552787128614353,
+        "d200": -31.53409783470902,
+        "w50": -46.52932945277948,
+        "w100": -43.84696459804333,
+        "w200": -36.44049600956374,
         "status": "—"
       },
       {
         "ticker": "SOL-USD",
         "name": "Solana",
         "group": "portfolio",
-        "d50": -3.8758668058569867,
-        "d200": -22.411283605072676,
-        "w50": -43.91969717114438,
-        "w100": -51.15251400261885,
-        "w200": -31.504343283277546,
+        "d50": -4.467171221614652,
+        "d200": -22.89598904872695,
+        "w50": -44.26747281309383,
+        "w100": -51.45736369553595,
+        "w200": -31.932437442807547,
         "status": "—"
       },
       {
         "ticker": "AVAX-USD",
         "name": "Avax",
         "group": "portfolio",
-        "d50": -15.571911710215613,
-        "d200": -32.98661811720179,
-        "w50": -55.59879947711806,
-        "w100": -68.47834978562159,
-        "w200": -69.78488004478844,
+        "d50": -16.33236258087273,
+        "d200": -33.598447345450275,
+        "w50": -56.00195178674815,
+        "w100": -68.76619786161284,
+        "w200": -70.06124737232791,
         "status": "—"
       },
       {
         "ticker": "HYPE-USD",
         "name": "Hyperliquid",
         "group": "portfolio",
-        "d50": -59.08347078152634,
-        "d200": null,
-        "w50": -88.26291116021397,
-        "w100": -99.60927122330371,
+        "d50": 6.675468399567985,
+        "d200": 62.03426995905006,
+        "w50": 55.90684961194585,
+        "w100": null,
         "w200": null,
-        "status": "—"
+        "status": "Güçlü"
       },
       {
         "ticker": "GARAN.IS",
@@ -467,16 +467,16 @@
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "currentPrice": 371.455,
-      "marketCap": 2759327465650,
-      "oneLiner": "Microsoft Corporation is a prominent global technology firm that invents, markets, and provides ongoing assistance for a diverse range of so…",
-      "logoUrl": "https://images.financialmodelingprep.com/symbol/MSFT.png",
-      "revenueGrowthYoY": 0.1493215623240672,
-      "netMargin": 0.39342325613545603,
-      "fcfGrowthYoY": -0.0332113782721983,
-      "peTTM": 22.09756,
+      "currentPrice": 370.515,
+      "marketCap": 2752309624832,
+      "oneLiner": "Microsoft Corporation develops and supports software, services, devices, and solutions worldwide. The Productivity and Business Processes…",
+      "logoUrl": null,
+      "revenueGrowthYoY": 0.183,
+      "netMargin": 0.39341998,
+      "fcfGrowthYoY": null,
+      "peTTM": 22.041048,
       "debtToEquity": 0.30271000000000003,
-      "currentRatio": 1.2829483173692569,
+      "currentRatio": 1.283,
       "interestCoverage": null,
       "netDebt": 47203999744,
       "targetPrice": null,
@@ -488,7 +488,7 @@
       "name": "Garanti BBVA",
       "currentPrice": 138.0,
       "marketCap": 579599990784,
-      "oneLiner": "Turkiye Garanti Bankasi A.S. provides various banking products and services in Turkey. It offers current, savings, time deposit, e-savings, YUVAM, NET, ELMA, overdraft, and gold accounts; SME general purpose, auto, mortgage, commercial, foreign currency spot, installment loans, and project loans, as well as IBOR reforms and foreign trade financing; investment funds, stocks, derivatives, Garanti BBVA e-trader platform, time barred deposit and investment lists, and derivative instruments; credit and debit cards, BonusFlas, and POS and e-commerce products; and insurance and pension products. The company also provides payment systems and services; private banking services; banking services for salary payments/entrepreneurship and women entrepreneurs; leasing fleet factoring services; investment banking and financing services; mobile and internet banking services; and ATM and cash management services. The company was founded in 1946 and is headquartered in Istanbul, Turkey. Turkiye Garanti Bankasi A.S. is a subsidiary of Banco Bilbao Vizcaya Argentaria, S.A.",
+      "oneLiner": "Turkiye Garanti Bankasi A.S. provides various banking products and services in Turkey. It offers current, savings, time deposit, e-savings,…",
       "peTTM": 4.91453,
       "netMargin": 0.32486,
       "revenueGrowthYoY": 0.497,
@@ -502,7 +502,7 @@
       "name": "THY",
       "currentPrice": 326.0,
       "marketCap": 447364399104,
-      "oneLiner": "Türk Hava Yollari Anonim Ortakligi provides air transport and aircraft technical maintenance services in Turkey and internationally. The company offers domestic and international passenger and cargo air transportation services; repair and maintenance; technical and infrastructure support services related to aviation sector; informatics and technology; cargo and courier transportation; support services; security services; payment systems; health services; management of various investment projects; cabin interior production; catering services; aviation ground handling services; aviation fuel services; It is also involved engine maintenance; and reverse thrust and engine nacelle services, as well as sports activities. The company was incorporated in 1933 and is headquartered in Istanbul, Turkey.",
+      "oneLiner": "Türk Hava Yollari Anonim Ortakligi provides air transport and aircraft technical maintenance services in Turkey and internationally. The…",
       "peTTM": 33.13008,
       "netMargin": 0.1266,
       "revenueGrowthYoY": 0.211,
@@ -518,7 +518,7 @@
       "name": "İş Bankası",
       "currentPrice": 14.81,
       "marketCap": 370249990144,
-      "oneLiner": "Türkiye Is Bankasi A.S., together with its subsidiaries, provides various banking products and services to individuals and businesses in Turkey. It operates through Corporate/Commercial Banking; Retail/Private Banking; Treasury Operations and Investment Activities; Insurance and Reinsurance Activities; and Other segments. The company offers personal loans comprising land, education, overdraft, and yacht loans; car and home loans; credit and debit cards; deposit and investment products, such as term deposits, term TL, term FX, term gold, non-term deposits, gold, equities, futures and options markets, mutual funds, Eurobonds, and debt instruments; digital banking; compulsory earthquake, motor vehicle compulsory third party liability, comprehensive motor, health, personal accident, workplace, life, critical illness, credit card payment protecting, and loan payment protection insurance products; pension funds; and expat, private, and startup banking services. It also provides cash and non-cash loans; letters of guarantee and credit; agricultural banking; and foreign trade transactions, trading, and financing services. In addition, the company offers project financing, working capital and investment loans, cash management, checks and promissory notes, bill collection, payroll payments, investment accounts, tax collection, and other banking products; overdraft accounts, money transfer, and safe deposit boxes; individual retirement plans, life and non-life insurance services, and reinsurance services; securities trading, spot and forward trading, syndication, and securitization services; derivative transactions, such as forwards, swaps, futures and options; brokerage, venture capital, and real estate investment trust services; investment banking; and financial leasing, factoring, asset management, portfolio management, and payment services. Türkiye Is Bankasi A.S. was founded in 1924 and is headquartered in Istanbul, Turkey.",
+      "oneLiner": "Türkiye Is Bankasi A.S., together with its subsidiaries, provides various banking products and services to individuals and businesses in…",
       "peTTM": 4.8557377,
       "netMargin": 0.19059,
       "revenueGrowthYoY": 0.62,
@@ -530,14 +530,14 @@
     {
       "ticker": "NFLX",
       "name": "Netflix",
-      "currentPrice": 72.565,
-      "marketCap": 305619763200,
-      "oneLiner": "Netflix, Inc. provides entertainment services worldwide. The company offers television (TV) series, documentaries, feature films, games, and live programming across various genres and languages. It also provides members the ability to receive streaming content through a host of internet-connected devices, including TVs, digital video players, TV set-top boxes, and mobile devices. Netflix, Inc. was incorporated in 1997 and is headquartered in Los Gatos, California.",
+      "currentPrice": 72.375,
+      "marketCap": 304756555776,
+      "oneLiner": "Netflix, Inc. provides entertainment services worldwide. The company offers television (TV) series, documentaries, feature films, games,…",
       "logoUrl": null,
       "revenueGrowthYoY": 0.162,
       "netMargin": 0.28521,
       "fcfGrowthYoY": null,
-      "peTTM": 23.412905,
+      "peTTM": 23.346775,
       "debtToEquity": 0.5378799999999999,
       "currentRatio": 1.407,
       "interestCoverage": null,
@@ -551,7 +551,7 @@
       "name": "Ford Otosan",
       "currentPrice": 84.55,
       "marketCap": 296694415360,
-      "oneLiner": "Ford Otomotiv Sanayi A.S., together with its subsidiaries, engages in the manufacturing, assembly, production, import, and sale of motor vehicles and spare parts in Turkey and internationally. The company offers passenger car models, light commercial vehicles, and heavy commercial vehicles, as well as diesel engines and powertrains under the Ford brand name. It exports its products. The company was founded in 1926 and is based in Istanbul, Turkey.",
+      "oneLiner": "Ford Otomotiv Sanayi A.S., together with its subsidiaries, engages in the manufacturing, assembly, production, import, and sale of motor…",
       "peTTM": 9.56448,
       "netMargin": 0.03814,
       "revenueGrowthYoY": -0.086,
@@ -565,14 +565,14 @@
     {
       "ticker": "SPGI",
       "name": "S&P Global",
-      "currentPrice": 404.21,
-      "marketCap": 119646158848,
-      "oneLiner": "S&P Global Inc., together with its subsidiaries, provides benchmarks, data, analytics, and workflow solutions in the global capital, energy and commodity, and automotive markets. It operates through five segments: S&P Global Market Intelligence, S&P Global Ratings, S&P Global Energy, S&P Global Mobility, and S&P Dow Jones Indices. The S&P Global Market Intelligence segment provides multi-asset-class data and analytics integrated with purpose-built workflow solutions. This segment offers Data, Analytics & Insights, a desktop product suite that provides data, analytics, and third-party research for global finance and corporate professionals; research, reference data, market data, derived analytics, and valuation services; enterprise solutions, such as software and workflow solutions; and credit and risk solutions for selling Ratings' credit ratings and related data and research, analytics, and financial risk solutions. The S&P Global Ratings segment operates as an independent provider of credit ratings, research, and analytics offering investors information and independent benchmarks for their investment and financial decisions as well as access to the capital markets. The S&P Global Energy segment provides information and benchmark prices for the energy and commodity markets. The S&P Global Mobility segment offers solutions for the full automotive value chain, including vehicle manufacturers, automotive suppliers, mobility service providers, retailers, consumers, and finance and insurance companies. The S&P Dow Jones Indices segment operates as an index provider that maintains various valuation and index benchmarks for investment advisors, wealth managers, and institutional investors. It has operations in the United States, European region, Asia, and internationally. S&P Global Inc. was founded in 1860 and is headquartered in New York, New York.",
+      "currentPrice": 404.97,
+      "marketCap": 119871119360,
+      "oneLiner": "S&P Global Inc., together with its subsidiaries, provides benchmarks, data, analytics, and workflow solutions in the global capital, energy…",
       "logoUrl": null,
       "revenueGrowthYoY": 0.104,
       "netMargin": 0.30361998,
       "fcfGrowthYoY": null,
-      "peTTM": 25.566729,
+      "peTTM": 25.6148,
       "debtToEquity": 0.38392000000000004,
       "currentRatio": 0.677,
       "interestCoverage": null,
@@ -586,7 +586,7 @@
       "name": "Petkim Petrokimya Holding",
       "currentPrice": 19.11,
       "marketCap": 48432386048,
-      "oneLiner": "Petkim Petrokimya Holding Anonim Sirketi operates as a petrochemical company in Turkey. It operates through the Petrochemical and Port segments. The company offers thermoplastics, such as low density polyethylene, high density polyethylene, polypropylene, masterbatches, and polyvinyl chloride; fiber raw materials, including acrylonitrile, mono-ethylene glycol, and pure terephthalic acid; aromatics, such as benzene, paraxylene, orthoxylene, and toluene; olefins comprising polymer and chemical purity propylene, and ethylene; and ACN, aromatic, LDPE, EO/EG, ethylene, chlor alkali, plastic processing, PA, PP, PTA, PVC, VCM, and HDPE plants products. Its products are used in plastics, chemicals, packaging, pipes, paints, construction, agriculture, automotive, electronics, textiles, pharmaceuticals, detergents, and cosmetics industries. The company was founded in 1965 and is based in Istanbul, Türkiye. Petkim Petrokimya Holding Anonim Sirketi is a subsidiary of Socar Turkey Petrokimya AS.",
+      "oneLiner": "Petkim Petrokimya Holding Anonim Sirketi operates as a petrochemical company in Turkey. It operates through the Petrochemical and Port…",
       "netMargin": -0.070539996,
       "revenueGrowthYoY": 0.167,
       "debtToEquity": 0.76699,
