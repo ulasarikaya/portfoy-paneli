@@ -169,6 +169,7 @@ def fetch_company_financials(ticker):
     return {
         "marketCap": market_cap,
         "oneLiner": one_liner,
+        "logoUrl": pick(profile, "image"),
         "revenueGrowthYoY": pick(growth, "growthRevenue"),
         "netMargin": pick(ratios, "netProfitMarginTTM"),
         "fcfGrowthYoY": pick(cf_growth, "growthFreeCashFlow"),
@@ -237,55 +238,70 @@ def build_dataset(config):
             log(f"{ticker} fiyat hatası, atlanıyor: {e}")
             continue
 
+        asset_class = h.get("assetClass", "Tek Hisse")
         currency = h.get("currency", "USD")
         native_value = pm["price"] * shares
         value = convert_to_usd(native_value, currency) if currency != "USD" else native_value
         stock_total += value
 
+        # FMP yalnızca ABD/global borsalarda listeli şirketleri tanıyor — BIST ve
+        # kripto için boşuna istek atıp günlük kotayı tüketmemek üzere atlanır.
+        # ETF'ler için de çağrılır (logo + açıklama için), ama kart oluşturulmaz.
+        fin = None
+        if asset_class not in ("Kripto", "BIST"):
+            fin = fetch_company_financials(ticker)
+            time.sleep(0.3)
+        else:
+            time.sleep(0.1)
+
         holdings_out.append({
             "ticker": ticker, "name": h.get("name", ticker),
-            "assetClass": h.get("assetClass", "Tek Hisse"),
+            "assetClass": asset_class,
             "shares": shares, "price": pm["price"], "currency": currency, "value": value,
+            "logoUrl": (fin or {}).get("logoUrl"),
         })
         momentum_rows.append({
             "ticker": ticker, "name": h.get("name", ticker),
             "group": "portfolio", **pm["ma"], "status": pm["status"],
         })
 
-        # Kripto ve BIST pozisyonların FMP'de (ücretsiz katmanda) şirket finansalı
-        # olmadığı için boşuna istek atıp günlük kotayı tüketmemek için atla.
-        if h.get("assetClass") in ("Kripto", "BIST"):
-            time.sleep(0.1)
+        # Şirket Finansalları kartları sadece tekil hisseler için gösterilir
+        # (ABD hisseleri + BIST). ETF ve kripto için kart oluşturulmaz.
+        if asset_class not in ("Tek Hisse", "BIST"):
             continue
 
-        fin = fetch_company_financials(ticker)
-        if fin:
-            override = config.get("targetPriceOverrides", {}).get(ticker)
-            ai_entry = ai_cache.get(ticker)
+        override = config.get("targetPriceOverrides", {}).get(ticker)
+        ai_entry = ai_cache.get(ticker)
 
-            target_price = None
-            target_source = None
-            if override:
-                target_price = _build_target_price(override, pm["price"])
-                target_source = "manuel"
-            elif ai_entry and all(ai_entry.get(k) is not None for k in ("bear", "base", "bull")):
-                target_price = _build_target_price(ai_entry, pm["price"])
-                target_source = "ai"
+        target_price = None
+        target_source = None
+        if override:
+            target_price = _build_target_price(override, pm["price"])
+            target_source = "manuel"
+        elif ai_entry and all(ai_entry.get(k) is not None for k in ("bear", "base", "bull")):
+            target_price = _build_target_price(ai_entry, pm["price"])
+            target_source = "ai"
 
-            manual_guidance = config.get("guidanceNotes", {}).get(ticker)
-            guidance = manual_guidance if isinstance(manual_guidance, list) else (
-                ai_entry.get("guidance") if ai_entry and isinstance(ai_entry.get("guidance"), list) else None
-            )
+        manual_guidance = config.get("guidanceNotes", {}).get(ticker)
+        guidance = manual_guidance if isinstance(manual_guidance, list) else (
+            ai_entry.get("guidance") if ai_entry and isinstance(ai_entry.get("guidance"), list) else None
+        )
 
-            company_cards.append({
-                "ticker": ticker, "name": h.get("name", ticker),
-                "currentPrice": pm["price"],
-                **fin,
-                "targetPrice": target_price,
-                "targetPriceSource": target_source,
-                "guidance": guidance,
-            })
-        time.sleep(0.3)  # FMP rate limitine takılmamak için kısa bekleme
+        # BIST için fin=None olur (FMP'de veri yok) — kart yine de oluşturulur,
+        # finansal metrikler arayüzde otomatik "—" gösterilir.
+        empty_fin = {"marketCap": None, "oneLiner": None, "logoUrl": None, "revenueGrowthYoY": None,
+                     "netMargin": None, "fcfGrowthYoY": None, "peTTM": None, "debtToEquity": None,
+                     "currentRatio": None, "interestCoverage": None, "netDebt": None}
+
+        company_cards.append({
+            "ticker": ticker, "name": h.get("name", ticker),
+            "currentPrice": pm["price"],
+            **(fin or empty_fin),
+            "targetPrice": target_price,
+            "targetPriceSource": target_source,
+            "guidance": guidance,
+        })
+
 
     cash = config["stockPortfolio"]["cash"]
     cash_amounts = cash.get("amounts", {})
@@ -331,7 +347,7 @@ def build_dataset(config):
     us_stock_total = stock_total_with_cash - bist_total  # BIST ayrı kategoride sayıldığı için burada düşülür
 
     net_worth_categories = [
-        {"id": "us-stocks", "name": "ABD Hisse Portföyü", "subtitle": "Bu sunumdaki hisse portföyü", "value": us_stock_total},
+        {"id": "us-stocks", "name": "ABD Hisse Portföyü", "subtitle": nw.get("usStocksSubtitle", "ABD Hisse"), "value": us_stock_total},
         {"id": "real-estate", "name": nw.get("realEstateLabel", "Gayrimenkul"), "subtitle": nw.get("realEstateSubtitle", ""), "value": real_estate},
         {"id": "bist", "name": "Borsa İstanbul", "subtitle": nw.get("bistSubtitle", ""), "value": bist_total},
         {"id": "gold", "name": "Altın", "subtitle": nw.get("goldSubtitle", ""), "value": gold_value},
