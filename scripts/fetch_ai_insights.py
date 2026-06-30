@@ -125,9 +125,17 @@ def main():
         with open(CACHE_PATH, "r", encoding="utf-8") as f:
             cache = json.load(f)
 
+    # Maliyet kontrolü: sadece tekil hisseler için arama yapılır (ABD hisseleri,
+    # BIST). ETF/Kripto/Nakit'in zaten "analist hedef fiyatı" diye bir şeyi olmadığı
+    # için bunlara para harcamanın anlamı yok — kart mantığıyla aynı filtre kullanılır.
     holdings = [h for h in config["stockPortfolio"]["holdings"] if h.get("shares")]
+    skipped_non_stock = []
     for h in holdings:
         ticker, name = h["ticker"], h.get("name", h["ticker"])
+        ac_norm = h.get("assetClass", "").strip().lower()
+        if "etf" in ac_norm or "kripto" in ac_norm or "crypto" in ac_norm or "nakit" in ac_norm or "cash" in ac_norm:
+            skipped_non_stock.append(ticker)
+            continue
         price = prices.get(ticker)
         if not price:
             log(f"{ticker}: güncel fiyat yok (önce fetch_data.py çalışmalı), atlanıyor")
@@ -138,6 +146,9 @@ def main():
             result["updatedAt"] = datetime.now(timezone.utc).isoformat()
             cache[ticker] = result
         time.sleep(1)  # API rate limitine takılmamak için kısa bekleme
+
+    if skipped_non_stock:
+        log(f"ETF/Kripto/Nakit olduğu için atlanan (maliyet tasarrufu): {', '.join(skipped_non_stock)}")
 
     with open(CACHE_PATH, "w", encoding="utf-8") as f:
         json.dump(cache, f, ensure_ascii=False, indent=2)
