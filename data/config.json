@@ -3,12 +3,12 @@
 
   "stockPortfolio": {
     "holdings": [
-      { "ticker": "VOO",  "name": "S&P 500 Endeks fonu",                      "shares": 11.4, "assetClass": "Tek Hisse" },
-      { "ticker": "SCHD", "name": "US Dividend Equity ETF",                "shares": 101, "assetClass": "Tek Hisse" },
-      { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF",           "shares": 36.54, "assetClass": "Tek Hisse" },
-      { "ticker": "MSTF", "name": "Microsoft",                 "shares": 8.7, "assetClass": "Tek Hisse" },
-      { "ticker": "SPGI", "name": "S&P Global",                "shares": 2.9, "assetClass": "Tek Hisse" },
-      { "ticker": "NFLX",  "name": "Netflix",             "shares": 6.2, "assetClass": "Tek Hisse" },
+      { "ticker": "VOO",  "name": "S&P 500 Endeks fonu",                      "shares": 11.4, "assetClass": "ETF" },
+      { "ticker": "SCHD", "name": "US Dividend Equity ETF",                "shares": 101, "assetClass": "ETF" },
+      { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF",           "shares": 36.54, "assetClass": "ETF" },
+      { "ticker": "MSTF", "name": "Microsoft",                 "shares": 8.7, "assetClass": "ABD Hisse" },
+      { "ticker": "SPGI", "name": "S&P Global",                "shares": 2.9, "assetClass": "ABD Hisse" },
+      { "ticker": "NFLX",  "name": "Netflix",             "shares": 6.2, "assetClass": "ABD Hisse" },
       { "ticker": "BTC-USD", "name": "Bitcoin", "shares": 0.06276876, "assetClass": "Kripto" },
       { "ticker": "ETH-USD", "name": "Ethereum", "shares": 1.4555,  "assetClass": "Kripto" },
       { "ticker": "SOL-USD", "name": "Solana",  "shares": 9.656,   "assetClass": "Kripto" },
@@ -16,7 +16,7 @@
       { "ticker": "HYPE-USD", "name": "Hyperliquid",  "shares": 3.22,   "assetClass": "Kripto" }
     ],
     "cash": {
-      "label": "Nakit - USD / USDT / TRY",
+      "label": "Nakit (USD / USDT / TRY)",
       "subtitle": "USD / USDT / TRY",
       "amounts": { "USD": 7331, "USDT": 3598, "TRY": 424000 }
     }  },
