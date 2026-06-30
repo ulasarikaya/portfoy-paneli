@@ -16,7 +16,7 @@
       { "ticker": "HYPE-USD", "name": "Hyperliquid",  "shares": 3.22,   "assetClass": "Kripto" }
     ],
     "cash": {
-      "label": "Nakit",
+      "label": "Nakit - USD / USDT / TRY",
       "subtitle": "USD / USDT / TRY",
       "amounts": { "USD": 7331, "USDT": 3598, "TRY": 424000 }
     }  },
@@ -33,7 +33,7 @@
       { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339 },
       { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15.6 }
     ],
-    "bistSubtitle": "Swing trade",
+    "bistSubtitle": "Bist Hisse",
 
     "goldGrams": 153,
     "goldSubtitle": "Değer saklama / hedge",
