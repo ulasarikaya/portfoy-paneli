@@ -28,7 +28,7 @@ OUTPUT_PATH = ROOT / "data" / "data.json"
 AI_CACHE_PATH = ROOT / "data" / "ai_cache.json"
 
 FMP_API_KEY = os.environ.get("FMP_API_KEY", "")
-FMP_BASE = "https://financialmodelingprep.com/api/v3"
+FMP_BASE = "https://financialmodelingprep.com/stable"
 GRAMS_PER_TROY_OUNCE = 31.1034768
 
 
@@ -116,7 +116,8 @@ def fetch_price_and_moving_averages(ticker):
 def fmp_get(path, ticker, **params):
     if not FMP_API_KEY:
         return None
-    url = f"{FMP_BASE}/{path}/{ticker}"
+    url = f"{FMP_BASE}/{path}"
+    params["symbol"] = ticker
     params["apikey"] = FMP_API_KEY
     try:
         r = requests.get(url, params=params, timeout=20)
