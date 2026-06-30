@@ -13,7 +13,7 @@
       { "ticker": "ETH-USD", "name": "Ethereum", "shares": 1.4555,  "assetClass": "Kripto" },
       { "ticker": "SOL-USD", "name": "Solana",  "shares": 9.656,   "assetClass": "Kripto" },
       { "ticker": "AVAX-USD", "name": "Avax",  "shares": 87.614,   "assetClass": "Kripto" },
-      { "ticker": "HYPE-USD", "name": "Hyperliquid", "shares": 3.22, "assetClass": "Kripto", "fetchTicker": "HYPE32196-USD" }
+      { "ticker": "HYPE-USD", "name": "Hyperliquid", "shares": 3.22, "assetClass": "Kripto", "fetchTicker": "HYPE32196-USD" },
       { "ticker": "GARAN.IS", "name": "Garanti BBVA", "shares": 2216,"assetClass": "BIST", "currency": "TRY" },
       { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 1192, "assetClass": "BIST", "currency": "TRY" },
       { "ticker": "THYAO.IS", "name": "THY",          "shares": 310, "assetClass": "BIST", "currency": "TRY" },
