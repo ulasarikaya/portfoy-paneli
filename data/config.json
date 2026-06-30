@@ -18,7 +18,7 @@
       { "ticker": "FROTO.IS", "name": "Ford Otosan",  "shares": 1192, "assetClass": "BIST", "currency": "TRY" },
       { "ticker": "THYAO.IS", "name": "THY",          "shares": 310, "assetClass": "BIST", "currency": "TRY" },
       { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339, "assetClass": "BIST", "currency": "TRY" },
-      { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15.6, "assetClass": "BIST", "currency": "TRY" }
+      { "ticker": "ISCTR.IS", "name": "İş Bankası",  "shares": 15621, "assetClass": "BIST", "currency": "TRY" }
     ],
     "cash": {
       "label": "Nakit (USD / USDT / TRY)",
