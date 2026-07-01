@@ -376,10 +376,14 @@ def build_dataset(config):
     # --- Net varlık ---
     nw = config["netWorth"]
 
-    # BIST hisseleri artık stockPortfolio.holdings içinde (assetClass: "BIST"),
-    # Hisse Portföyü sekmesinde kendi satırlarıyla görünüyorlar. Net Varlık'taki
-    # "Borsa İstanbul" toplamı da aynı listeden (zaten USD'ye çevrilmiş) hesaplanır.
-    bist_total = sum(row["value"] for row in holdings_out if row["assetClass"] == "BIST")
+    # BIST ve Kripto (spot) pozisyonlar stockPortfolio.holdings içinde tutuluyor
+    # ("assetClass": "BIST" / "Kripto"), Hisse Portföyü sekmesinde kendi satırlarıyla
+    # görünüyorlar. Net Varlık'taki ilgili toplamlar da aynı listeden (zaten USD'ye
+    # çevrilmiş) hesaplanır. Eşleşme anahtar kelimeyle yapılır (serbest etiketler
+    # de çalışsın diye), tam string eşleşmesi değil.
+    bist_total = sum(row["value"] for row in holdings_out if "bist" in row["assetClass"].strip().lower())
+    crypto_spot_total = sum(row["value"] for row in holdings_out
+                             if "kripto" in row["assetClass"].strip().lower() or "crypto" in row["assetClass"].strip().lower())
 
     gold_grams = nw.get("goldGrams", 0)
     gold_value = 0.0
@@ -390,12 +394,15 @@ def build_dataset(config):
 
     real_estate = nw.get("realEstateUSD", 0)
     btc_futures = nw.get("bitcoinFuturesUSD", 0)
-    us_stock_total = stock_total_with_cash - bist_total  # BIST ayrı kategoride sayıldığı için burada düşülür
+    # BIST, Kripto ve Nakit ayrı kategorilerde sayıldığı için ABD Hisse toplamından düşülür
+    us_stock_total = stock_total_with_cash - bist_total - crypto_spot_total - cash_value
 
     net_worth_categories = [
         {"id": "us-stocks", "name": "ABD Hisse Portföyü", "subtitle": nw.get("usStocksSubtitle", "ABD Hisse"), "value": us_stock_total},
         {"id": "real-estate", "name": nw.get("realEstateLabel", "Gayrimenkul"), "subtitle": nw.get("realEstateSubtitle", ""), "value": real_estate},
         {"id": "bist", "name": "Borsa İstanbul", "subtitle": nw.get("bistSubtitle", ""), "value": bist_total},
+        {"id": "crypto-spot", "name": "Kripto SPOT", "subtitle": nw.get("cryptoSpotSubtitle", "Spot kripto varlıklar"), "value": crypto_spot_total},
+        {"id": "cash", "name": nw.get("cashLabel", "Nakit"), "subtitle": nw.get("cashSubtitle", "USD / USDT / TRY"), "value": cash_value},
         {"id": "gold", "name": "Altın", "subtitle": nw.get("goldSubtitle", ""), "value": gold_value},
         {"id": "btc-futures", "name": "Bitcoin Futures", "subtitle": nw.get("bitcoinFuturesSubtitle", ""), "value": btc_futures},
     ]
