@@ -1,27 +1,27 @@
 {
   "MSFT": {
     "bear": 400,
-    "base": 562,
+    "base": 561,
     "bull": 680,
     "confidence": "yüksek",
     "guidance": [
-      "Azure %40 büyüdü; AI yıllık koşu hızı 37 milyar doları aştı.",
-      "Gelir 82,9 milyar dolar, EPS 4,27 dolarla beklentilerin üzerinde gerçekleşti.",
-      "2026 yıllık capex 190 milyar dolar öngörüldü; yüksek yatırım hisseyi baskıladı."
+      "Azure %40 büyüdü; AI iş kolunun yıllık geliri $37 milyarı aştı.",
+      "Q4 gelir rehberi $86.7–87.8 milyar; Azure büyümesi %39–40 öngörülüyor.",
+      "Yıllık sermaye harcaması $190 milyara çıktı; brüt marjda daralma baskısı oluştu."
     ],
-    "updatedAt": "2026-06-30T19:00:29.257353+00:00"
+    "updatedAt": "2026-07-01T09:38:20.801168+00:00"
   },
   "SPGI": {
     "bear": 480,
-    "base": 547,
+    "base": 532,
     "bull": 575,
     "confidence": "yüksek",
     "guidance": [
-      "2026 tam yıl düzeltilmiş EPS beklentisi 19,40–19,65 dolar aralığında korundu.",
-      "Gelir büyümesi yüzde 6–8 organik sabit kur büyümesi öngörülüyor; enerji segmenti jeopolitik riskler nedeniyle 1 puan aşağı revize edildi.",
-      "Mobility bölümü ayrılması onaylandı; yapay zeka ürünleri ve hissedar geri dönüşleri ivme kazanıyor."
+      "2026 tam yıl düzeltilmiş EPS rehberi 19,40-19,65 dolar aralığında korundu.",
+      "Gelir büyümesi %6-8 organik sabit kur bazında öngörülüyor; enerji segmenti jeopolitik riskler nedeniyle 1 puan aşağı revize edildi.",
+      "Mobility bölümü ayrıştırması ve hisse geri alımları ile hissedar değeri artırımı hedefleniyor."
     ],
-    "updatedAt": "2026-06-30T19:00:55.359015+00:00"
+    "updatedAt": "2026-07-01T09:38:42.192402+00:00"
   },
   "NFLX": {
     "bear": 80.0,
@@ -29,11 +29,11 @@
     "bull": 151.4,
     "confidence": "yüksek",
     "guidance": [
-      "2026 tam yıl geliri $51B hedefi, %31,5 faaliyet marjı bekleniyor.",
-      "Reklam geliri 2026'da yaklaşık iki katına çıkarak ~$3 milyar hedefleniyor.",
-      "Q1 2026'da gelir yıllık %16 artarak $12,2 milyara ulaştı; net kâr %83 yükseldi."
+      "2026 yılı için gelir hedefi 51 milyar dolar, faaliyet marjı %31,5 olarak korunuyor.",
+      "Reklam gelirinin 2026'da yaklaşık 3 milyar dolara ulaşması, bir önceki yıla göre iki katına çıkması bekleniyor.",
+      "325 milyonu aşan ücretli üye tabanıyla izlenme saatleri 2025 seviyesinde büyümeye devam ediyor."
     ],
-    "updatedAt": "2026-06-30T19:01:05.425069+00:00"
+    "updatedAt": "2026-07-01T09:38:51.648684+00:00"
   },
   "GARAN.IS": {
     "bear": 160.0,
@@ -41,23 +41,23 @@
     "bull": 205.73,
     "confidence": "orta",
     "guidance": [
-      "Q1 2026'da net kâr 33,6 milyar TL ile güçlü başlangıç yapıldı.",
-      "Net faiz geliri büyümesi sürdü; TL mevduat maliyetleri düşerken spread genişledi.",
-      "Makro belirsizlik nedeniyle Türkiye için yönetim rehberliğinde aşağı yönlü risk vurgulandı."
+      "Q1 2026'da net kâr 33,6 milyar TL; özkaynak getirisi ~%30 korundu.",
+      "Net faiz geliri büyümesi güçlü; TL mevduat maliyetlerindeki düşüş kredi faiz gelirlerindeki gerilemeyi telafi etti.",
+      "Yönetim kredi büyümesinde yukarı yönlü bir eğilim öngörüyor; varlık kalitesi stabil seyrediyor."
     ],
-    "updatedAt": "2026-06-30T19:01:29.316356+00:00"
+    "updatedAt": "2026-07-01T09:39:06.444772+00:00"
   },
   "FROTO.IS": {
-    "bear": 109.86,
-    "base": 146.54,
-    "bull": 224.0,
-    "confidence": "orta",
+    "bear": 120.0,
+    "base": 145.45,
+    "bull": 227.0,
+    "confidence": "yüksek",
     "guidance": [
-      "Q1 2026'da gelir %9 ve net kâr %35 yıllık bazda geriledi.",
-      "2026 gelir büyüme beklentisi 'yüksek tek haneli'den 'sabit'e indirildi.",
-      "Koçfinans'ın 137 milyon dolara satın alınmasıyla perakende finansman kapasitesi güçlendirildi."
+      "Ç1 2026'da net kâr %35 düşerek 5.5 milyar TL'ye geriledi; gelirler yıllık bazda %9 azaldı.",
+      "2026 yılı gelir büyüme beklentisi 'yüksek tek haneli'den 'yatay' seviyeye indirildi.",
+      "İhracat hacmi güçlü seyrederken yurt içi satışlar ve FAVÖK marjı baskı altında kalmaya devam etti."
     ],
-    "updatedAt": "2026-06-30T19:01:40.691362+00:00"
+    "updatedAt": "2026-07-01T09:39:17.299994+00:00"
   },
   "THYAO.IS": {
     "bear": 320,
@@ -65,23 +65,23 @@
     "bull": 650,
     "confidence": "yüksek",
     "guidance": [
-      "2025 tam yıl gelir büyümesi %5-6, EBITDA marjı %22-24 hedefleniyor.",
-      "Yolcu kapasitesi yıllık %7,5 büyüdü; 92,6 milyon yolcuya ulaşıldı.",
-      "Kargo geliri %7 geriledi; yakıt maliyeti ve Orta Doğu riskleri baskı yaratıyor."
+      "2026 planı: ASK %7-9, gelir %6-9 büyüme, EBITDAR marjı %22-24 hedefleniyor.",
+      "Q1 2026'da rekor 4,9 milyar dolar hasılat; enflasyon ve kur baskısı nedeniyle net zarar 44 milyon dolar.",
+      "Orta Doğu riskleri ve GTF motor sorunları (~50 uçak yerde) kısa vadeli maliyet baskısı yaratıyor."
     ],
-    "updatedAt": "2026-06-30T19:01:52.860644+00:00"
+    "updatedAt": "2026-07-01T09:39:37.379671+00:00"
   },
   "PETKM.IS": {
     "bear": 12.0,
-    "base": 18.0,
-    "bull": 25.0,
+    "base": 17.94,
+    "bull": 25.42,
     "confidence": "yüksek",
     "guidance": [
-      "Q2 2025'te 582M TRY net zarar açıklandı; tahminleri geride bıraktı.",
-      "Yıllık satış gelirleri yaklaşık %21 düşerek baskı altında kalmaya devam etti.",
-      "Q1 2026'da 305M TRY net kâr ile toparlanma sinyali verildi."
+      "3Ç25'te net zarar 1.2 milyar TRY; STAR Refinery ödemesi likiditeyi destekledi.",
+      "Net borç, STAR'dan toplu tahsilat sonrası 1 milyar dolar altına geriledi.",
+      "1Ç2026'da 305 milyon TRY net kâr ile zarar döneminden ilk toparlanma sinyali."
     ],
-    "updatedAt": "2026-06-30T19:02:19.747020+00:00"
+    "updatedAt": "2026-07-01T09:40:51.869122+00:00"
   },
   "ISCTR.IS": {
     "bear": 13.5,
@@ -89,10 +89,10 @@
     "bull": 24.46,
     "confidence": "yüksek",
     "guidance": [
-      "1Ç25 net kârı 12,17 milyar TL ile beklentileri aştı, ancak yıllık yüzde 13 geriledi.",
-      "Net faiz marjında bütçe hedefinin altında kalınması ve TGA artışı risk oluşturuyor.",
-      "Banka 2Ç25'te net faiz marjının yatay seyredeceğini, ROE hedefini koruduğunu açıkladı."
+      "Q1 2026'da net kâr yıllık %68 artışla 20,5 milyar TL'ye ulaştı.",
+      "Net faiz marjı toparlanmaya devam ediyor; uzun vadeli hedef yaklaşık %4 seviyesi.",
+      "2026'da kredi büyümesi normalleşirken kârlılığın reel bazda korunması hedefleniyor."
     ],
-    "updatedAt": "2026-06-30T19:02:36.174083+00:00"
+    "updatedAt": "2026-07-01T09:41:05.329597+00:00"
   }
 }
