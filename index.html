@@ -49,7 +49,9 @@
     border-bottom:1px solid var(--border);
   }
   .total-line .total-label{font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px;}
+  .total-line .total-value-wrap{text-align:right;}
   .total-line .total-value{font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace;}
+  .total-line .total-value-try{font-size:13px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; margin-top:2px;}
 
   .tabs{display:flex; gap:8px; margin:28px 0 26px;}
   .tab{
@@ -71,6 +73,8 @@
     font-size:11.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold);
     margin:0 0 16px; padding-left:10px; border-left:3px solid var(--gold);
   }
+  .panel-header-row{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;}
+  .ai-updated-note{font-size:11px; color:var(--text-dim);}
 
   .donut-row{display:flex; gap:36px; align-items:center; flex-wrap:wrap;}
   .donut{
@@ -198,7 +202,10 @@
     <div class="panel">
       <div class="total-line">
         <span class="total-label">Toplam Net Varlık</span>
-        <span class="total-value" id="nw-total-amount">—</span>
+        <div class="total-value-wrap">
+          <div class="total-value" id="nw-total-amount">—</div>
+          <div class="total-value-try" id="nw-total-amount-try"></div>
+        </div>
       </div>
       <div class="donut-row">
         <div class="donut" id="nw-donut"><div class="donut-hole"><b id="nw-total">%100</b><span>Net Varlık</span></div></div>
@@ -212,7 +219,10 @@
     <div class="panel">
       <div class="total-line">
         <span class="total-label">Toplam Portföy Değeri</span>
-        <span class="total-value" id="sp-total-amount">—</span>
+        <div class="total-value-wrap">
+          <div class="total-value" id="sp-total-amount">—</div>
+          <div class="total-value-try" id="sp-total-amount-try"></div>
+        </div>
       </div>
       <div class="donut-row">
         <div class="donut" id="sp-donut"><div class="donut-hole"><b id="sp-count">0</b><span>Pozisyon</span></div></div>
@@ -253,8 +263,11 @@
     </div>
 
     <div class="panel">
-      <p class="panel-title">Şirket Finansalları &amp; Bilanço Notları</p>
-      <div class="formula-box">
+      <div class="panel-header-row">
+        <p class="panel-title" style="margin-bottom:0;">Şirket Finansalları &amp; Bilanço Notları</p>
+        <span class="ai-updated-note" id="ai-updated-note"></span>
+      </div>
+      <div class="formula-box" style="margin-top:16px;">
         <b>Faiz Karşılama</b> = faaliyet kârı ÷ yıllık faiz gideri. 8x üzeri çok rahat · 3–8x sağlıklı · 1.5–3x dikkat · 1x altı tehlikeli. Tek başına değil; net borç + cari oranla birlikte okunur.
       </div>
       <div class="cards" id="cards"></div>
@@ -309,6 +322,11 @@ function fmtMoney(v){
   if(v==null) return '—';
   return (v<0?'-':'') + '$' + Math.round(Math.abs(v)).toLocaleString('en-US');
 }
+function fmtTry(usdValue, rate){
+  if(usdValue==null || !rate) return '';
+  const tryValue = usdValue * rate;
+  return '≈ ₺' + Math.round(Math.abs(tryValue)).toLocaleString('tr-TR');
+}
 // Büyük tutarlar için kısaltılmış format: $850B, $2.77T gibi (piyasa değeri, net borç kartlarında)
 function fmtMoneyAbbrev(v){
   if(v==null) return '—';
@@ -357,6 +375,10 @@ function maskedMoney(v){
   if(privacyHidden) return '••••••';
   return fmtMoney(v);
 }
+function maskedTry(v, rate){
+  if(privacyHidden) return '••••••';
+  return fmtTry(v, rate);
+}
 function updatePrivacyButton(){
   const btn = document.getElementById('privacy-toggle');
   btn.textContent = privacyHidden ? '🙈 Tutarlar' : '👁 Tutarlar';
@@ -364,8 +386,11 @@ function updatePrivacyButton(){
 }
 function refreshTotals(){
   if(!lastData) return;
+  const rate = lastData.usdTryRate;
   document.getElementById('nw-total-amount').textContent = maskedMoney(lastData.netWorth.total);
+  document.getElementById('nw-total-amount-try').textContent = maskedTry(lastData.netWorth.total, rate);
   document.getElementById('sp-total-amount').textContent = maskedMoney(lastData.stockPortfolio.total);
+  document.getElementById('sp-total-amount-try').textContent = maskedTry(lastData.stockPortfolio.total, rate);
 }
 document.getElementById('privacy-toggle').addEventListener('click', ()=>{
   privacyHidden = !privacyHidden;
@@ -377,6 +402,7 @@ updatePrivacyButton();
 
 function renderNetWorth(d){
   document.getElementById('nw-total-amount').textContent = maskedMoney(d.netWorth.total);
+  document.getElementById('nw-total-amount-try').textContent = maskedTry(d.netWorth.total, d.usdTryRate);
   const cats = d.netWorth.categories.filter(c=>c.value>0);
   document.getElementById('nw-total').textContent = '%100';
   buildDonut(document.getElementById('nw-donut'), cats.map(c=>({value:c.value, color:NETWORTH_COLORS[c.id]||colorFor(c.id)})));
@@ -395,6 +421,7 @@ function renderNetWorth(d){
 
 function renderStockPortfolio(d){
   document.getElementById('sp-total-amount').textContent = maskedMoney(d.stockPortfolio.total);
+  document.getElementById('sp-total-amount-try').textContent = maskedTry(d.stockPortfolio.total, d.usdTryRate);
   const holdings = d.stockPortfolio.holdings;
   tickerColorMap = {};
   holdings.forEach((h,i)=>{ tickerColorMap[h.ticker] = indexColor(i); });
@@ -449,6 +476,10 @@ function renderAssetClasses(d){
 }
 
 function renderCards(d){
+  const note = document.getElementById('ai-updated-note');
+  note.textContent = d.aiInsightsUpdatedAt
+    ? 'AI içgörüleri güncellendi: ' + fmtTRTime(d.aiInsightsUpdatedAt) + ' (TR)'
+    : 'AI içgörüleri henüz üretilmedi';
   const wrap = document.getElementById('cards');
   const cards = d.companyCards;
   wrap.innerHTML = cards.length ? '' : '<div class="empty">Şirket kartları için FMP_API_KEY secret\'ı tanımlı olmalı</div>';
@@ -498,6 +529,16 @@ function renderCards(d){
   });
 }
 
+// Türkiye saati (UTC+3, DST yok) - ziyaretçinin tarayıcı saat dilimi ne olursa olsun
+// her zaman aynı, tutarlı saati göstermek için Intl API ile açıkça belirtilir.
+function fmtTRTime(isoString){
+  if(!isoString) return null;
+  return new Date(isoString).toLocaleString('tr-TR', {
+    timeZone: 'Europe/Istanbul', day:'2-digit', month:'2-digit', year:'numeric',
+    hour:'2-digit', minute:'2-digit'
+  });
+}
+
 async function init(){
   let d;
   try{
@@ -510,7 +551,7 @@ async function init(){
   }
 
   document.getElementById('updated').textContent = d.generatedAt
-    ? 'güncellendi: ' + new Date(d.generatedAt).toLocaleString('tr-TR')
+    ? 'güncellendi: ' + fmtTRTime(d.generatedAt) + ' (TR)'
     : 'henüz otomatik güncelleme çalışmadı';
 
   lastData = d;
