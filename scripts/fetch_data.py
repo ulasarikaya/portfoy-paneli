@@ -74,22 +74,29 @@ def fetch_price_and_moving_averages(ticker):
     if daily.empty:
         raise ValueError(f"{ticker}: günlük fiyat verisi boş döndü")
 
-    price = float(daily["Close"].iloc[-1])
+    # Yahoo bazen günün son satırını NaN kapanışla döndürüyor (özellikle BIST'te,
+    # piyasa saatleri dışında). NaN satırları atılır, son GEÇERLİ kapanış kullanılır.
+    daily_closes = daily["Close"].dropna()
+    if daily_closes.empty:
+        raise ValueError(f"{ticker}: geçerli kapanış fiyatı yok (tüm satırlar NaN)")
 
-    ma50d = daily["Close"].rolling(50).mean().iloc[-1]
-    ma200d = daily["Close"].rolling(200).mean().iloc[-1]
+    price = float(daily_closes.iloc[-1])
+
+    ma50d = daily_closes.rolling(50).mean().iloc[-1]
+    ma200d = daily_closes.rolling(200).mean().iloc[-1]
     ma50d = float(ma50d) if ma50d == ma50d else None      # NaN kontrolü
     ma200d = float(ma200d) if ma200d == ma200d else None
 
     ma50w = ma100w = ma200w = None
     if not weekly.empty:
-        s = weekly["Close"]
-        v = s.rolling(50).mean().iloc[-1]
-        ma50w = float(v) if v == v else None
-        v = s.rolling(100).mean().iloc[-1]
-        ma100w = float(v) if v == v else None
-        v = s.rolling(200).mean().iloc[-1]
-        ma200w = float(v) if v == v else None
+        s = weekly["Close"].dropna()
+        if not s.empty:
+            v = s.rolling(50).mean().iloc[-1]
+            ma50w = float(v) if v == v else None
+            v = s.rolling(100).mean().iloc[-1]
+            ma100w = float(v) if v == v else None
+            v = s.rolling(200).mean().iloc[-1]
+            ma200w = float(v) if v == v else None
 
     d50 = pct_distance(price, ma50d)
     d200 = pct_distance(price, ma200d)
@@ -236,6 +243,20 @@ def fetch_spot_price(ticker):
 # edilir, kişisel portföy takibi için yeterli hassasiyet).
 STABLECOIN_1_TO_1 = {"USDT", "USDC", "DAI", "BUSD"}
 
+_usdtry_rate_cache = None  # Aynı çalıştırma içinde tek seferlik çekilir; tutarlılık + hız için
+
+
+def get_usdtry_rate():
+    """USD/TRY kurunu bir kez çekip önbelleğe alır. Sonraki tüm TRY çevirimleri
+    (nakit, BIST) aynı çalıştırma içinde bu tek kuru kullanır, böylece dakikalar
+    içinde ufak kur oynamalarından dolayı tutarsız sonuçlar oluşmaz."""
+    global _usdtry_rate_cache
+    if _usdtry_rate_cache is None:
+        _usdtry_rate_cache = fetch_spot_price("USDTRY=X")
+        if _usdtry_rate_cache:
+            log(f"USD/TRY kuru: {_usdtry_rate_cache:.4f}")
+    return _usdtry_rate_cache
+
 
 def convert_to_usd(amount, currency):
     """amount: o para biriminden tutar, currency: 'USD', 'TRY', 'USDT' gibi 3 harfli kod."""
@@ -245,7 +266,7 @@ def convert_to_usd(amount, currency):
     if currency == "USD" or currency in STABLECOIN_1_TO_1:
         return amount
     if currency == "TRY":
-        usdtry = fetch_spot_price("USDTRY=X")  # 1 USD = X TRY
+        usdtry = get_usdtry_rate()
         return (amount / usdtry) if usdtry else 0.0
     # Diğer döviz cinsleri için genel deneme (çoğu "USDXXX=X" formatında, 1 USD = X yabancı para)
     rate = fetch_spot_price(f"USD{currency}=X")
@@ -260,6 +281,7 @@ def build_dataset(config):
     momentum_rows = []
     company_cards = []
     ai_cache = load_ai_cache()
+    get_usdtry_rate()  # her zaman dolu olsun diye erkenden çekilir (arayüzde USD->TRY gösterimi için)
 
     stock_total = 0.0
 
@@ -273,6 +295,10 @@ def build_dataset(config):
             pm = fetch_price_and_moving_averages(fetch_ticker)
         except Exception as e:
             log(f"{ticker} fiyat hatası, atlanıyor: {e}")
+            continue
+
+        if pm["price"] is None or pm["price"] != pm["price"]:  # NaN kontrolü
+            log(f"{ticker}: fiyat NaN/None döndü, pozisyon atlanıyor (toplamları bozmasın diye)")
             continue
 
         asset_class = h.get("assetClass", "Tek Hisse")
@@ -420,8 +446,16 @@ def build_dataset(config):
         for k, v in sorted(asset_class_totals.items(), key=lambda kv: -kv[1])
     ]
 
+    # AI içgörülerinin en son ne zaman güncellendiğini (tüm ticker'lar arasında en
+    # yenisi) ekrana göstermek için hesaplanır — kullanıcı hangi hedef fiyat/öne
+    # çıkanlar verisinin ne kadar taze olduğunu görebilsin diye.
+    ai_updated_dates = [v.get("updatedAt") for v in ai_cache.values() if v.get("updatedAt")]
+    ai_insights_updated_at = max(ai_updated_dates) if ai_updated_dates else None
+
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "aiInsightsUpdatedAt": ai_insights_updated_at,
+        "usdTryRate": _usdtry_rate_cache,
         "netWorth": {"total": net_worth_total, "categories": net_worth_categories},
         "stockPortfolio": {
             "total": stock_total_with_cash,
@@ -446,6 +480,19 @@ def _build_target_price(override, current_price):
     }
 
 
+def sanitize_nan(obj):
+    """JSON standardı NaN/Infinity kabul etmez ama Python'un json.dump'ı sessizce
+    yazar ve tarayıcı tüm dosyayı reddeder. Güvenlik ağı olarak tüm veri yapısını
+    dolaşıp NaN/Inf değerleri None'a çevirir — arayüz None'ı zaten '—' gösterir."""
+    if isinstance(obj, float) and (obj != obj or obj in (float("inf"), float("-inf"))):
+        return None
+    if isinstance(obj, dict):
+        return {k: sanitize_nan(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_nan(v) for v in obj]
+    return obj
+
+
 def main():
     config = load_config()
     try:
@@ -455,9 +502,11 @@ def main():
         traceback.print_exc()
         sys.exit(1)
 
+    dataset = sanitize_nan(dataset)
+
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(dataset, f, ensure_ascii=False, indent=2)
+        json.dump(dataset, f, ensure_ascii=False, indent=2, allow_nan=False)
     holdings = dataset["stockPortfolio"]["holdings"]
     with_logo = sum(1 for h in holdings if h.get("logoUrl"))
     log(f"Yazıldı: {OUTPUT_PATH} ({dataset['stockPortfolio']['positionCount']} pozisyon, "
