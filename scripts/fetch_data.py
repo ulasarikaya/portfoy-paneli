@@ -236,20 +236,6 @@ def fetch_spot_price(ticker):
 # edilir, kişisel portföy takibi için yeterli hassasiyet).
 STABLECOIN_1_TO_1 = {"USDT", "USDC", "DAI", "BUSD"}
 
-_usdtry_rate_cache = None  # Aynı çalıştırma içinde tek seferlik çekilir; tutarlılık + hız için
-
-
-def get_usdtry_rate():
-    """USD/TRY kurunu bir kez çekip önbelleğe alır. Sonraki tüm TRY çevirimleri
-    (nakit, BIST) aynı çalıştırma içinde bu tek kuru kullanır, böylece dakikalar
-    içinde ufak kur oynamalarından dolayı tutarsız sonuçlar oluşmaz."""
-    global _usdtry_rate_cache
-    if _usdtry_rate_cache is None:
-        _usdtry_rate_cache = fetch_spot_price("USDTRY=X")
-        if _usdtry_rate_cache:
-            log(f"USD/TRY kuru: {_usdtry_rate_cache:.4f}")
-    return _usdtry_rate_cache
-
 
 def convert_to_usd(amount, currency):
     """amount: o para biriminden tutar, currency: 'USD', 'TRY', 'USDT' gibi 3 harfli kod."""
@@ -259,7 +245,7 @@ def convert_to_usd(amount, currency):
     if currency == "USD" or currency in STABLECOIN_1_TO_1:
         return amount
     if currency == "TRY":
-        usdtry = get_usdtry_rate()
+        usdtry = fetch_spot_price("USDTRY=X")  # 1 USD = X TRY
         return (amount / usdtry) if usdtry else 0.0
     # Diğer döviz cinsleri için genel deneme (çoğu "USDXXX=X" formatında, 1 USD = X yabancı para)
     rate = fetch_spot_price(f"USD{currency}=X")
@@ -274,7 +260,6 @@ def build_dataset(config):
     momentum_rows = []
     company_cards = []
     ai_cache = load_ai_cache()
-    get_usdtry_rate()  # her zaman dolu olsun diye erkenden çekilir (arayüzde USD->TRY gösterimi için)
 
     stock_total = 0.0
 
@@ -435,16 +420,8 @@ def build_dataset(config):
         for k, v in sorted(asset_class_totals.items(), key=lambda kv: -kv[1])
     ]
 
-    # AI içgörülerinin en son ne zaman güncellendiğini (tüm ticker'lar arasında en
-    # yenisi) ekrana göstermek için hesaplanır — kullanıcı hangi hedef fiyat/öne
-    # çıkanlar verisinin ne kadar taze olduğunu görebilsin diye.
-    ai_updated_dates = [v.get("updatedAt") for v in ai_cache.values() if v.get("updatedAt")]
-    ai_insights_updated_at = max(ai_updated_dates) if ai_updated_dates else None
-
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "aiInsightsUpdatedAt": ai_insights_updated_at,
-        "usdTryRate": _usdtry_rate_cache,
         "netWorth": {"total": net_worth_total, "categories": net_worth_categories},
         "stockPortfolio": {
             "total": stock_total_with_cash,
