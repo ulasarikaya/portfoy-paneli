@@ -1,63 +1,75 @@
 {
-  "generatedAt": "2026-07-02T21:20:21.386195+00:00",
+  "generatedAt": "2026-07-02T21:26:34.881916+00:00",
+  "aiInsightsUpdatedAt": "2026-07-01T09:41:05.329597+00:00",
+  "usdTryRate": 46.7056999206543,
   "netWorth": {
-    "total": NaN,
+    "total": 89860.61495631607,
     "categories": [
       {
         "id": "us-stocks",
         "name": "ABD Hisse Portföyü",
         "subtitle": "ABD Hisse",
-        "value": NaN,
-        "weightPct": NaN
+        "value": 18403.0506,
+        "weightPct": 20.5
       },
       {
         "id": "real-estate",
         "name": "Gayrimenkul",
         "subtitle": "Uzun vadeli çekirdek",
         "value": 0,
-        "weightPct": NaN
+        "weightPct": 0.0
       },
       {
         "id": "bist",
         "name": "Borsa İstanbul",
         "subtitle": "Bist Hisse",
-        "value": NaN,
-        "weightPct": NaN
+        "value": 17684.60661981723,
+        "weightPct": 19.7
       },
       {
         "id": "crypto-spot",
         "name": "Kripto SPOT",
         "subtitle": "Spot kripto varlıklar",
-        "value": 7922.430377157656,
-        "weightPct": NaN
+        "value": 7923.046532725508,
+        "weightPct": 8.8
       },
       {
         "id": "cash",
         "name": "Nakit",
         "subtitle": "USD / USDT / TRY",
-        "value": 20007.19895497322,
-        "weightPct": NaN
+        "value": 20007.121101285495,
+        "weightPct": 22.3
       },
       {
         "id": "gold",
         "name": "Altın",
         "subtitle": "Değer saklama / hedge",
         "value": 20342.790102487834,
-        "weightPct": NaN
+        "weightPct": 22.6
       },
       {
         "id": "btc-futures",
         "name": "Bitcoin Futures",
         "subtitle": "Trade - Kaldıraçlı İşlemler",
         "value": 5500,
-        "weightPct": NaN
+        "weightPct": 6.1
       }
     ]
   },
   "stockPortfolio": {
-    "total": NaN,
+    "total": 64017.824853828235,
     "positionCount": 17,
     "holdings": [
+      {
+        "ticker": "CASH",
+        "name": "Nakit (USD / USDT / TRY)",
+        "subtitle": "USD / USDT / TRY",
+        "assetClass": "Nakit",
+        "shares": null,
+        "price": null,
+        "value": 20007.121101285495,
+        "weightPct": 31.3
+      },
       {
         "ticker": "VOO",
         "name": "S&P 500 Endeks fonu",
@@ -67,29 +79,40 @@
         "currency": "USD",
         "value": 7807.176,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/VOO.png",
-        "weightPct": NaN
+        "weightPct": 12.2
       },
       {
-        "ticker": "SCHD",
-        "name": "US Dividend Equity ETF",
-        "assetClass": "ETF",
-        "shares": 101,
-        "price": 32.39,
-        "currency": "USD",
-        "value": 3271.39,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/SCHD.png",
-        "weightPct": NaN
+        "ticker": "GARAN.IS",
+        "name": "Garanti BBVA",
+        "assetClass": "BIST",
+        "shares": 2216,
+        "price": 138.5,
+        "currency": "TRY",
+        "value": 6571.275037552214,
+        "logoUrl": null,
+        "weightPct": 10.3
       },
       {
-        "ticker": "JEPQ",
-        "name": "JPMorgan Nasdaq Equity Premium Income ETF",
-        "assetClass": "ETF",
-        "shares": 36.54,
-        "price": 59.39,
+        "ticker": "ISCTR.IS",
+        "name": "İş Bankası",
+        "assetClass": "BIST",
+        "shares": 15621,
+        "price": 14.93,
+        "currency": "TRY",
+        "value": 4993.427577280868,
+        "logoUrl": null,
+        "weightPct": 7.8
+      },
+      {
+        "ticker": "BTC-USD",
+        "name": "Bitcoin",
+        "assetClass": "Kripto",
+        "shares": 0.06276876,
+        "price": 61461.9883,
         "currency": "USD",
-        "value": 2170.1106,
-        "logoUrl": "https://images.financialmodelingprep.com/symbol/JEPQ.png",
-        "weightPct": NaN
+        "value": 3857.892792725508,
+        "logoUrl": null,
+        "weightPct": 6.0
       },
       {
         "ticker": "MSFT",
@@ -100,7 +123,73 @@
         "currency": "USD",
         "value": 3397.263,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/MSFT.png",
-        "weightPct": NaN
+        "weightPct": 5.3
+      },
+      {
+        "ticker": "SCHD",
+        "name": "US Dividend Equity ETF",
+        "assetClass": "ETF",
+        "shares": 101,
+        "price": 32.39,
+        "currency": "USD",
+        "value": 3271.39,
+        "logoUrl": "https://images.financialmodelingprep.com/symbol/SCHD.png",
+        "weightPct": 5.1
+      },
+      {
+        "ticker": "ETH-USD",
+        "name": "Ethereum",
+        "assetClass": "Kripto",
+        "shares": 1.4555,
+        "price": 1701.88,
+        "currency": "USD",
+        "value": 2477.0863400000003,
+        "logoUrl": null,
+        "weightPct": 3.9
+      },
+      {
+        "ticker": "JEPQ",
+        "name": "JPMorgan Nasdaq Equity Premium Income ETF",
+        "assetClass": "ETF",
+        "shares": 36.54,
+        "price": 59.39,
+        "currency": "USD",
+        "value": 2170.1106,
+        "logoUrl": "https://images.financialmodelingprep.com/symbol/JEPQ.png",
+        "weightPct": 3.4
+      },
+      {
+        "ticker": "FROTO.IS",
+        "name": "Ford Otosan",
+        "assetClass": "BIST",
+        "shares": 1192,
+        "price": 85.2,
+        "currency": "TRY",
+        "value": 2174.432674652813,
+        "logoUrl": null,
+        "weightPct": 3.4
+      },
+      {
+        "ticker": "THYAO.IS",
+        "name": "THY",
+        "assetClass": "BIST",
+        "shares": 310,
+        "price": 328.5,
+        "currency": "TRY",
+        "value": 2180.3548640316235,
+        "logoUrl": null,
+        "weightPct": 3.4
+      },
+      {
+        "ticker": "PETKM.IS",
+        "name": "Petkim Petrokimya Holding",
+        "assetClass": "BIST",
+        "shares": 4339,
+        "price": 19.0,
+        "currency": "TRY",
+        "value": 1765.116466299711,
+        "logoUrl": null,
+        "weightPct": 2.8
       },
       {
         "ticker": "SPGI",
@@ -111,7 +200,29 @@
         "currency": "USD",
         "value": 1275.6809999999998,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/SPGI.png",
-        "weightPct": NaN
+        "weightPct": 2.0
+      },
+      {
+        "ticker": "SOL-USD",
+        "name": "Solana",
+        "assetClass": "Kripto",
+        "shares": 9.656,
+        "price": 80.93,
+        "currency": "USD",
+        "value": 781.4600800000001,
+        "logoUrl": null,
+        "weightPct": 1.2
+      },
+      {
+        "ticker": "AVAX-USD",
+        "name": "Avax",
+        "assetClass": "Kripto",
+        "shares": 87.614,
+        "price": 6.78,
+        "currency": "USD",
+        "value": 594.02292,
+        "logoUrl": null,
+        "weightPct": 0.9
       },
       {
         "ticker": "NFLX",
@@ -122,155 +233,46 @@
         "currency": "USD",
         "value": 481.43000000000006,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/NFLX.png",
-        "weightPct": NaN
-      },
-      {
-        "ticker": "BTC-USD",
-        "name": "Bitcoin",
-        "assetClass": "Kripto",
-        "shares": 0.06276876,
-        "price": 61468.3906,
-        "currency": "USD",
-        "value": 3858.2946571576563,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "ETH-USD",
-        "name": "Ethereum",
-        "assetClass": "Kripto",
-        "shares": 1.4555,
-        "price": 1701.92,
-        "currency": "USD",
-        "value": 2477.14456,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "SOL-USD",
-        "name": "Solana",
-        "assetClass": "Kripto",
-        "shares": 9.656,
-        "price": 80.97,
-        "currency": "USD",
-        "value": 781.84632,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "AVAX-USD",
-        "name": "Avax",
-        "assetClass": "Kripto",
-        "shares": 87.614,
-        "price": 6.76,
-        "currency": "USD",
-        "value": 592.27064,
-        "logoUrl": null,
-        "weightPct": NaN
+        "weightPct": 0.8
       },
       {
         "ticker": "HYPE-USD",
         "name": "Hyperliquid",
         "assetClass": "Kripto",
         "shares": 3.22,
-        "price": 66.11,
+        "price": 66.02,
         "currency": "USD",
-        "value": 212.8742,
+        "value": 212.5844,
         "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "GARAN.IS",
-        "name": "Garanti BBVA",
-        "assetClass": "BIST",
-        "shares": 2216,
-        "price": NaN,
-        "currency": "TRY",
-        "value": NaN,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "FROTO.IS",
-        "name": "Ford Otosan",
-        "assetClass": "BIST",
-        "shares": 1192,
-        "price": NaN,
-        "currency": "TRY",
-        "value": NaN,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "THYAO.IS",
-        "name": "THY",
-        "assetClass": "BIST",
-        "shares": 310,
-        "price": NaN,
-        "currency": "TRY",
-        "value": NaN,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "PETKM.IS",
-        "name": "Petkim Petrokimya Holding",
-        "assetClass": "BIST",
-        "shares": 4339,
-        "price": NaN,
-        "currency": "TRY",
-        "value": NaN,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "ISCTR.IS",
-        "name": "İş Bankası",
-        "assetClass": "BIST",
-        "shares": 15621,
-        "price": NaN,
-        "currency": "TRY",
-        "value": NaN,
-        "logoUrl": null,
-        "weightPct": NaN
-      },
-      {
-        "ticker": "CASH",
-        "name": "Nakit (USD / USDT / TRY)",
-        "subtitle": "USD / USDT / TRY",
-        "assetClass": "Nakit",
-        "shares": null,
-        "price": null,
-        "value": 20007.19895497322,
-        "weightPct": NaN
+        "weightPct": 0.3
       }
     ]
   },
   "assetClasses": [
     {
       "name": "Nakit",
-      "value": 20007.19895497322,
-      "weightPct": NaN
+      "value": 20007.121101285495,
+      "weightPct": 31.3
+    },
+    {
+      "name": "BIST",
+      "value": 17684.60661981723,
+      "weightPct": 27.6
     },
     {
       "name": "ETF",
       "value": 13248.6766,
-      "weightPct": NaN
+      "weightPct": 20.7
     },
     {
       "name": "Kripto",
-      "value": 7922.430377157656,
-      "weightPct": NaN
+      "value": 7923.046532725508,
+      "weightPct": 12.4
     },
     {
       "name": "ABD Hisse",
       "value": 5154.374,
-      "weightPct": NaN
-    },
-    {
-      "name": "BIST",
-      "value": NaN,
-      "weightPct": NaN
+      "weightPct": 8.1
     }
   ],
   "momentum": {
@@ -369,53 +371,53 @@
         "ticker": "BTC-USD",
         "name": "Bitcoin",
         "group": "portfolio",
-        "d50": -9.25094221728957,
-        "d200": -18.118142879764466,
-        "w50": -30.595301254311668,
-        "w100": -30.44468221123715,
-        "w200": -1.8826720146052578,
+        "d50": -9.26022280157176,
+        "d200": -18.12663650947347,
+        "w50": -30.60242988310289,
+        "w100": -30.451876477315697,
+        "w200": -1.892841459473904,
         "status": "—"
       },
       {
         "ticker": "ETH-USD",
         "name": "Ethereum",
         "group": "portfolio",
-        "d50": -7.289647676151867,
-        "d200": -25.356317452798383,
-        "w50": -42.12053388505302,
-        "w100": -39.19126138691594,
-        "w200": -31.156724729100993,
+        "d50": -7.2917883221638835,
+        "d200": -25.358066952783343,
+        "w50": -42.12187978479742,
+        "w100": -39.19268326333473,
+        "w200": -31.158338748739457,
         "status": "—"
       },
       {
         "ticker": "SOL-USD",
         "name": "Solana",
         "group": "portfolio",
-        "d50": 6.861855613666568,
-        "d200": -13.876298375826801,
-        "w50": -38.165814085444296,
-        "w100": -46.10531661801578,
-        "w200": -24.415528202768265,
+        "d50": 6.810191313005354,
+        "d200": -13.918662204844756,
+        "w50": -38.195889491269156,
+        "w100": -46.131762458463236,
+        "w200": -24.45269223446499,
         "status": "—"
       },
       {
         "ticker": "AVAX-USD",
         "name": "Avax",
         "group": "portfolio",
-        "d50": -11.452633187853445,
-        "d200": -30.379486295395218,
-        "w50": -54.188292372274624,
-        "w100": -67.47101927550958,
-        "w200": -68.81766122237461,
+        "d50": -11.195311895949956,
+        "d200": -30.174227775023876,
+        "w50": -54.054000390432186,
+        "w100": -67.37509376305026,
+        "w200": -68.72555013507382,
         "status": "—"
       },
       {
         "ticker": "HYPE-USD",
         "name": "Hyperliquid",
         "group": "portfolio",
-        "d50": 7.565429230729026,
-        "d200": 64.61760320854597,
-        "w50": 59.67420085028834,
+        "d50": 7.422132940052606,
+        "d200": 64.39533046272665,
+        "w50": 59.46374901580689,
         "w100": null,
         "w200": null,
         "status": "Güçlü"
@@ -424,56 +426,56 @@
         "ticker": "GARAN.IS",
         "name": "Garanti BBVA",
         "group": "portfolio",
-        "d50": null,
-        "d200": null,
-        "w50": NaN,
-        "w100": NaN,
-        "w200": NaN,
+        "d50": 3.886947094027171,
+        "d200": -0.25566262824169295,
+        "w50": -0.814964538029217,
+        "w100": 6.967152709891367,
+        "w200": 53.54426705465363,
         "status": "—"
       },
       {
         "ticker": "FROTO.IS",
         "name": "Ford Otosan",
         "group": "portfolio",
-        "d50": null,
-        "d200": null,
-        "w50": NaN,
-        "w100": NaN,
-        "w200": NaN,
+        "d50": -6.574852714059409,
+        "d200": -14.615572603896144,
+        "w50": -15.227257621603751,
+        "w100": -12.37588194613094,
+        "w200": -1.8365925742851452,
         "status": "—"
       },
       {
         "ticker": "THYAO.IS",
         "name": "THY",
         "group": "portfolio",
-        "d50": null,
-        "d200": null,
-        "w50": NaN,
-        "w100": NaN,
-        "w200": NaN,
-        "status": "—"
+        "d50": 6.104651162790686,
+        "d200": 9.734557616906137,
+        "w50": 8.37292161520189,
+        "w100": 9.917687211403337,
+        "w200": 29.598451931564405,
+        "status": "Güçlü"
       },
       {
         "ticker": "PETKM.IS",
         "name": "Petkim Petrokimya Holding",
         "group": "portfolio",
-        "d50": null,
-        "d200": null,
-        "w50": NaN,
-        "w100": NaN,
-        "w200": NaN,
+        "d50": -14.776805030888674,
+        "d200": -1.0800493185287974,
+        "w50": -0.13035594240720094,
+        "w100": 1.3614442137199534,
+        "w200": 2.0468448538662143,
         "status": "—"
       },
       {
         "ticker": "ISCTR.IS",
         "name": "İş Bankası",
         "group": "portfolio",
-        "d50": null,
-        "d200": null,
-        "w50": NaN,
-        "w100": NaN,
-        "w200": NaN,
-        "status": "—"
+        "d50": 5.237190645870293,
+        "d200": 5.234223764909518,
+        "w50": 4.694054882980181,
+        "w100": 9.738262526488995,
+        "w200": 37.171189680908824,
+        "status": "Güçlü"
       }
     ]
   },
@@ -511,7 +513,7 @@
     {
       "ticker": "GARAN.IS",
       "name": "Garanti BBVA",
-      "currentPrice": NaN,
+      "currentPrice": 138.5,
       "marketCap": 582120046592,
       "oneLiner": "Turkiye Garanti Bankasi A.S. provides various banking products and services in Turkey. It offers current, savings, time deposit, e-savings,…",
       "peTTM": 4.937656,
@@ -524,7 +526,7 @@
         "base": 185.23,
         "bull": 205.73,
         "expected": 184.05,
-        "upsidePct": NaN
+        "upsidePct": 32.9
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -536,7 +538,7 @@
     {
       "ticker": "THYAO.IS",
       "name": "THY",
-      "currentPrice": NaN,
+      "currentPrice": 328.5,
       "marketCap": 457313452032,
       "oneLiner": "Türk Hava Yollari Anonim Ortakligi provides air transport and aircraft technical maintenance services in Turkey and internationally. The…",
       "peTTM": 33.935844,
@@ -551,7 +553,7 @@
         "base": 442,
         "bull": 650,
         "expected": 463.5,
-        "upsidePct": NaN
+        "upsidePct": 41.1
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -563,7 +565,7 @@
     {
       "ticker": "ISCTR.IS",
       "name": "İş Bankası",
-      "currentPrice": NaN,
+      "currentPrice": 14.93,
       "marketCap": 370499977216,
       "oneLiner": "Türkiye Is Bankasi A.S., together with its subsidiaries, provides various banking products and services to individuals and businesses in…",
       "peTTM": 4.8590164,
@@ -576,7 +578,7 @@
         "base": 19.88,
         "bull": 24.46,
         "expected": 19.43,
-        "upsidePct": NaN
+        "upsidePct": 30.1
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -618,7 +620,7 @@
     {
       "ticker": "FROTO.IS",
       "name": "Ford Otosan",
-      "currentPrice": NaN,
+      "currentPrice": 85.2,
       "marketCap": 293711675392,
       "oneLiner": "Ford Otomotiv Sanayi A.S., together with its subsidiaries, engages in the manufacturing, assembly, production, import, and sale of motor…",
       "peTTM": 9.468326,
@@ -633,7 +635,7 @@
         "base": 145.45,
         "bull": 227.0,
         "expected": 159.47,
-        "upsidePct": NaN
+        "upsidePct": 87.2
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -675,7 +677,7 @@
     {
       "ticker": "PETKM.IS",
       "name": "Petkim Petrokimya Holding",
-      "currentPrice": NaN,
+      "currentPrice": 19.0,
       "marketCap": 47798784000,
       "oneLiner": "Petkim Petrokimya Holding Anonim Sirketi operates as a petrochemical company in Turkey. It operates through the Petrochemical and Port…",
       "netMargin": -0.070539996,
@@ -689,7 +691,7 @@
         "base": 17.94,
         "bull": 25.42,
         "expected": 18.33,
-        "upsidePct": NaN
+        "upsidePct": -3.6
       },
       "targetPriceSource": "ai",
       "guidance": [
