@@ -53,6 +53,30 @@
   .total-line .total-value{font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace;}
   .total-line .total-value-try{font-size:13px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; margin-top:2px;}
 
+  .history-bar{
+    display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+    padding-bottom:16px; margin-bottom:18px; border-bottom:1px solid var(--border);
+  }
+  .period-tabs{display:flex; gap:6px;}
+  .period-tab{
+    padding:5px 12px; border-radius:8px; border:1px solid var(--border); background:transparent;
+    color:var(--text-dim); font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;
+  }
+  .period-tab.active{background:var(--gold); border-color:var(--gold); color:#1a1408;}
+  .history-changes{display:flex; gap:22px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace;}
+  .history-change-item{text-align:right;}
+  .history-change-item .hc-label{font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px; display:block;}
+  .history-change-item .hc-value{font-size:14px; font-weight:700;}
+  .history-change-item .hc-pct{font-size:11.5px; margin-left:5px;}
+
+  .row-metrics{
+    display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:5px;
+    font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono',monospace;
+  }
+  .row-metrics .m-label{color:var(--text-dim); opacity:.75; margin-right:4px; font-family:'Manrope',sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:.3px;}
+  .row-metrics .m-val{color:var(--text);}
+
+
   .tabs{display:flex; gap:8px; margin:28px 0 26px;}
   .tab{
     padding:9px 18px; border-radius:999px; border:1px solid var(--border); background:transparent;
@@ -206,6 +230,15 @@
           <div class="total-value" id="nw-total-amount">—</div>
           <div class="total-value-try" id="nw-total-amount-try"></div>
         </div>
+      </div>
+      <div class="history-bar" id="nw-history-bar" style="display:none;">
+        <div class="period-tabs">
+          <button class="period-tab" data-period="1A">1A</button>
+          <button class="period-tab" data-period="6A">6A</button>
+          <button class="period-tab" data-period="12A">12A</button>
+          <button class="period-tab" data-period="YBI">YBİ</button>
+        </div>
+        <div class="history-changes" id="nw-history-changes"></div>
       </div>
       <div class="donut-row">
         <div class="donut" id="nw-donut"><div class="donut-hole"><b id="nw-total">%100</b><span>Net Varlık</span></div></div>
@@ -369,7 +402,46 @@ function buildDonut(el, segments){
 
 let tickerColorMap = {};
 let lastData = null;
+let selectedPeriod = '1A';
 let privacyHidden = localStorage.getItem('pf_privacy_hidden') === '1';
+
+function fmtSignedMoney(v, symbol){
+  if(v==null) return '—';
+  const sign = v>0 ? '+' : (v<0 ? '-' : '');
+  return sign + symbol + Math.round(Math.abs(v)).toLocaleString(symbol==='₺'?'tr-TR':'en-US');
+}
+
+function renderNetWorthHistory(d){
+  const bar = document.getElementById('nw-history-bar');
+  const hist = d.netWorth && d.netWorth.history;
+  if(!hist || !hist[selectedPeriod]){ bar.style.display='none'; return; }
+  bar.style.display='flex';
+  document.querySelectorAll('.period-tab').forEach(b=>{
+    b.classList.toggle('active', b.dataset.period===selectedPeriod);
+  });
+  const h = hist[selectedPeriod];
+  const wrap = document.getElementById('nw-history-changes');
+  const usdVal = privacyHidden ? '••••' : fmtSignedMoney(h.changeUSD, '$');
+  const tryVal = privacyHidden ? '••••' : fmtSignedMoney(h.changeTRY, '₺');
+  const usdClass = h.changeUSD>0 ? 'pos' : (h.changeUSD<0 ? 'neg' : '');
+  const tryClass = h.changeTRY>0 ? 'pos' : (h.changeTRY<0 ? 'neg' : '');
+  wrap.innerHTML = `
+    <div class="history-change-item">
+      <span class="hc-label">USD Değişim</span>
+      <span class="hc-value ${usdClass}">${usdVal}<span class="hc-pct">${h.changePctUSD!=null?(h.changePctUSD>=0?'+':'')+h.changePctUSD.toFixed(1)+'%':''}</span></span>
+    </div>
+    <div class="history-change-item">
+      <span class="hc-label">TL Değişim</span>
+      <span class="hc-value ${tryClass}">${tryVal}<span class="hc-pct">${h.changePctTRY!=null?(h.changePctTRY>=0?'+':'')+h.changePctTRY.toFixed(1)+'%':''}</span></span>
+    </div>`;
+}
+
+document.querySelectorAll('.period-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    selectedPeriod = btn.dataset.period;
+    if(lastData) renderNetWorthHistory(lastData);
+  });
+});
 
 function maskedMoney(v){
   if(privacyHidden) return '••••••';
@@ -391,18 +463,21 @@ function refreshTotals(){
   document.getElementById('nw-total-amount-try').textContent = maskedTry(lastData.netWorth.total, rate);
   document.getElementById('sp-total-amount').textContent = maskedMoney(lastData.stockPortfolio.total);
   document.getElementById('sp-total-amount-try').textContent = maskedTry(lastData.stockPortfolio.total, rate);
+  renderNetWorthHistory(lastData);
 }
 document.getElementById('privacy-toggle').addEventListener('click', ()=>{
   privacyHidden = !privacyHidden;
   localStorage.setItem('pf_privacy_hidden', privacyHidden ? '1' : '0');
   updatePrivacyButton();
   refreshTotals();
+  if(lastData) renderStockPortfolio(lastData);
 });
 updatePrivacyButton();
 
 function renderNetWorth(d){
   document.getElementById('nw-total-amount').textContent = maskedMoney(d.netWorth.total);
   document.getElementById('nw-total-amount-try').textContent = maskedTry(d.netWorth.total, d.usdTryRate);
+  renderNetWorthHistory(d);
   const cats = d.netWorth.categories.filter(c=>c.value>0);
   document.getElementById('nw-total').textContent = '%100';
   buildDonut(document.getElementById('nw-donut'), cats.map(c=>({value:c.value, color:NETWORTH_COLORS[c.id]||colorFor(c.id)})));
@@ -419,6 +494,18 @@ function renderNetWorth(d){
   });
 }
 
+function fmtPerShare(v, currency){
+  if(v==null) return '—';
+  const symbol = currency==='TRY' ? '₺' : '$';
+  return symbol + v.toLocaleString(currency==='TRY'?'tr-TR':'en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtTotalNative(v, currency){
+  if(v==null) return '—';
+  const symbol = currency==='TRY' ? '₺' : '$';
+  const sign = v<0 ? '-' : '';
+  return sign + symbol + Math.round(Math.abs(v)).toLocaleString(currency==='TRY'?'tr-TR':'en-US');
+}
+
 function renderStockPortfolio(d){
   document.getElementById('sp-total-amount').textContent = maskedMoney(d.stockPortfolio.total);
   document.getElementById('sp-total-amount-try').textContent = maskedTry(d.stockPortfolio.total, d.usdTryRate);
@@ -430,10 +517,23 @@ function renderStockPortfolio(d){
   const list = document.getElementById('sp-list');
   list.innerHTML = holdings.length ? '' : '<div class="empty">Henüz veri yok — Actions ilk kez çalıştığında burada görünecek</div>';
   holdings.forEach(h=>{
+    let metrics = '';
+    if(h.avgCost != null){
+      const retClass = h.returnNative>0 ? 'pos' : (h.returnNative<0 ? 'neg' : 'flat');
+      const retPctTxt = h.returnPct!=null ? ' (' + (h.returnPct>=0?'+':'') + h.returnPct.toFixed(1) + '%)' : '';
+      metrics = `<div class="row-metrics">
+        <span><span class="m-label">Adet</span><span class="m-val">${h.shares.toLocaleString('en-US',{maximumFractionDigits:4})}</span></span>
+        <span><span class="m-label">Ort. Maliyet</span><span class="m-val">${privacyHidden?'••••':fmtPerShare(h.avgCost, h.currency)}</span></span>
+        <span><span class="m-label">Fiyat</span><span class="m-val">${fmtPerShare(h.price, h.currency)}</span></span>
+        <span><span class="m-label">Getiri</span><span class="m-val ${retClass}">${privacyHidden?'••••':fmtTotalNative(h.returnNative, h.currency)}${retPctTxt}</span></span>
+        <span><span class="m-label">₺ Karşılığı</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.valueTRY,'TRY')}</span></span>
+        ${h.inflationAltTRY!=null ? `<span><span class="m-label">Mevduat Değ.</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.inflationAltTRY,'TRY')}</span></span>` : ''}
+      </div>`;
+    }
     list.insertAdjacentHTML('beforeend', `
       <div class="row">
         ${iconHtml(h.ticker, h.name, h.assetClass, tickerColorMap[h.ticker], null, h.logoUrl)}
-        <div class="row-text"><div class="row-name">${h.ticker}</div><div class="row-sub">${h.name||h.subtitle||''}</div></div>
+        <div class="row-text"><div class="row-name">${h.ticker}</div><div class="row-sub">${h.name||h.subtitle||''}</div>${metrics}</div>
         <div class="row-pct">%${h.weightPct}</div>
       </div>`);
   });
