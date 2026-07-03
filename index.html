@@ -70,11 +70,28 @@
   .history-change-item .hc-pct{font-size:11.5px; margin-left:5px;}
 
   .row-metrics{
-    display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:5px;
-    font-size:11px; color:var(--text-dim); font-family:'JetBrains Mono',monospace;
+    display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:9px 22px;
+    margin-top:9px; padding-top:9px; border-top:1px dashed var(--border);
   }
-  .row-metrics .m-label{color:var(--text-dim); opacity:.75; margin-right:4px; font-family:'Manrope',sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:.3px;}
-  .row-metrics .m-val{color:var(--text);}
+  .metric-item{display:flex; flex-direction:column; gap:2px;}
+  .metric-item .m-label{
+    font-size:9.5px; color:var(--text-dim); opacity:.7; text-transform:uppercase; letter-spacing:.4px;
+  }
+  .metric-item .m-val{font-size:12.5px; font-weight:600; color:var(--text); font-family:'JetBrains Mono',monospace;}
+  .return-chip{
+    display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:6px;
+    font-size:12.5px; font-weight:700; font-family:'JetBrains Mono',monospace; width:fit-content;
+  }
+  .return-chip.pos{background:rgba(111,207,151,.14); color:var(--green);}
+  .return-chip.neg{background:rgba(224,90,90,.14); color:var(--red);}
+  .return-chip.flat{background:var(--surface-2); color:var(--text-dim);}
+  .return-chip .rc-pct{opacity:.85; font-weight:600;}
+  .compare-badge{
+    display:inline-block; margin-top:2px; padding:1.5px 7px; border-radius:5px;
+    font-size:9.5px; font-weight:700; width:fit-content;
+  }
+  .compare-badge.beat{background:rgba(111,207,151,.14); color:var(--green);}
+  .compare-badge.miss{background:rgba(224,90,90,.14); color:var(--red);}
 
 
   .tabs{display:flex; gap:8px; margin:28px 0 26px;}
@@ -520,14 +537,20 @@ function renderStockPortfolio(d){
     let metrics = '';
     if(h.avgCost != null){
       const retClass = h.returnNative>0 ? 'pos' : (h.returnNative<0 ? 'neg' : 'flat');
-      const retPctTxt = h.returnPct!=null ? ' (' + (h.returnPct>=0?'+':'') + h.returnPct.toFixed(1) + '%)' : '';
+      const arrow = h.returnNative>0 ? '▲' : (h.returnNative<0 ? '▼' : '');
+      const retPctTxt = h.returnPct!=null ? '<span class="rc-pct">(' + (h.returnPct>=0?'+':'') + h.returnPct.toFixed(1) + '%)</span>' : '';
+      let compareBadge = '';
+      if(h.inflationAltTRY != null && h.valueTRY != null){
+        const beat = h.valueTRY >= h.inflationAltTRY;
+        compareBadge = `<span class="compare-badge ${beat?'beat':'miss'}">${beat?'Mevduatı geçti ✓':'Mevduatın altında'}</span>`;
+      }
       metrics = `<div class="row-metrics">
-        <span><span class="m-label">Adet</span><span class="m-val">${h.shares.toLocaleString('en-US',{maximumFractionDigits:4})}</span></span>
-        <span><span class="m-label">Ort. Maliyet</span><span class="m-val">${privacyHidden?'••••':fmtPerShare(h.avgCost, h.currency)}</span></span>
-        <span><span class="m-label">Fiyat</span><span class="m-val">${fmtPerShare(h.price, h.currency)}</span></span>
-        <span><span class="m-label">Getiri</span><span class="m-val ${retClass}">${privacyHidden?'••••':fmtTotalNative(h.returnNative, h.currency)}${retPctTxt}</span></span>
-        <span><span class="m-label">₺ Karşılığı</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.valueTRY,'TRY')}</span></span>
-        ${h.inflationAltTRY!=null ? `<span><span class="m-label">Mevduat Değ.</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.inflationAltTRY,'TRY')}</span></span>` : ''}
+        <div class="metric-item"><span class="m-label">Adet</span><span class="m-val">${h.shares.toLocaleString('en-US',{maximumFractionDigits:4})}</span></div>
+        <div class="metric-item"><span class="m-label">Ort. Maliyet</span><span class="m-val">${privacyHidden?'••••':fmtPerShare(h.avgCost, h.currency)}</span></div>
+        <div class="metric-item"><span class="m-label">Fiyat</span><span class="m-val">${fmtPerShare(h.price, h.currency)}</span></div>
+        <div class="metric-item"><span class="m-label">Getiri</span><span class="return-chip ${retClass}">${arrow} ${privacyHidden?'••••':fmtTotalNative(h.returnNative, h.currency)}${retPctTxt}</span></div>
+        <div class="metric-item"><span class="m-label">₺ Karşılığı</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.valueTRY,'TRY')}</span></div>
+        ${h.inflationAltTRY!=null ? `<div class="metric-item"><span class="m-label">Mevduat Değ.</span><span class="m-val">${privacyHidden?'••••':fmtTotalNative(h.inflationAltTRY,'TRY')}</span>${compareBadge}</div>` : ''}
       </div>`;
     }
     list.insertAdjacentHTML('beforeend', `
