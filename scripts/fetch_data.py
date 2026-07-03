@@ -31,7 +31,7 @@ AI_CACHE_PATH = ROOT / "data" / "ai_cache.json"
 FMP_API_KEY = os.environ.get("FMP_API_KEY", "")
 FMP_BASE = "https://financialmodelingprep.com/stable"
 EVDS_API_KEY = os.environ.get("EVDS_API_KEY", "")
-EVDS_BASE = "https://evds2.tcmb.gov.tr/service/evds"
+EVDS_BASE = "https://evds3.tcmb.gov.tr/igmevdsms-dis"
 GRAMS_PER_TROY_OUNCE = 31.1034768
 
 
@@ -335,7 +335,10 @@ def fetch_evds_deposit_rates(start_date, series_code):
             "type": "json",
         }
         r = requests.get(EVDS_BASE, params=params, headers={"key": EVDS_API_KEY}, timeout=30)
-        r.raise_for_status()
+        if not r.ok:
+            hint = " (TCMB dokümantasyonuna göre 403 = key eksik/yanlış gönderildi)" if r.status_code == 403 else ""
+            log(f"EVDS isteği başarısız, HTTP {r.status_code}{hint}: {r.text[:400]}")
+            return None
         items = r.json().get("items", [])
         col = series_code.replace(".", "_")
         rates = []
@@ -350,7 +353,7 @@ def fetch_evds_deposit_rates(start_date, series_code):
                 continue
         rates.sort(key=lambda x: x[0])
         if not rates:
-            log(f"EVDS {series_code}: veri boş döndü (seri kodu doğru mu?)")
+            log(f"EVDS {series_code}: veri boş döndü (seri kodu doğru mu?) — ham yanıt: {r.text[:300]}")
             return None
         _evds_rates_cache = rates
         log(f"EVDS mevduat faizi yüklendi: {len(rates)} kayıt, son değer %{rates[-1][1]:.2f} ({rates[-1][0]})")
