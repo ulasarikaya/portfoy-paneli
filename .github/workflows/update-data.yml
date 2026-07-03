@@ -23,11 +23,12 @@ jobs:
       - name: Bağımlılıkları kur
         run: pip install -r requirements.txt
 
-      - name: Veriyi çek ve hesapla
+      - name: Verileri çek ve hesapla
         env:
-          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+            FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+            EVDS_API_KEY: ${{ secrets.EVDS_API_KEY }}
         run: python scripts/fetch_data.py
-
+          
       - name: Değişiklik varsa commit + push
         run: |
           git config user.name "github-actions[bot]"
