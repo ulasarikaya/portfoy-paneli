@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-07-02T21:26:34.881916+00:00",
+  "generatedAt": "2026-07-03T01:18:22.143840+00:00",
   "aiInsightsUpdatedAt": "2026-07-01T09:41:05.329597+00:00",
-  "usdTryRate": 46.7056999206543,
+  "usdTryRate": 46.74399948120117,
   "netWorth": {
-    "total": 89860.61495631607,
+    "total": 90071.16272006171,
     "categories": [
       {
         "id": "us-stocks",
         "name": "ABD Hisse Portföyü",
         "subtitle": "ABD Hisse",
-        "value": 18403.0506,
-        "weightPct": 20.5
+        "value": 18403.050599999995,
+        "weightPct": 20.4
       },
       {
         "id": "real-estate",
@@ -23,29 +23,29 @@
         "id": "bist",
         "name": "Borsa İstanbul",
         "subtitle": "Bist Hisse",
-        "value": 17684.60661981723,
-        "weightPct": 19.7
+        "value": 17670.116788619627,
+        "weightPct": 19.6
       },
       {
         "id": "crypto-spot",
         "name": "Kripto SPOT",
         "subtitle": "Spot kripto varlıklar",
-        "value": 7923.046532725508,
+        "value": 7933.671982966836,
         "weightPct": 8.8
       },
       {
         "id": "cash",
         "name": "Nakit",
         "subtitle": "USD / USDT / TRY",
-        "value": 20007.121101285495,
-        "weightPct": 22.3
+        "value": 19999.682969062545,
+        "weightPct": 22.2
       },
       {
         "id": "gold",
         "name": "Altın",
         "subtitle": "Değer saklama / hedge",
-        "value": 20342.790102487834,
-        "weightPct": 22.6
+        "value": 20564.640379412704,
+        "weightPct": 22.8
       },
       {
         "id": "btc-futures",
@@ -57,7 +57,7 @@
     ]
   },
   "stockPortfolio": {
-    "total": 64017.824853828235,
+    "total": 64006.522340649004,
     "positionCount": 17,
     "holdings": [
       {
@@ -67,8 +67,8 @@
         "assetClass": "Nakit",
         "shares": null,
         "price": null,
-        "value": 20007.121101285495,
-        "weightPct": 31.3
+        "value": 19999.682969062545,
+        "weightPct": 31.2
       },
       {
         "ticker": "VOO",
@@ -88,7 +88,7 @@
         "shares": 2216,
         "price": 138.5,
         "currency": "TRY",
-        "value": 6571.275037552214,
+        "value": 6565.89088238868,
         "logoUrl": null,
         "weightPct": 10.3
       },
@@ -99,7 +99,7 @@
         "shares": 15621,
         "price": 14.93,
         "currency": "TRY",
-        "value": 4993.427577280868,
+        "value": 4989.336226862523,
         "logoUrl": null,
         "weightPct": 7.8
       },
@@ -108,9 +108,9 @@
         "name": "Bitcoin",
         "assetClass": "Kripto",
         "shares": 0.06276876,
-        "price": 61461.9883,
+        "price": 61448.3711,
         "currency": "USD",
-        "value": 3857.892792725508,
+        "value": 3857.0380579668363,
         "logoUrl": null,
         "weightPct": 6.0
       },
@@ -141,9 +141,9 @@
         "name": "Ethereum",
         "assetClass": "Kripto",
         "shares": 1.4555,
-        "price": 1701.88,
+        "price": 1705.59,
         "currency": "USD",
-        "value": 2477.0863400000003,
+        "value": 2482.486245,
         "logoUrl": null,
         "weightPct": 3.9
       },
@@ -165,7 +165,7 @@
         "shares": 1192,
         "price": 85.2,
         "currency": "TRY",
-        "value": 2174.432674652813,
+        "value": 2172.651059540665,
         "logoUrl": null,
         "weightPct": 3.4
       },
@@ -176,7 +176,7 @@
         "shares": 310,
         "price": 328.5,
         "currency": "TRY",
-        "value": 2180.3548640316235,
+        "value": 2178.568396590765,
         "logoUrl": null,
         "weightPct": 3.4
       },
@@ -187,7 +187,7 @@
         "shares": 4339,
         "price": 19.0,
         "currency": "TRY",
-        "value": 1765.116466299711,
+        "value": 1763.670223236994,
         "logoUrl": null,
         "weightPct": 2.8
       },
@@ -207,9 +207,9 @@
         "name": "Solana",
         "assetClass": "Kripto",
         "shares": 9.656,
-        "price": 80.93,
+        "price": 81.0,
         "currency": "USD",
-        "value": 781.4600800000001,
+        "value": 782.1360000000001,
         "logoUrl": null,
         "weightPct": 1.2
       },
@@ -218,9 +218,9 @@
         "name": "Avax",
         "assetClass": "Kripto",
         "shares": 87.614,
-        "price": 6.78,
+        "price": 6.82,
         "currency": "USD",
-        "value": 594.02292,
+        "value": 597.5274800000001,
         "logoUrl": null,
         "weightPct": 0.9
       },
@@ -240,9 +240,9 @@
         "name": "Hyperliquid",
         "assetClass": "Kripto",
         "shares": 3.22,
-        "price": 66.02,
+        "price": 66.61,
         "currency": "USD",
-        "value": 212.5844,
+        "value": 214.48420000000002,
         "logoUrl": null,
         "weightPct": 0.3
       }
@@ -251,12 +251,12 @@
   "assetClasses": [
     {
       "name": "Nakit",
-      "value": 20007.121101285495,
-      "weightPct": 31.3
+      "value": 19999.682969062545,
+      "weightPct": 31.2
     },
     {
       "name": "BIST",
-      "value": 17684.60661981723,
+      "value": 17670.116788619627,
       "weightPct": 27.6
     },
     {
@@ -266,7 +266,7 @@
     },
     {
       "name": "Kripto",
-      "value": 7923.046532725508,
+      "value": 7933.671982966836,
       "weightPct": 12.4
     },
     {
@@ -371,53 +371,53 @@
         "ticker": "BTC-USD",
         "name": "Bitcoin",
         "group": "portfolio",
-        "d50": -9.26022280157176,
-        "d200": -18.12663650947347,
-        "w50": -30.60242988310289,
-        "w100": -30.451876477315697,
-        "w200": -1.892841459473904,
+        "d50": -9.279961854682162,
+        "d200": -18.14470169107564,
+        "w50": -30.6175918796324,
+        "w100": -30.46717804434601,
+        "w200": -1.9144709539550941,
         "status": "—"
       },
       {
         "ticker": "ETH-USD",
         "name": "Ethereum",
         "group": "portfolio",
-        "d50": -7.2917883221638835,
-        "d200": -25.358066952783343,
-        "w50": -42.12187978479742,
-        "w100": -39.19268326333473,
-        "w200": -31.158338748739457,
+        "d50": -7.093447125629593,
+        "d200": -25.19596214901796,
+        "w50": -41.997173796949724,
+        "w100": -39.0609360026934,
+        "w200": -31.00878716106531,
         "status": "—"
       },
       {
         "ticker": "SOL-USD",
         "name": "Solana",
         "group": "portfolio",
-        "d50": 6.810191313005354,
-        "d200": -13.918662204844756,
-        "w50": -38.195889491269156,
-        "w100": -46.131762458463236,
-        "w200": -24.45269223446499,
+        "d50": 6.900600659784395,
+        "d200": -13.844527642356852,
+        "w50": -38.143188399277726,
+        "w100": -46.085456695565675,
+        "w200": -24.38763059228315,
         "status": "—"
       },
       {
         "ticker": "AVAX-USD",
         "name": "Avax",
         "group": "portfolio",
-        "d50": -11.195311895949956,
-        "d200": -30.174227775023876,
-        "w50": -54.054000390432186,
-        "w100": -67.37509376305026,
-        "w200": -68.72555013507382,
+        "d50": -10.68075019327701,
+        "d200": -29.76372341748951,
+        "w50": -53.7854382668846,
+        "w100": -67.18324827706527,
+        "w200": -68.54133050975912,
         "status": "—"
       },
       {
         "ticker": "HYPE-USD",
         "name": "Hyperliquid",
         "group": "portfolio",
-        "d50": 7.422132940052606,
-        "d200": 64.39533046272665,
-        "w50": 59.46374901580689,
+        "d50": 8.361331829618113,
+        "d200": 65.85230666672805,
+        "w50": 60.842993046235506,
         "w100": null,
         "w200": null,
         "status": "Güçlü"
