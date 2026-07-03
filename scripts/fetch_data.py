@@ -328,18 +328,26 @@ def fetch_evds_deposit_rates(start_date, series_code):
             "(opsiyoneldir, secret eklersen otomatik aktifleşir).")
         return None
     try:
-        params = {
-            "series": series_code,
-            "startDate": start_date.strftime("%d-%m-%Y"),
-            "endDate": date.today().strftime("%d-%m-%Y"),
-            "type": "json",
-        }
-        r = requests.get(EVDS_BASE, params=params, headers={"key": EVDS_API_KEY}, timeout=30)
+        date_fmt = "%d-%m-%Y"
+        # TCMB'nin dokümantasyonu standart "?param=..." yerine parametreleri doğrudan
+        # yol içine gömüyor (örn. ".../series=X&startDate=Y&type=json") — requests'in
+        # otomatik query-string oluşturmasını (params=) kullanmak yerine URL'yi elle
+        # kuruyoruz, dokümandaki örneklerle birebir aynı format.
+        url = (f"{EVDS_BASE}/series={series_code}"
+               f"&startDate={start_date.strftime(date_fmt)}"
+               f"&endDate={date.today().strftime(date_fmt)}"
+               f"&type=json")
+        r = requests.get(url, headers={"key": EVDS_API_KEY}, timeout=30)
         if not r.ok:
             hint = " (TCMB dokümantasyonuna göre 403 = key eksik/yanlış gönderildi)" if r.status_code == 403 else ""
             log(f"EVDS isteği başarısız, HTTP {r.status_code}{hint}: {r.text[:400]}")
             return None
-        items = r.json().get("items", [])
+        try:
+            data = r.json()
+        except ValueError:
+            log(f"EVDS yanıtı JSON değil (HTTP {r.status_code}), ham yanıt: {r.text[:400]!r}")
+            return None
+        items = data.get("items", [])
         col = series_code.replace(".", "_")
         rates = []
         for it in items:
