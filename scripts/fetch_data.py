@@ -16,9 +16,10 @@ import os
 import sys
 import time
 import traceback
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+import pandas as pd
 import requests
 import yfinance as yf
 
@@ -29,6 +30,8 @@ AI_CACHE_PATH = ROOT / "data" / "ai_cache.json"
 
 FMP_API_KEY = os.environ.get("FMP_API_KEY", "")
 FMP_BASE = "https://financialmodelingprep.com/stable"
+EVDS_API_KEY = os.environ.get("EVDS_API_KEY", "")
+EVDS_BASE = "https://evds2.tcmb.gov.tr/service/evds"
 GRAMS_PER_TROY_OUNCE = 31.1034768
 
 
@@ -108,6 +111,7 @@ def fetch_price_and_moving_averages(ticker):
 
     return {
         "price": round(price, 4),
+        "series": daily_closes,  # tarihsel net varlık hesabı için (JSON'a yazılmaz)
         "ma": {
             "d50": d50, "d200": d200,
             "w50": w50, "w100": w100, "w200": w200,
@@ -243,19 +247,49 @@ def fetch_spot_price(ticker):
 # edilir, kişisel portföy takibi için yeterli hassasiyet).
 STABLECOIN_1_TO_1 = {"USDT", "USDC", "DAI", "BUSD"}
 
-_usdtry_rate_cache = None  # Aynı çalıştırma içinde tek seferlik çekilir; tutarlılık + hız için
+_usdtry_series_cache = None  # 2 yıllık günlük USD/TRY serisi; tek seferlik çekilir
+
+
+def series_value_at(series, target_date):
+    """Bir pandas fiyat serisinde, verilen tarihe eşit ya da ondan önceki son
+    geçerli değeri döner. Seri o tarihten sonra başlıyorsa (varlık o gün henüz
+    yoktu) ilk bilinen değer kullanılır — dürüst bir yaklaşıklık, UI'da not edilir."""
+    if series is None or len(series) == 0:
+        return None
+    ts = pd.Timestamp(target_date)
+    if series.index.tz is not None:
+        ts = ts.tz_localize(series.index.tz)
+    s = series[series.index <= ts]
+    if len(s) == 0:
+        return float(series.iloc[0])
+    return float(s.iloc[-1])
+
+
+def get_usdtry_series():
+    """USD/TRY'nin 2 yıllık günlük kapanış serisini tek seferlik çekip önbelleğe alır.
+    Hem güncel kur hem geçmiş tarihli çevirimler (lot maliyeti, tarihsel net varlık)
+    bu tek seriden okunur — tutarlılık ve tek API çağrısı."""
+    global _usdtry_series_cache
+    if _usdtry_series_cache is None:
+        try:
+            h = yf.Ticker("USDTRY=X").history(period="2y", interval="1d")
+            _usdtry_series_cache = h["Close"].dropna() if not h.empty else pd.Series(dtype=float)
+        except Exception as e:
+            log(f"USD/TRY serisi çekilemedi: {e}")
+            _usdtry_series_cache = pd.Series(dtype=float)
+        if len(_usdtry_series_cache):
+            log(f"USD/TRY kuru: {float(_usdtry_series_cache.iloc[-1]):.4f} "
+                f"({len(_usdtry_series_cache)} günlük geçmiş yüklendi)")
+    return _usdtry_series_cache
 
 
 def get_usdtry_rate():
-    """USD/TRY kurunu bir kez çekip önbelleğe alır. Sonraki tüm TRY çevirimleri
-    (nakit, BIST) aynı çalıştırma içinde bu tek kuru kullanır, böylece dakikalar
-    içinde ufak kur oynamalarından dolayı tutarsız sonuçlar oluşmaz."""
-    global _usdtry_rate_cache
-    if _usdtry_rate_cache is None:
-        _usdtry_rate_cache = fetch_spot_price("USDTRY=X")
-        if _usdtry_rate_cache:
-            log(f"USD/TRY kuru: {_usdtry_rate_cache:.4f}")
-    return _usdtry_rate_cache
+    s = get_usdtry_series()
+    return float(s.iloc[-1]) if len(s) else None
+
+
+def usdtry_at(target_date):
+    return series_value_at(get_usdtry_series(), target_date)
 
 
 def convert_to_usd(amount, currency):
@@ -276,19 +310,106 @@ def convert_to_usd(amount, currency):
     return 0.0
 
 
+# ---------------------------------------------------------------------------
+# TCMB EVDS - mevduat faizi (enflasyon/alternatif getiri kıyaslaması için)
+# ---------------------------------------------------------------------------
+
+_evds_rates_cache = None  # [(date, yıllık_faiz_yüzde), ...] sıralı
+
+
+def fetch_evds_deposit_rates(start_date, series_code):
+    """TCMB EVDS'den TL mevduat ağırlıklı ortalama faiz serisini (haftalık, yıllık %
+    cinsinden) çeker. Key yoksa ya da hata olursa None döner; enflasyon sütunu '—' kalır."""
+    global _evds_rates_cache
+    if _evds_rates_cache is not None:
+        return _evds_rates_cache
+    if not EVDS_API_KEY:
+        log("EVDS_API_KEY tanımlı değil — enflasyon/mevduat kıyaslaması atlanıyor "
+            "(opsiyoneldir, secret eklersen otomatik aktifleşir).")
+        return None
+    try:
+        params = {
+            "series": series_code,
+            "startDate": start_date.strftime("%d-%m-%Y"),
+            "endDate": date.today().strftime("%d-%m-%Y"),
+            "type": "json",
+        }
+        r = requests.get(EVDS_BASE, params=params, headers={"key": EVDS_API_KEY}, timeout=30)
+        r.raise_for_status()
+        items = r.json().get("items", [])
+        col = series_code.replace(".", "_")
+        rates = []
+        for it in items:
+            raw = it.get(col)
+            if raw in (None, "", "null"):
+                continue
+            try:
+                d = datetime.strptime(it["Tarih"], "%d-%m-%Y").date()
+                rates.append((d, float(str(raw).replace(",", "."))))
+            except Exception:
+                continue
+        rates.sort(key=lambda x: x[0])
+        if not rates:
+            log(f"EVDS {series_code}: veri boş döndü (seri kodu doğru mu?)")
+            return None
+        _evds_rates_cache = rates
+        log(f"EVDS mevduat faizi yüklendi: {len(rates)} kayıt, son değer %{rates[-1][1]:.2f} ({rates[-1][0]})")
+        return rates
+    except Exception as e:
+        log(f"EVDS çekme hatası: {e}")
+        return None
+
+
+def deposit_growth_try(principal_try, start_date, rates):
+    """Verilen TL anaparayı, start_date'ten bugüne EVDS haftalık faiz serisiyle
+    günlük bileşik büyütür (her gün için geçerli yıllık oran / 365). 'Aynı parayı
+    o gün mevduata yatırsaydın bugün ne olurdu' sorusunun cevabı. Stopaj/vergi
+    hesaba katılmaz (brüt getiri)."""
+    if not rates or principal_try <= 0:
+        return None
+    value = principal_try
+    day = start_date
+    today = date.today()
+    idx = 0
+    current_rate = rates[0][1]
+    while day < today:
+        while idx + 1 < len(rates) and rates[idx + 1][0] <= day:
+            idx += 1
+            current_rate = rates[idx][1]
+        value *= (1 + current_rate / 100 / 365)
+        day += timedelta(days=1)
+    return value
+
+
 def build_dataset(config):
     holdings_out = []
     momentum_rows = []
     company_cards = []
+    hist_items = []  # tarihsel net varlık için: {"shares","currency","series"}
     ai_cache = load_ai_cache()
     get_usdtry_rate()  # her zaman dolu olsun diye erkenden çekilir (arayüzde USD->TRY gösterimi için)
+
+    settings = config.get("settings", {})
+    evds_series_code = settings.get("evdsSeriesCode", "TP.TRY.MT02")
+
+    # Lot'lu pozisyonlar varsa, en eski alım tarihinden bugüne EVDS faiz serisi
+    # tek seferde çekilir (her lot için ayrı istek atılmaz).
+    all_lot_dates = []
+    for h in config["stockPortfolio"]["holdings"]:
+        for lot in h.get("lots", []):
+            try:
+                all_lot_dates.append(datetime.strptime(lot["date"], "%Y-%m-%d").date())
+            except Exception:
+                log(f"{h.get('ticker')}: lot tarihi hatalı ({lot.get('date')}), YYYY-AA-GG formatında olmalı")
+    evds_rates = fetch_evds_deposit_rates(min(all_lot_dates), evds_series_code) if all_lot_dates else None
 
     stock_total = 0.0
 
     for h in config["stockPortfolio"]["holdings"]:
         ticker = h["ticker"]
         fetch_ticker = h.get("fetchTicker", ticker)  # yfinance/FMP'nin gerçekte tanıdığı sembol farklıysa
-        shares = h.get("shares", 0)
+        lots = h.get("lots") or []
+        shares = sum(l.get("shares", 0) for l in lots) if lots else h.get("shares", 0)
         if not shares:
             continue
         try:
@@ -301,11 +422,55 @@ def build_dataset(config):
             log(f"{ticker}: fiyat NaN/None döndü, pozisyon atlanıyor (toplamları bozmasın diye)")
             continue
 
+        price_series = pm.pop("series", None)
+
         asset_class = h.get("assetClass", "Tek Hisse")
         currency = h.get("currency", "USD")
         native_value = pm["price"] * shares
         value = convert_to_usd(native_value, currency) if currency != "USD" else native_value
         stock_total += value
+
+        hist_items.append({"shares": shares, "currency": currency, "series": price_series})
+
+        # --- Lot bazlı maliyet / getiri / mevduat alternatifi (feature 5) ---
+        # Alım fiyatı enstrümanın kendi para birimindedir (BIST için TL, diğerleri USD).
+        # Alım günü kuru yfinance USD/TRY serisinden otomatik bulunur.
+        avg_cost = cost_native_total = return_native = return_pct = None
+        inflation_alt_try = None
+        if lots:
+            cost_native_total = 0.0
+            cost_try_total = 0.0
+            inflation_alt_try = 0.0 if evds_rates else None
+            valid = True
+            for lot in lots:
+                try:
+                    lot_date = datetime.strptime(lot["date"], "%Y-%m-%d").date()
+                    lot_shares = float(lot["shares"])
+                    lot_price = float(lot["price"])
+                except Exception:
+                    valid = False
+                    break
+                lot_cost_native = lot_shares * lot_price
+                cost_native_total += lot_cost_native
+                fx = usdtry_at(lot_date)
+                if currency == "TRY":
+                    lot_cost_try = lot_cost_native
+                else:
+                    lot_cost_try = lot_cost_native * fx if fx else None
+                if lot_cost_try is not None:
+                    cost_try_total += lot_cost_try
+                    if evds_rates:
+                        grown = deposit_growth_try(lot_cost_try, lot_date, evds_rates)
+                        if grown is not None and inflation_alt_try is not None:
+                            inflation_alt_try += grown
+                else:
+                    inflation_alt_try = None  # kur bulunamadıysa kıyas yapılamaz
+            if valid and cost_native_total > 0:
+                avg_cost = cost_native_total / shares
+                return_native = native_value - cost_native_total
+                return_pct = (native_value / cost_native_total - 1) * 100
+            else:
+                cost_native_total = None
 
         # FMP yalnızca ABD/global borsalarda listeli şirketleri tanıyor — BIST ve
         # kripto için boşuna istek atıp günlük kotayı tüketmemek üzere atlanır.
@@ -325,10 +490,17 @@ def build_dataset(config):
         else:
             time.sleep(0.1)
 
+        current_rate = get_usdtry_rate()
         holdings_out.append({
             "ticker": ticker, "name": h.get("name", ticker),
             "assetClass": asset_class,
             "shares": shares, "price": pm["price"], "currency": currency, "value": value,
+            "valueTRY": (value * current_rate) if current_rate else None,
+            "avgCost": avg_cost,
+            "costTotalNative": cost_native_total,
+            "returnNative": return_native,
+            "returnPct": return_pct,
+            "inflationAltTRY": inflation_alt_try,
             "logoUrl": (fin or {}).get("logoUrl"),
         })
         momentum_rows.append({
@@ -413,10 +585,15 @@ def build_dataset(config):
 
     gold_grams = nw.get("goldGrams", 0)
     gold_value = 0.0
+    gold_series = None
     if gold_grams:
-        gold_oz_price = fetch_spot_price("GC=F")
-        if gold_oz_price:
-            gold_value = (gold_oz_price / GRAMS_PER_TROY_OUNCE) * gold_grams
+        try:
+            gh = yf.Ticker("GC=F").history(period="2y", interval="1d")
+            gold_series = gh["Close"].dropna() if not gh.empty else None
+        except Exception as e:
+            log(f"Altın serisi hatası: {e}")
+        if gold_series is not None and len(gold_series):
+            gold_value = (float(gold_series.iloc[-1]) / GRAMS_PER_TROY_OUNCE) * gold_grams
 
     real_estate = nw.get("realEstateUSD", 0)
     btc_futures = nw.get("bitcoinFuturesUSD", 0)
@@ -435,6 +612,61 @@ def build_dataset(config):
     net_worth_total = sum(c["value"] for c in net_worth_categories)
     for c in net_worth_categories:
         c["weightPct"] = round((c["value"] / net_worth_total) * 100, 1) if net_worth_total else 0
+
+    # --- Tarihsel net varlık (feature 4) ---
+    # Mevcut portföy bileşiminin (bugünkü adetlerin) geçmiş fiyatlarla değerlenmesi.
+    # Not: geçmişte farklı pozisyonlar tutuyorduysan bu bir yaklaşıklıktır; nakit,
+    # gayrimenkul ve BTC futures sabit kabul edilir (geçmiş değerleri bilinemez),
+    # TRY nakit ise o günkü kurla USD'ye çevrilir.
+    cash_usd_like = sum(amt for cur, amt in cash_amounts.items()
+                        if cur.upper() == "USD" or cur.upper() in STABLECOIN_1_TO_1)
+    cash_try_amount = sum(amt for cur, amt in cash_amounts.items() if cur.upper() == "TRY")
+    static_usd = real_estate + btc_futures
+
+    def net_worth_usd_at(d):
+        total = static_usd + cash_usd_like
+        fx = usdtry_at(d)
+        if cash_try_amount and fx:
+            total += cash_try_amount / fx
+        for item in hist_items:
+            p = series_value_at(item["series"], d)
+            if p is None:
+                continue
+            v = p * item["shares"]
+            if item["currency"] == "TRY":
+                v = (v / fx) if fx else 0.0
+            total += v
+        if gold_series is not None and gold_grams:
+            gp = series_value_at(gold_series, d)
+            if gp:
+                total += (gp / GRAMS_PER_TROY_OUNCE) * gold_grams
+        return total
+
+    today = date.today()
+    current_rate_now = get_usdtry_rate()
+    period_dates = {
+        "1A": today - timedelta(days=30),
+        "6A": today - timedelta(days=182),
+        "12A": today - timedelta(days=365),
+        "YBI": date(today.year, 1, 1),
+    }
+    net_worth_history = {}
+    for label, d in period_dates.items():
+        then_usd = net_worth_usd_at(d)
+        then_fx = usdtry_at(d)
+        then_try = then_usd * then_fx if then_fx else None
+        now_try = net_worth_total * current_rate_now if current_rate_now else None
+        net_worth_history[label] = {
+            "asOf": d.isoformat(),
+            "thenUSD": then_usd,
+            "nowUSD": net_worth_total,
+            "changeUSD": net_worth_total - then_usd,
+            "changePctUSD": ((net_worth_total / then_usd) - 1) * 100 if then_usd else None,
+            "thenTRY": then_try,
+            "nowTRY": now_try,
+            "changeTRY": (now_try - then_try) if (now_try is not None and then_try is not None) else None,
+            "changePctTRY": ((now_try / then_try) - 1) * 100 if (now_try and then_try) else None,
+        }
 
     # --- Varlık sınıfı dağılımı (hisse portföyü içinde) ---
     asset_class_totals = {}
@@ -455,8 +687,8 @@ def build_dataset(config):
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "aiInsightsUpdatedAt": ai_insights_updated_at,
-        "usdTryRate": _usdtry_rate_cache,
-        "netWorth": {"total": net_worth_total, "categories": net_worth_categories},
+        "usdTryRate": get_usdtry_rate(),
+        "netWorth": {"total": net_worth_total, "categories": net_worth_categories, "history": net_worth_history},
         "stockPortfolio": {
             "total": stock_total_with_cash,
             "positionCount": len(holdings_out),
