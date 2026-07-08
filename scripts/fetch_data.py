@@ -364,7 +364,9 @@ def fetch_evds_deposit_rates(start_date, series_code):
             log(f"EVDS {series_code}: veri boş döndü (seri kodu doğru mu?) — ham yanıt: {r.text[:300]}")
             return None
         _evds_rates_cache = rates
-        log(f"EVDS mevduat faizi yüklendi: {len(rates)} kayıt, son değer %{rates[-1][1]:.2f} ({rates[-1][0]})")
+        log(f"EVDS mevduat faizi yüklendi: {len(rates)} kayıt, dönem: {rates[0][0]} → {rates[-1][0]} "
+            f"(en eski %{rates[0][1]:.2f}, en güncel %{rates[-1][1]:.2f}) — her lot kendi alım tarihinden "
+            f"bugüne bu zaman içindeki oranlarla bileşik büyütülür")
         return rates
     except Exception as e:
         log(f"EVDS çekme hatası: {e}")
@@ -561,6 +563,36 @@ def build_dataset(config):
     cash = config["stockPortfolio"]["cash"]
     cash_amounts = cash.get("amounts", {})
     cash_value = sum(convert_to_usd(amt, cur) for cur, amt in cash_amounts.items())
+
+    # --- Realize edilmiş satış kâr/zararı ---
+    # Satılmış (artık holdings'te olmayan) pozisyonların kâr/zararını config'teki
+    # "realizedSales" listesinden okuyup Net Varlık'ta ayrı bir dilim olarak gösterir.
+    # Aynı paranın hem "Nakit" hem "Realize K/Z" içinde iki kez sayılmaması için,
+    # kullanıcının "cashOffsetUSD" ile belirttiği kadarı nakitten düşülür (bkz. README).
+    total_realized_usd = 0.0
+    total_cash_offset_usd = 0.0
+    for sale in config.get("realizedSales", []):
+        try:
+            sale_date = datetime.strptime(sale["date"], "%Y-%m-%d").date()
+            shares_sold = float(sale["shares"])
+            cost_price = float(sale["costPriceNative"])
+            sale_price = float(sale["salePriceNative"])
+        except Exception:
+            log(f"realizedSales içinde hatalı kayıt atlanıyor: {sale}")
+            continue
+        currency = sale.get("currency", "USD")
+        profit_native = (sale_price - cost_price) * shares_sold
+        if currency == "TRY":
+            fx = usdtry_at(sale_date)  # satış anındaki gerçek kur (bugünkü değil)
+            profit_usd = (profit_native / fx) if fx else 0.0
+        else:
+            profit_usd = profit_native
+        total_realized_usd += profit_usd
+        total_cash_offset_usd += float(sale.get("cashOffsetUSD", 0) or 0)
+
+    if total_cash_offset_usd:
+        cash_value = max(0.0, cash_value - total_cash_offset_usd)
+
     stock_total_with_cash = stock_total + cash_value
     if cash_value:
         holdings_out.append({
@@ -619,6 +651,7 @@ def build_dataset(config):
         {"id": "cash", "name": nw.get("cashLabel", "Nakit"), "subtitle": nw.get("cashSubtitle", "USD / USDT / TRY"), "value": cash_value},
         {"id": "gold", "name": "Altın", "subtitle": nw.get("goldSubtitle", ""), "value": gold_value},
         {"id": "btc-futures", "name": "Bitcoin Futures", "subtitle": nw.get("bitcoinFuturesSubtitle", ""), "value": btc_futures},
+        {"id": "realized-pnl", "name": nw.get("realizedPnlLabel", "Realize Edilmiş K/Z"), "subtitle": nw.get("realizedPnlSubtitle", "Kapatılmış pozisyonlardan"), "value": total_realized_usd},
     ]
     net_worth_total = sum(c["value"] for c in net_worth_categories)
     for c in net_worth_categories:
