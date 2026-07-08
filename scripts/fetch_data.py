@@ -398,7 +398,6 @@ def build_dataset(config):
     holdings_out = []
     momentum_rows = []
     company_cards = []
-    hist_items = []  # tarihsel net varlık için: {"shares","currency","series"}
     ai_cache = load_ai_cache()
     get_usdtry_rate()  # her zaman dolu olsun diye erkenden çekilir (arayüzde USD->TRY gösterimi için)
 
@@ -435,15 +434,13 @@ def build_dataset(config):
             log(f"{ticker}: fiyat NaN/None döndü, pozisyon atlanıyor (toplamları bozmasın diye)")
             continue
 
-        price_series = pm.pop("series", None)
+        pm.pop("series", None)  # tarihsel hesap kaldırıldı, JSON'a sızmasın diye çıkarılır
 
         asset_class = h.get("assetClass", "Tek Hisse")
         currency = h.get("currency", "USD")
         native_value = pm["price"] * shares
         value = convert_to_usd(native_value, currency) if currency != "USD" else native_value
         stock_total += value
-
-        hist_items.append({"shares": shares, "currency": currency, "series": price_series})
 
         # --- Lot bazlı maliyet / getiri / mevduat alternatifi (feature 5) ---
         # Alım fiyatı enstrümanın kendi para birimindedir (BIST için TL, diğerleri USD).
@@ -651,66 +648,10 @@ def build_dataset(config):
         {"id": "cash", "name": nw.get("cashLabel", "Nakit"), "subtitle": nw.get("cashSubtitle", "USD / USDT / TRY"), "value": cash_value},
         {"id": "gold", "name": "Altın", "subtitle": nw.get("goldSubtitle", ""), "value": gold_value},
         {"id": "btc-futures", "name": "Bitcoin Futures", "subtitle": nw.get("bitcoinFuturesSubtitle", ""), "value": btc_futures},
-        {"id": "realized-pnl", "name": nw.get("realizedPnlLabel", "Realize Edilmiş K/Z"), "subtitle": nw.get("realizedPnlSubtitle", "Kapatılmış pozisyonlardan"), "value": total_realized_usd},
     ]
     net_worth_total = sum(c["value"] for c in net_worth_categories)
     for c in net_worth_categories:
         c["weightPct"] = round((c["value"] / net_worth_total) * 100, 1) if net_worth_total else 0
-
-    # --- Tarihsel net varlık (feature 4) ---
-    # Mevcut portföy bileşiminin (bugünkü adetlerin) geçmiş fiyatlarla değerlenmesi.
-    # Not: geçmişte farklı pozisyonlar tutuyorduysan bu bir yaklaşıklıktır; nakit,
-    # gayrimenkul ve BTC futures sabit kabul edilir (geçmiş değerleri bilinemez),
-    # TRY nakit ise o günkü kurla USD'ye çevrilir.
-    cash_usd_like = sum(amt for cur, amt in cash_amounts.items()
-                        if cur.upper() == "USD" or cur.upper() in STABLECOIN_1_TO_1)
-    cash_try_amount = sum(amt for cur, amt in cash_amounts.items() if cur.upper() == "TRY")
-    static_usd = real_estate + btc_futures
-
-    def net_worth_usd_at(d):
-        total = static_usd + cash_usd_like
-        fx = usdtry_at(d)
-        if cash_try_amount and fx:
-            total += cash_try_amount / fx
-        for item in hist_items:
-            p = series_value_at(item["series"], d)
-            if p is None:
-                continue
-            v = p * item["shares"]
-            if item["currency"] == "TRY":
-                v = (v / fx) if fx else 0.0
-            total += v
-        if gold_series is not None and gold_grams:
-            gp = series_value_at(gold_series, d)
-            if gp:
-                total += (gp / GRAMS_PER_TROY_OUNCE) * gold_grams
-        return total
-
-    today = date.today()
-    current_rate_now = get_usdtry_rate()
-    period_dates = {
-        "1A": today - timedelta(days=30),
-        "6A": today - timedelta(days=182),
-        "12A": today - timedelta(days=365),
-        "YBI": date(today.year, 1, 1),
-    }
-    net_worth_history = {}
-    for label, d in period_dates.items():
-        then_usd = net_worth_usd_at(d)
-        then_fx = usdtry_at(d)
-        then_try = then_usd * then_fx if then_fx else None
-        now_try = net_worth_total * current_rate_now if current_rate_now else None
-        net_worth_history[label] = {
-            "asOf": d.isoformat(),
-            "thenUSD": then_usd,
-            "nowUSD": net_worth_total,
-            "changeUSD": net_worth_total - then_usd,
-            "changePctUSD": ((net_worth_total / then_usd) - 1) * 100 if then_usd else None,
-            "thenTRY": then_try,
-            "nowTRY": now_try,
-            "changeTRY": (now_try - then_try) if (now_try is not None and then_try is not None) else None,
-            "changePctTRY": ((now_try / then_try) - 1) * 100 if (now_try and then_try) else None,
-        }
 
     # --- Varlık sınıfı dağılımı (hisse portföyü içinde) ---
     asset_class_totals = {}
@@ -732,7 +673,7 @@ def build_dataset(config):
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "aiInsightsUpdatedAt": ai_insights_updated_at,
         "usdTryRate": get_usdtry_rate(),
-        "netWorth": {"total": net_worth_total, "categories": net_worth_categories, "history": net_worth_history},
+        "netWorth": {"total": net_worth_total, "categories": net_worth_categories},
         "stockPortfolio": {
             "total": stock_total_with_cash,
             "positionCount": len(holdings_out),
