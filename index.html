@@ -58,6 +58,14 @@
   .total-line .total-value{font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace;}
   .total-line .total-value-try{font-size:13px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; margin-top:2px;}
 
+  .summary-bar{
+    display:flex; gap:26px; flex-wrap:wrap; padding-bottom:16px; margin-bottom:2px;
+    border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace;
+  }
+  .summary-item{display:flex; flex-direction:column; gap:2px;}
+  .summary-item .hc-label{font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px;}
+  .summary-val{font-size:15px; font-weight:700; color:var(--text);}
+
   .history-bar{
     display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
     padding-bottom:16px; margin-bottom:18px; border-bottom:1px solid var(--border);
@@ -296,6 +304,16 @@
           <div class="total-value-try" id="sp-total-amount-try"></div>
         </div>
       </div>
+      <div class="summary-bar" id="sp-summary-bar" style="display:none;">
+        <div class="summary-item">
+          <span class="hc-label">Toplam ₺ Karşılığı</span>
+          <span class="summary-val" id="sp-sum-try">—</span>
+        </div>
+        <div class="summary-item">
+          <span class="hc-label">Toplam Mevduat Değ.</span>
+          <span class="summary-val" id="sp-sum-inflation">—</span>
+        </div>
+      </div>
       <div class="donut-row">
         <div class="donut" id="sp-donut"><div class="donut-hole"><b id="sp-count">0</b><span>Pozisyon</span></div></div>
         <div class="list" id="sp-list"></div>
@@ -353,7 +371,7 @@
 
 <script>
 const PALETTE = ['#d8ab5c','#7c93c9','#6fcf97','#c97c7c','#9a7cc9','#5bb8b0','#c9955b','#8a93a3','#e0c068','#85a8d6','#7fcf9f','#d68a8a'];
-const NETWORTH_COLORS = { 'us-stocks':'#7c93c9', 'real-estate':'#c97c7c', 'bist':'#e0c068', 'crypto-spot':'#6fcf97', 'cash':'#c9955b', 'gold':'#d8ab5c', 'btc-futures':'#9a7cc9' };
+const NETWORTH_COLORS = { 'us-stocks':'#7c93c9', 'real-estate':'#c97c7c', 'bist':'#e0c068', 'crypto-spot':'#6fcf97', 'cash':'#c9955b', 'gold':'#d8ab5c', 'btc-futures':'#9a7cc9', 'realized-pnl':'#5fb8b0' };
 
 function colorFor(seed){
   let h=0; for(const c of seed) h=(h*31+c.charCodeAt(0))>>>0;
@@ -549,6 +567,22 @@ function renderStockPortfolio(d){
   document.getElementById('sp-total-amount').textContent = maskedMoney(d.stockPortfolio.total);
   document.getElementById('sp-total-amount-try').textContent = maskedTry(d.stockPortfolio.total, d.usdTryRate);
   const holdings = d.stockPortfolio.holdings;
+
+  // Her pozisyonda ayrı ayrı gösterilen ₺ Karşılığı ve Mevduat Değ. sütunlarının
+  // toplamı — pozisyonlar tek tek durmaya devam eder, bu sadece dip toplamı.
+  const sumTry = holdings.reduce((acc,h)=> h.valueTRY!=null ? acc+h.valueTRY : acc, 0);
+  const sumInflation = holdings.reduce((acc,h)=> h.inflationAltTRY!=null ? acc+h.inflationAltTRY : acc, 0);
+  const hasAnyTry = holdings.some(h=>h.valueTRY!=null);
+  const hasAnyInflation = holdings.some(h=>h.inflationAltTRY!=null);
+  const summaryBar = document.getElementById('sp-summary-bar');
+  if(hasAnyTry || hasAnyInflation){
+    summaryBar.style.display='flex';
+    document.getElementById('sp-sum-try').textContent = hasAnyTry ? (privacyHidden?'••••':fmtTotalNative(sumTry,'TRY')) : '—';
+    document.getElementById('sp-sum-inflation').textContent = hasAnyInflation ? (privacyHidden?'••••':fmtTotalNative(sumInflation,'TRY')) : '—';
+  } else {
+    summaryBar.style.display='none';
+  }
+
   tickerColorMap = {};
   holdings.forEach((h,i)=>{ tickerColorMap[h.ticker] = indexColor(i); });
   document.getElementById('sp-count').textContent = d.stockPortfolio.positionCount;

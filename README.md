@@ -145,3 +145,28 @@ varlık yüzdeleri.
 - Repo **public** olduğu için URL'ini bilen herkes verilerini görebilir (paylaşmazsan
   pratikte kimse bulamaz). Daha sıkı gizlilik istersen private repo + GitHub Pro
   ($/ay) ya da tamamen yerel kullanım alternatif.
+
+## Realize Edilmiş Satış Kâr/Zararı
+
+Bir pozisyonu tamamen sattığında (config'ten silince) o pozisyonun kârı/zararı hiçbir
+yerde kayıt altına alınmaz — panel sadece "şu an elimde ne var" mantığıyla çalışır.
+Geçmiş bir satışın kârını Net Varlık'ta ayrı bir dilim ("Realize Edilmiş K/Z") olarak
+görmek istersen, `config.json`'a şu formatta ekle:
+
+```json
+"realizedSales": [
+  { "ticker": "AVGO", "date": "2026-06-20", "shares": 5,
+    "costPriceNative": 300.00, "salePriceNative": 350.00, "currency": "USD",
+    "cashOffsetUSD": 250.00 }
+]
+```
+
+- `costPriceNative` / `salePriceNative`: alım ve satış fiyatı, native para biriminde
+  (BIST için TL, diğerleri için USD — `currency` alanıyla belirt).
+- `cashOffsetUSD`: **kritik alan.** Bu satıştan kalan kârı hâlâ nakit olarak
+  tutuyorsan, o kâr zaten `stockPortfolio.cash.amounts` içindeki tutarına dahil —
+  buraya aynı miktarı (USD cinsinden) yazarsan script o kadarını Nakit'ten düşüp
+  "Realize K/Z" dilimine taşır, para iki kere sayılmaz.
+  **Eğer kârı harcadıysan ya da başka bir hisseye yatırdıysan bu alanı 0 bırak**
+  (ya da hiç girme) — aksi hâlde o para hem yeni pozisyonun değerinde hem de
+  "Realize K/Z" diliminde iki kez sayılmış olur.
