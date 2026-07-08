@@ -18,7 +18,7 @@
           { "date": "2026-06-25", "shares": 37.44, "price": 56.43 }
         ] 
       },
-      { "ticker": "ASTS", "name": "AST SpaceMobile", "assetClass": "ETF",
+      { "ticker": "ASTS", "name": "AST SpaceMobile", "assetClass": "ABD Hisse",
               "lots": [
           { "date": "2026-07-07", "shares": 9.44, "price": 74.17 }
         ] 
@@ -31,10 +31,6 @@
       { "ticker": "SPGI", "name": "S&P Global", "assetClass": "ABD Hisse" ,
         "lots": [
           { "date": "2026-02-27", "shares": 2.9, "price": 434.02 }
-        ]},
-      { "ticker": "NFLX",  "name": "Netflix", "assetClass": "ABD Hisse" ,
-        "lots": [
-          { "date": "2026-06-25", "shares": 6.2, "price": 72.55 }
         ]},
       { "ticker": "AVGO",  "name": "Broadcom Inc.", "assetClass": "ABD Hisse" ,
         "lots": [
