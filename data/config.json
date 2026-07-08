@@ -18,6 +18,11 @@
           { "date": "2026-06-25", "shares": 37.44, "price": 56.43 }
         ] 
       },
+      { "ticker": "ASTS", "name": "AST SpaceMobile", "assetClass": "ETF",
+              "lots": [
+          { "date": "2026-07-07", "shares": 9.44, "price": 74.17 }
+        ] 
+      },
        { "ticker": "MSFT", "name": "Microsoft", "assetClass": "ABD Hisse",
         "lots": [
           { "date": "2026-06-25", "shares": 8.7, "price": 408.26 }
@@ -31,7 +36,7 @@
         "lots": [
           { "date": "2026-06-25", "shares": 6.2, "price": 72.55 }
         ]},
-            { "ticker": "AVGO",  "name": "Broadcom Inc.", "assetClass": "ABD Hisse" ,
+      { "ticker": "AVGO",  "name": "Broadcom Inc.", "assetClass": "ABD Hisse" ,
         "lots": [
           { "date": "2026-07-02", "shares": 1.1177, "price": 357.85 }
         ]},
@@ -57,7 +62,8 @@
         ]},
       { "ticker": "GARAN.IS", "name": "Garanti BBVA", "assetClass": "BIST", "currency": "TRY" ,
         "lots": [
-          { "date": "2026-05-21", "shares": 2216, "price": 138.73}
+          { "date": "2026-05-21", "shares": 2216, "price": 138.73},
+          { "date": "2026-07-08", "shares": 383, "price": 130.5}
         ]},
       { "ticker": "FROTO.IS", "name": "Ford Otosan", "assetClass": "BIST", "currency": "TRY",
         "lots": [
@@ -73,13 +79,14 @@
         ]},
       { "ticker": "ISCTR.IS", "name": "İş Bankası", "assetClass": "BIST", "currency": "TRY",
         "lots": [
-          { "date": "2026-05-08", "shares": 15621, "price": 15.45 }
+          { "date": "2026-05-08", "shares": 15621, "price": 15.45 },
+          { "date": "2026-07-08", "shares": 3579, "price": 13.97 }
         ] }
     ],
     "cash": {
       "label": "Nakit (USD / USDT / TRY)",
       "subtitle": "USD / USDT / TRY",
-      "amounts": { "USD": 7331, "USDT": 3598, "TRY": 424000 }
+      "amounts": { "USD": 7331, "USDT": 3598, "TRY": 290510 }
     }  },
 
   "netWorth": {
@@ -95,6 +102,12 @@
     "bitcoinFuturesUSD": 5500,
     "bitcoinFuturesSubtitle": "Trade - Kaldıraçlı İşlemler"
   },
+
+  "realizedSales": [
+  { "ticker": "NFLX", "date": "2026-07-08", "shares": 6.2,
+    "costPriceNative": 72.55, "salePriceNative": 76.83, "currency": "USD",
+    "cashOffsetUSD": 0 }
+],
 
   "targetPriceOverrides": {},
   "guidanceNotes": {}
