@@ -73,15 +73,15 @@
   },
   "PETKM.IS": {
     "bear": 12.0,
-    "base": 17.94,
-    "bull": 25.42,
+    "base": 18.0,
+    "bull": 25.0,
     "confidence": "yüksek",
     "guidance": [
-      "3Ç25'te net zarar 1.2 milyar TRY; STAR Refinery ödemesi likiditeyi destekledi.",
-      "Net borç, STAR'dan toplu tahsilat sonrası 1 milyar dolar altına geriledi.",
-      "1Ç2026'da 305 milyon TRY net kâr ile zarar döneminden ilk toparlanma sinyali."
+      "2025 yılını 10,2 milyar TL net zarar ve negatif FAVÖK ile kapattı.",
+      "4Ç25 net zararı (5,25 milyar TL) piyasa beklentilerinin belirgin üzerinde gerçekleşti.",
+      "Petlim liman hissesi satıldı; yeni etilen/polietilen tesisi için FEED aşamasına geçildi."
     ],
-    "updatedAt": "2026-07-01T09:40:51.869122+00:00"
+    "updatedAt": "2026-07-15T07:59:42.742159+00:00"
   },
   "ISCTR.IS": {
     "bear": 13.5,
