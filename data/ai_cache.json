@@ -73,15 +73,15 @@
   },
   "PETKM.IS": {
     "bear": 12.0,
-    "base": 18.0,
-    "bull": 25.0,
-    "confidence": "yüksek",
+    "base": 17.94,
+    "bull": 25.42,
+    "confidence": "orta",
     "guidance": [
-      "2025 yılını 10,2 milyar TL net zarar ve negatif FAVÖK ile kapattı.",
-      "4Ç25 net zararı (5,25 milyar TL) piyasa beklentilerinin belirgin üzerinde gerçekleşti.",
-      "Petlim liman hissesi satıldı; yeni etilen/polietilen tesisi için FEED aşamasına geçildi."
+      "2Ç25'te 581,9 milyon TL net zarar; tahminleri geride bıraktı.",
+      "Satışlar yıllık bazda %21 düşerek 19,9 milyar TL'ye geriledi.",
+      "Ardışık çeyreklerde süregelen zarar; kârlılığa dönüş henüz gerçekleşmedi."
     ],
-    "updatedAt": "2026-07-15T07:59:42.742159+00:00"
+    "updatedAt": "2026-08-01T08:12:15.125417+00:00"
   },
   "ISCTR.IS": {
     "bear": 13.5,
