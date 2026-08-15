@@ -72,16 +72,16 @@
     "updatedAt": "2026-07-01T09:39:37.379671+00:00"
   },
   "PETKM.IS": {
-    "bear": 12.0,
-    "base": 17.94,
-    "bull": 25.42,
+    "bear": 15.0,
+    "base": 19.36,
+    "bull": 25.0,
     "confidence": "orta",
     "guidance": [
-      "2Ç25'te 581,9 milyon TL net zarar; tahminleri geride bıraktı.",
-      "Satışlar yıllık bazda %21 düşerek 19,9 milyar TL'ye geriledi.",
-      "Ardışık çeyreklerde süregelen zarar; kârlılığa dönüş henüz gerçekleşmedi."
+      "2Ç 2025'te 581,9 milyon TL net zarar açıklandı; beklentilerin üzerinde.",
+      "Çeyrek satışlar yıllık bazda %21 geriledi; gelir baskısı sürdü.",
+      "2Ç zararı, 1Ç'deki 2,58 milyar TL'lik kayba kıyasla belirgin iyileşme gösterdi."
     ],
-    "updatedAt": "2026-08-01T08:12:15.125417+00:00"
+    "updatedAt": "2026-08-15T06:29:10.866893+00:00"
   },
   "ISCTR.IS": {
     "bear": 13.5,
