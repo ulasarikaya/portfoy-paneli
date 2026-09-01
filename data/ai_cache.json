@@ -72,16 +72,16 @@
     "updatedAt": "2026-07-01T09:39:37.379671+00:00"
   },
   "PETKM.IS": {
-    "bear": 15.0,
-    "base": 19.36,
-    "bull": 25.0,
+    "bear": 12.0,
+    "base": 18.32,
+    "bull": 25.42,
     "confidence": "orta",
     "guidance": [
-      "2Ç 2025'te 581,9 milyon TL net zarar açıklandı; beklentilerin üzerinde.",
-      "Çeyrek satışlar yıllık bazda %21 geriledi; gelir baskısı sürdü.",
-      "2Ç zararı, 1Ç'deki 2,58 milyar TL'lik kayba kıyasla belirgin iyileşme gösterdi."
+      "Q2 2026'da EBITDA çeyrek bazda %690 artarak 3,42 milyar TL'ye ulaştı.",
+      "FY2026 için EBITDA ~100mn USD, üretim hacmi ~2,6mn ton hedefleniyor.",
+      "Technip Energies ile MOU imzalandı; modernizasyon Master Planı FEED aşamasına geçiyor."
     ],
-    "updatedAt": "2026-08-15T06:29:10.866893+00:00"
+    "updatedAt": "2026-09-01T10:58:29.447907+00:00"
   },
   "ISCTR.IS": {
     "bear": 13.5,
