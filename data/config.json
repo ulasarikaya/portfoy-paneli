@@ -15,7 +15,7 @@
       },
       { "ticker": "JEPQ", "name": "JPMorgan Nasdaq Equity Premium Income ETF", "assetClass": "ETF",
               "lots": [
-          { "date": "2026-06-25", "shares": 37.44, "price": 56.43 }
+          { "date": "2026-08-28", "shares": 59.43, "price": 57.79 }
         ] 
       },
       { "ticker": "ASTS", "name": "AST SpaceMobile", "assetClass": "ABD Hisse",
@@ -23,38 +23,9 @@
           { "date": "2026-07-07", "shares": 9.44, "price": 74.17 }
         ] 
       },
-       { "ticker": "MSFT", "name": "Microsoft", "assetClass": "ABD Hisse",
-        "lots": [
-          { "date": "2026-06-25", "shares": 8.7, "price": 408.26 }
-        ]
-      },
-      { "ticker": "SPGI", "name": "S&P Global", "assetClass": "ABD Hisse" ,
-        "lots": [
-          { "date": "2026-02-27", "shares": 2.9, "price": 434.02 }
-        ]},
-      { "ticker": "AVGO",  "name": "Broadcom Inc.", "assetClass": "ABD Hisse" ,
-        "lots": [
-          { "date": "2026-07-02", "shares": 1.1177, "price": 357.85 }
-        ]},
-      { "ticker": "BTC-USD", "name": "Bitcoin",  "assetClass": "Kripto",
-        "lots": [
-          { "date": "2026-06-24", "shares": 0.06276876, "price": 74336}
-        ] },
-      { "ticker": "ETH-USD", "name": "Ethereum",   "assetClass": "Kripto" ,
-        "lots": [
-          { "date": "2026-05-26","shares": 1.4555, "price": 2288}
-        ]},
-      { "ticker": "SOL-USD", "name": "Solana",    "assetClass": "Kripto" ,
-        "lots": [
-          { "date": "2026-02-06", "shares": 9.656,  "price": 83}
-        ]},
       { "ticker": "AVAX-USD", "name": "Avax",   "assetClass": "Kripto" ,
         "lots": [
-          { "date": "2026-01-29",  "shares": 87.614, "price": 10.10 }
-        ]},
-      { "ticker": "HYPE-USD", "name": "Hyperliquid",  "assetClass": "Kripto", "fetchTicker": "HYPE32196-USD" ,
-        "lots": [
-          { "date": "2026-06-26", "shares": 3.22,"price": 62}
+          { "date": "2026-06-02",  "shares": 123.39, "price": 10.10 }
         ]},
       { "ticker": "GARAN.IS", "name": "Garanti BBVA", "assetClass": "BIST", "currency": "TRY" ,
         "lots": [
@@ -63,15 +34,11 @@
         ]},
       { "ticker": "FROTO.IS", "name": "Ford Otosan", "assetClass": "BIST", "currency": "TRY",
         "lots": [
-          { "date": "2026-05-18", "shares": 1192, "price": 106}
+          { "date": "2026-07-10", "shares": 2418, "price": 93.63}
         ]},
       { "ticker": "THYAO.IS", "name": "THY",  "assetClass": "BIST", "currency": "TRY" ,
         "lots": [
           { "date": "2026-05-08", "shares": 310, "price": 298.8 }
-        ]},
-      { "ticker": "PETKM.IS", "name": "Petkim Petrokimya Holding", "shares": 4339, "assetClass": "BIST", "currency": "TRY" ,
-        "lots": [
-          { "date": "2026-06-11", "shares": 4339, "price": 20.16}
         ]},
       { "ticker": "ISCTR.IS", "name": "İş Bankası", "assetClass": "BIST", "currency": "TRY",
         "lots": [
@@ -82,7 +49,7 @@
     "cash": {
       "label": "Nakit (USD / USDT / TRY)",
       "subtitle": "USD / USDT / TRY",
-      "amounts": { "USD": 7331, "USDT": 3598, "TRY": 290510 }
+      "amounts": { "USD": 11517, "USDT": 13603, "TRY": 734000 }
     }  },
 
   "netWorth": {
@@ -92,7 +59,7 @@
 
     "bistSubtitle": "Bist Hisse",
 
-    "goldGrams": 153,
+    "goldGrams": 156,
     "goldSubtitle": "Değer saklama / hedge",
 
     "bitcoinFuturesUSD": 5500,
