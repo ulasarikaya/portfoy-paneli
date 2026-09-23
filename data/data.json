@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-09-22T01:54:09.556654+00:00",
+  "generatedAt": "2026-09-23T01:48:58.873009+00:00",
   "aiInsightsUpdatedAt": "2026-09-01T10:58:29.447907+00:00",
-  "usdTryRate": 48.80459976196289,
+  "usdTryRate": 48.833099365234375,
   "netWorth": {
-    "total": 102503.5101061684,
+    "total": 102853.9110117679,
     "categories": [
       {
         "id": "us-stocks",
         "name": "ABD Hisse Portföyü",
         "subtitle": "ABD Hisse",
         "value": 15734.350099999996,
-        "weightPct": 15.4
+        "weightPct": 15.3
       },
       {
         "id": "real-estate",
@@ -23,41 +23,41 @@
         "id": "bist",
         "name": "Borsa İstanbul",
         "subtitle": "Bist Hisse",
-        "value": 17712.98410839035,
-        "weightPct": 17.3
+        "value": 18133.299166147444,
+        "weightPct": 17.6
       },
       {
         "id": "crypto-spot",
         "name": "Kripto SPOT",
         "subtitle": "Spot kripto varlıklar",
-        "value": 1371.97341,
+        "value": 1360.9917,
         "weightPct": 1.3
       },
       {
         "id": "cash",
         "name": "Nakit",
         "subtitle": "USD / USDT / TRY",
-        "value": 40159.56601590782,
-        "weightPct": 39.2
+        "value": 40150.78873839728,
+        "weightPct": 39.0
       },
       {
         "id": "gold",
         "name": "Altın",
         "subtitle": "Değer saklama / hedge",
-        "value": 22024.636471870243,
-        "weightPct": 21.5
+        "value": 21974.481307223185,
+        "weightPct": 21.4
       },
       {
         "id": "btc-futures",
         "name": "Bitcoin Futures",
         "subtitle": "Trade - Kaldıraçlı İşlemler",
         "value": 5500,
-        "weightPct": 5.4
+        "weightPct": 5.3
       }
     ]
   },
   "stockPortfolio": {
-    "total": 74978.87363429816,
+    "total": 75379.42970454472,
     "positionCount": 10,
     "holdings": [
       {
@@ -67,8 +67,8 @@
         "assetClass": "Nakit",
         "shares": null,
         "price": null,
-        "value": 40159.56601590782,
-        "weightPct": 53.6
+        "value": 40150.78873839728,
+        "weightPct": 53.3
       },
       {
         "ticker": "VOO",
@@ -78,12 +78,12 @@
         "price": 712.78,
         "currency": "USD",
         "value": 8118.5642,
-        "valueTRY": 396223.27642280044,
+        "valueTRY": 396454.6522816345,
         "avgCost": 601.99,
         "costTotalNative": 6856.6661,
         "returnNative": 1261.8980999999994,
         "returnPct": 18.403960198674383,
-        "inflationAltTRY": 357570.80621105514,
+        "inflationAltTRY": 358000.87082455284,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/VOO.png",
         "weightPct": 10.8
       },
@@ -92,51 +92,51 @@
         "name": "Garanti BBVA",
         "assetClass": "BIST",
         "shares": 2599,
-        "price": 129.9,
+        "price": 133.1,
         "currency": "TRY",
-        "value": 6917.587720146105,
-        "valueTRY": 337610.10000000003,
+        "value": 7083.8612436358035,
+        "valueTRY": 345926.89999999997,
         "avgCost": 137.51719122739516,
         "costTotalNative": 357407.18,
-        "returnNative": -19797.079999999958,
-        "returnPct": -5.539082902587456,
-        "inflationAltTRY": 416409.5488669969,
+        "returnNative": -11480.280000000028,
+        "returnPct": -3.212101111119259,
+        "inflationAltTRY": 416910.3811737164,
         "logoUrl": null,
-        "weightPct": 9.2
+        "weightPct": 9.4
       },
       {
         "ticker": "ISCTR.IS",
         "name": "İş Bankası",
         "assetClass": "BIST",
         "shares": 19200,
-        "price": 13.26,
+        "price": 13.56,
         "currency": "TRY",
-        "value": 5216.557481092648,
-        "valueTRY": 254592.0,
+        "value": 5331.465816919901,
+        "valueTRY": 260352.0,
         "avgCost": 15.174118749999998,
         "costTotalNative": 291343.07999999996,
-        "returnNative": -36751.07999999996,
-        "returnPct": -12.61436516700516,
-        "inflationAltTRY": 343739.99437350564,
+        "returnNative": -30991.079999999958,
+        "returnPct": -10.637314605172687,
+        "inflationAltTRY": 344153.42412016314,
         "logoUrl": null,
-        "weightPct": 7.0
+        "weightPct": 7.1
       },
       {
         "ticker": "FROTO.IS",
         "name": "Ford Otosan",
         "assetClass": "BIST",
         "shares": 2418,
-        "price": 76.0,
+        "price": 77.85,
         "currency": "TRY",
-        "value": 3765.3827896612374,
-        "valueTRY": 183768.0,
+        "value": 3854.789117358669,
+        "valueTRY": 188241.3,
         "avgCost": 93.63,
         "costTotalNative": 226397.34,
-        "returnNative": -42629.34,
-        "returnPct": -18.829435010146323,
-        "inflationAltTRY": 248803.00951854046,
+        "returnNative": -38156.04000000001,
+        "returnPct": -16.853572572893306,
+        "inflationAltTRY": 249102.2547820436,
         "logoUrl": null,
-        "weightPct": 5.0
+        "weightPct": 5.1
       },
       {
         "ticker": "JEPQ",
@@ -146,12 +146,12 @@
         "price": 61.01,
         "currency": "USD",
         "value": 3625.8242999999998,
-        "valueTRY": 176956.90376869927,
+        "valueTRY": 177060.23832278137,
         "avgCost": 57.79,
         "costTotalNative": 3434.4597,
         "returnNative": 191.36459999999988,
         "returnPct": 5.571898252292784,
-        "inflationAltTRY": 169906.5552377605,
+        "inflationAltTRY": 170110.90860145743,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/JEPQ.png",
         "weightPct": 4.8
       },
@@ -163,12 +163,12 @@
         "price": 33.72,
         "currency": "USD",
         "value": 3405.72,
-        "valueTRY": 166214.80150131223,
+        "valueTRY": 166311.863170166,
         "avgCost": 28.58,
         "costTotalNative": 2886.58,
         "returnNative": 519.1399999999999,
         "returnPct": 17.98460461861442,
-        "inflationAltTRY": 150533.3237377138,
+        "inflationAltTRY": 150714.3761462641,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/SCHD.png",
         "weightPct": 4.5
       },
@@ -177,32 +177,32 @@
         "name": "THY",
         "assetClass": "BIST",
         "shares": 310,
-        "price": 285.5,
+        "price": 293.5,
         "currency": "TRY",
-        "value": 1813.4561174903565,
-        "valueTRY": 88505.0,
+        "value": 1863.1829882330737,
+        "valueTRY": 90985.0,
         "avgCost": 298.8,
         "costTotalNative": 92628.0,
-        "returnNative": -4123.0,
-        "returnPct": -4.451137884872825,
-        "inflationAltTRY": 110782.20298466973,
+        "returnNative": -1643.0,
+        "returnPct": -1.7737617135207495,
+        "inflationAltTRY": 110915.44514113622,
         "logoUrl": null,
-        "weightPct": 2.4
+        "weightPct": 2.5
       },
       {
         "ticker": "AVAX-USD",
         "name": "Avax",
         "assetClass": "Kripto",
         "shares": 123.39,
-        "price": 11.119,
+        "price": 11.03,
         "currency": "USD",
-        "value": 1371.97341,
-        "valueTRY": 66958.61315910541,
+        "value": 1360.9917,
+        "valueTRY": 66461.44292135925,
         "avgCost": 10.1,
         "costTotalNative": 1246.239,
-        "returnNative": 125.73441000000003,
-        "returnPct": 10.089108910891099,
-        "inflationAltTRY": 66202.0601787491,
+        "returnNative": 114.7527,
+        "returnPct": 9.207920792079216,
+        "inflationAltTRY": 66281.68402647095,
         "logoUrl": null,
         "weightPct": 1.8
       },
@@ -214,12 +214,12 @@
         "price": 61.89,
         "currency": "USD",
         "value": 584.2416,
-        "valueTRY": 28513.677452288815,
+        "valueTRY": 28530.328106103512,
         "avgCost": 74.17,
         "costTotalNative": 700.1648,
         "returnNative": -115.92320000000007,
         "returnPct": -16.55655925576379,
-        "inflationAltTRY": 36170.03398863126,
+        "inflationAltTRY": 36213.53712540115,
         "logoUrl": "https://images.financialmodelingprep.com/symbol/ASTS.png",
         "weightPct": 0.8
       }
@@ -228,22 +228,22 @@
   "assetClasses": [
     {
       "name": "Nakit",
-      "value": 40159.56601590782,
-      "weightPct": 53.6
+      "value": 40150.78873839728,
+      "weightPct": 53.3
     },
     {
       "name": "BIST",
-      "value": 17712.98410839035,
-      "weightPct": 23.6
+      "value": 18133.299166147444,
+      "weightPct": 24.1
     },
     {
       "name": "ETF",
       "value": 15150.1085,
-      "weightPct": 20.2
+      "weightPct": 20.1
     },
     {
       "name": "Kripto",
-      "value": 1371.97341,
+      "value": 1360.9917,
       "weightPct": 1.8
     },
     {
@@ -258,22 +258,22 @@
         "ticker": "GSPC",
         "name": "S&P 500",
         "group": "index",
-        "d50": 1.8852664579116274,
-        "d200": 8.027147645846068,
-        "w50": 8.844771784863447,
-        "w100": 17.958920452971693,
-        "w200": 37.44918031515023,
+        "d50": 1.8178647075985266,
+        "d200": 7.957602930664676,
+        "w50": 8.843948216689522,
+        "w100": 17.958018823807052,
+        "w200": 37.44812447622128,
         "status": "Güçlü"
       },
       {
         "ticker": "NDX",
         "name": "Nasdaq 100",
         "group": "index",
-        "d50": 4.4305091298631805,
-        "d200": 11.84167462534489,
-        "w50": 12.898254012719335,
-        "w100": 25.371163200978366,
-        "w200": 51.18031907709637,
+        "d50": 5.1813280802385675,
+        "d200": 12.653171344931469,
+        "w50": 13.80327310460876,
+        "w100": 26.386577666570776,
+        "w200": 52.41099184729128,
         "status": "Güçlü"
       }
     ],
@@ -295,9 +295,9 @@
         "group": "portfolio",
         "d50": -0.8171089596142989,
         "d200": 7.1256714667954135,
-        "w50": 9.108562166186385,
-        "w100": 15.825743456982844,
-        "w200": 23.795898125080516,
+        "w50": 9.107149972082285,
+        "w100": 15.824947738284534,
+        "w200": 23.79544362572279,
         "status": "—"
       },
       {
@@ -306,9 +306,9 @@
         "group": "portfolio",
         "d50": 2.696949579720176,
         "d200": 3.6775685645919376,
-        "w50": 3.8892456776328244,
-        "w100": 7.482078114705892,
-        "w200": 15.115213357154044,
+        "w50": 3.883585030635084,
+        "w100": 7.479048562620849,
+        "w200": 15.113475766588525,
         "status": "Güçlü"
       },
       {
@@ -317,64 +317,64 @@
         "group": "portfolio",
         "d50": -1.7899653124657133,
         "d200": -24.248753329083005,
-        "w50": -21.735205404769342,
-        "w100": 9.48159342375654,
-        "w200": 92.07135245724407,
+        "w50": -21.770819102721262,
+        "w100": 9.44674398420502,
+        "w200": 92.01772024015185,
         "status": "—"
       },
       {
         "ticker": "AVAX-USD",
         "name": "Avax",
         "group": "portfolio",
-        "d50": 51.184807261682884,
-        "d200": 39.009072941661074,
-        "w50": 8.191347518563564,
-        "w100": -40.401796997677586,
-        "w200": -47.45651692441138,
+        "d50": 48.132394835442604,
+        "d200": 37.714517235886525,
+        "w50": 7.343934956482068,
+        "w100": -40.87602315733162,
+        "w200": -47.87599880586896,
         "status": "Güçlü"
       },
       {
         "ticker": "GARAN.IS",
         "name": "Garanti BBVA",
         "group": "portfolio",
-        "d50": 0.37863704722638225,
-        "d200": -5.63571030838469,
-        "w50": -4.91040483891444,
-        "w100": -0.9395160787901258,
-        "w200": 35.264446518527514,
+        "d50": 2.7862773698166254,
+        "d200": -3.281590744260454,
+        "w50": -2.622101629516971,
+        "w100": 1.3253800735004706,
+        "w200": 37.825062700745725,
         "status": "—"
       },
       {
         "ticker": "FROTO.IS",
         "name": "Ford Otosan",
         "group": "portfolio",
-        "d50": -4.308629630056993,
-        "d200": -19.95913694950976,
-        "w50": -20.207460449038283,
-        "w100": -20.743757279939867,
-        "w200": -14.800450890811923,
+        "d50": -1.8817050734015073,
+        "d200": -17.954826596680896,
+        "w50": -18.01811423303501,
+        "w100": -18.625254408151182,
+        "w200": -12.894668029337597,
         "status": "—"
       },
       {
         "ticker": "THYAO.IS",
         "name": "THY",
         "group": "portfolio",
-        "d50": -7.125778695857243,
-        "d200": -6.070849886084173,
-        "w50": -5.306799336650081,
-        "w100": -5.190449307608014,
-        "w200": 7.49783260128265,
+        "d50": -4.2054930887608695,
+        "d200": -3.475776448582768,
+        "w50": -2.5515878944834536,
+        "w100": -2.6049444167911107,
+        "w200": 10.128129460094604,
         "status": "—"
       },
       {
         "ticker": "ISCTR.IS",
         "name": "İş Bankası",
         "group": "portfolio",
-        "d50": 2.7206260746566624,
-        "d200": -6.5437014562159,
-        "w50": -4.763270885154569,
-        "w100": -2.5028656036148678,
-        "w200": 16.348859234534462,
+        "d50": 5.0804404224705335,
+        "d200": -4.412124876558565,
+        "w50": -2.7970892729346497,
+        "w100": -0.4200536457982351,
+        "w200": 18.49200955708783,
         "status": "—"
       }
     ]
@@ -383,10 +383,10 @@
     {
       "ticker": "GARAN.IS",
       "name": "Garanti BBVA",
-      "currentPrice": 129.9,
-      "marketCap": 559020048384,
+      "currentPrice": 133.1,
+      "marketCap": 562379948032,
       "oneLiner": "Turkiye Garanti Bankasi A.S. provides various banking products and services in Turkey. It offers current, savings, time deposit, e-savings,…",
-      "peTTM": 4.6424837,
+      "peTTM": 4.670387,
       "netMargin": 0.31565002,
       "revenueGrowthYoY": 0.245,
       "netDebt": -146213044224,
@@ -396,7 +396,7 @@
         "base": 185.23,
         "bull": 205.73,
         "expected": 184.05,
-        "upsidePct": 41.7
+        "upsidePct": 38.3
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -408,8 +408,8 @@
     {
       "ticker": "THYAO.IS",
       "name": "THY",
-      "currentPrice": 285.5,
-      "marketCap": 402765185024,
+      "currentPrice": 293.5,
+      "marketCap": 408940445696,
       "oneLiner": "Türk Hava Yollari Anonim Ortakligi provides air transport and aircraft technical maintenance services in Turkey and internationally. The…",
       "netMargin": 0.10189,
       "revenueGrowthYoY": 0.205,
@@ -422,7 +422,7 @@
         "base": 442,
         "bull": 650,
         "expected": 463.5,
-        "upsidePct": 62.3
+        "upsidePct": 57.9
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -434,10 +434,10 @@
     {
       "ticker": "ISCTR.IS",
       "name": "İş Bankası",
-      "currentPrice": 13.26,
-      "marketCap": 339000000512,
+      "currentPrice": 13.56,
+      "marketCap": 337749999616,
       "oneLiner": "Türkiye Is Bankasi A.S., together with its subsidiaries, provides various banking products and services to individuals and businesses in…",
-      "peTTM": 4.9852943,
+      "peTTM": 4.966912,
       "netMargin": 0.16147,
       "revenueGrowthYoY": 0.248,
       "netDebt": 622457978880,
@@ -447,7 +447,7 @@
         "base": 19.88,
         "bull": 24.46,
         "expected": 19.43,
-        "upsidePct": 46.5
+        "upsidePct": 43.3
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -459,10 +459,10 @@
     {
       "ticker": "FROTO.IS",
       "name": "Ford Otosan",
-      "currentPrice": 76.0,
-      "marketCap": 273183424512,
+      "currentPrice": 77.85,
+      "marketCap": 277920710656,
       "oneLiner": "Ford Otomotiv Sanayi A.S., together with its subsidiaries, engages in the manufacturing, assembly, production, import, and sale of motor…",
-      "peTTM": 10.045161,
+      "peTTM": 10.219355,
       "netMargin": 0.03504,
       "revenueGrowthYoY": -0.141,
       "debtToEquity": 0.9474899999999999,
@@ -474,7 +474,7 @@
         "base": 145.45,
         "bull": 227.0,
         "expected": 159.47,
-        "upsidePct": 109.8
+        "upsidePct": 104.8
       },
       "targetPriceSource": "ai",
       "guidance": [
@@ -487,7 +487,7 @@
       "ticker": "ASTS",
       "name": "AST SpaceMobile",
       "currentPrice": 61.89,
-      "marketCap": 24085575680,
+      "marketCap": 24786077696,
       "oneLiner": "AST SpaceMobile, Inc. establishes and operates a satellite-based cellular broadband network designed to connect directly with standard…",
       "logoUrl": "https://images.financialmodelingprep.com/symbol/ASTS.png",
       "revenueGrowthYoY": 26.266,
